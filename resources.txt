@@ -1,0 +1,25 @@
+DIR resources
+IMAGE target.png target
+IMAGE shot.png shot
+IMAGE main_menu_background.png main
+IMAGE cursor.png cursor
+IMAGE grenade.png grenade
+IMAGE item_ballshooter.png item_ballshooter
+IMAGE item_grenade.png item_grenade
+SOUND triangle.ogg test
+SOUND spawn.ogg spawn
+SOUND shockfire.ogg shoot
+SOUND ricochet.ogg ricochet
+SOUND explosion.ogg explosion
+SOUND explosion2.ogg explosion2
+SOUND guiOpen.ogg guiOpen
+SOUND guiClose.ogg guiClose
+SOUND guiSelect.ogg guiSelect
+SOUND guiPress.ogg guiPress
+SOUND guiError.ogg guiError
+SOUND guiInfo.ogg guiInfo
+SOUND editorPlace.ogg editorPlace
+SOUND launch.ogg launch
+FONT consola.ttf monofont
+POSTFX colorize.sfx colorize
+POSTFX wave.sfx wave
