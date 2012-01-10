@@ -190,12 +190,13 @@ namespace grid
         void lookAt(const Vector2f & target);
 
         // Applies an acceleration to the current speed.
-        virtual void accelerate(const Vector2f & acc, float delta);
+        virtual void accelerate(const Vector2f & acc, float delta, World * world = NULL);
 
         // Moves the entity from its current speed.
         virtual void move(float delta, World & world);
 
-        // Moves the entity. If it has a mover, the resulting motion can be different.
+        // Moves the entity from a motion in units.
+        // If it has a Physics, the resulting motion can be different.
         // Return : resulting motion.
         virtual Vector2f move(const Vector2f & motion, World & world);
 

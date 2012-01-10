@@ -111,7 +111,7 @@ namespace grid
         Entity * getEntity(int ID);
         EntityPlayer * getMainPlayer() { return r_mainPlayer; }
 
-        std::list<Entity*> getEntitiesInRadius(
+        void getEntitiesInRadius(
             std::list<Entity*> & entities,
             const Vector2f & pos, float radius,
             Entity * e = NULL);

@@ -22,6 +22,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utility/AxisAlignedBB.hpp"
 #include "utility/serialization.hpp"
+#include "utility/geometry.hpp"
 
 #include "game/World.hpp"
 #include "game/entities/EntityPlayer.hpp"
@@ -241,7 +242,7 @@ namespace grid
         /* Searching for entity collisions */
 
         // TODO use the bounding box to get less divisions
-        // from the space divider
+        // Computing space division area
         static Vector2i divPos;
         Vector2i minDiv = m_spaceDivider.toDivisionCoords(e->pos);
         minDiv.x--;
@@ -250,8 +251,9 @@ namespace grid
         std::map<int, Entity*>::const_iterator it;
 		SpaceDivision * div = NULL;
 
+		// Iterating on found divisions :
 		// For performance improvement, we don't look after all entities,
-		// but only those who are in the nine divisions around e.
+		// but only those who are in divisions around e.
         for(divPos.y = minDiv.y; divPos.y < maxDiv.y; divPos.y++)
         for(divPos.x = minDiv.x; divPos.x < maxDiv.x; divPos.x++)
         {

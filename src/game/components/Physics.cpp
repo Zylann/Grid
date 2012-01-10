@@ -75,6 +75,21 @@ namespace grid
         return false;
     }
 
+    void Physics::accelerate(Vector2f acc, float delta, World & world)
+    {
+        static Vector2i ipos;
+
+        ipos.x = r_owner->pos.x;
+        ipos.y = r_owner->pos.y;
+
+        terrain::Instance t = world.getMap().getTerrain(ipos);
+        const terrain::Ground & gp = terrain::Ground::get(t.groundType);
+
+        acc *= 1 - gp.getSlipperiness();
+
+        r_owner->speed += acc * delta;
+    }
+
     // Note : don't call it in Physics::update
     Vector2f Physics::moveEntity(const Vector2f & motion, World & world)
     {

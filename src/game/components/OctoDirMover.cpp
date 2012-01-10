@@ -49,15 +49,9 @@ namespace grid
         if(n > 0)
             acc /= norm2D(acc);
 
-        Vector2i ipos(r_owner->pos.x, r_owner->pos.y);
-        terrain::Instance t = up.world->getMap().getTerrain(ipos);
-        const terrain::Ground & gp = terrain::Ground::get(t.groundType);
-
-        acc *= m_acceleration * (1 - gp.getSlipperiness());
-
         /* Sending acceleration */
 
-        r_owner->accelerate(acc, up.delta);
+        r_owner->accelerate(acc * m_acceleration, up.delta, up.world);
     }
 
     bool OctoDirMover::processMessage(Message & msg)

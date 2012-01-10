@@ -1,0 +1,21 @@
+bin/
+doc/
+modelio/
+obj/
+old code/
+releases/
+resources/
+*.zip
+*.depend
+*.layout
+*.jpg
+*.cbp
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dll

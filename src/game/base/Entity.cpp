@@ -188,9 +188,12 @@ namespace grid
         rotation = util::getAngle(pos, target);
     }
 
-    void Entity::accelerate(const Vector2f & acc, float delta)
+    void Entity::accelerate(const Vector2f & acc, float delta, World * world)
     {
-        speed += acc * delta;
+        if(r_physics != NULL && world != NULL)
+            r_physics->accelerate(acc, delta, *world);
+        else
+            speed += acc * delta;
     }
 
     void Entity::move(float delta, World & world)

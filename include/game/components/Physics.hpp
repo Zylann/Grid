@@ -67,6 +67,9 @@ namespace grid
         // Return value : new motion vector (speed * delta)
         virtual Vector2f moveEntity(const Vector2f & motion, World & world);
 
+        // Adds an acceleration to the entity including ground slipperiness
+        virtual void accelerate(Vector2f acc, float delta, World & world);
+
         // None attribute to serialize at the moment.
         virtual bool isSerializable() const { return false; }
     };

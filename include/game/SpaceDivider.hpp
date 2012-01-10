@@ -24,6 +24,9 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 
 #include "utility/Buffer2D.hpp"
+#include "utility/AxisAlignedBB.hpp"
+#include "utility/Circle.hpp"
+
 #include "game/entities/Map.hpp"
 
 #define SPACE_DIVIDER_SCALE 4
@@ -110,8 +113,8 @@ namespace grid
 		// and will be returned.
 		// However, it returns NULL if it doesn't exist.
 		SpaceDivision * getDivision(const Vector2i & dpos, bool create = true);
-		void getDivisionsFromBox(std::list<Entity*> & divs, const AxisAlignedBB & box);
-		void getDivisionsFromCircle(std::list<Entity*> & divs, const Circle & circle);
+		void getDivisionsFromBox(std::list<Entity*> & divs, const util::AxisAlignedBB & box);
+		void getDivisionsFromCircle(std::list<Entity*> & divs, const util::Circle & circle);
 
 		void addEntity(Entity * e);
 		void updateEntityDivision(Entity * e);
