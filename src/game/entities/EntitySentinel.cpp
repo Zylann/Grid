@@ -24,12 +24,14 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/components/Inventory.hpp"
 #include "game/components/Health.hpp"
 #include "game/items/BallShooter.hpp"
+#include "game/items/HealthBonus.hpp"
 #include "game/renderers/RenderModel.hpp"
 #include "game/renderers/RenderHealth.hpp"
 #include "game/Model.hpp"
 #include "game/GameUpdate.hpp"
 #include "game/entities/EntityShockWave.hpp"
 #include "game/entities/EntityShot.hpp"
+#include "game/entities/EntityDroppedItem.hpp"
 #include "game/Sound.hpp"
 
 #include "utility/AxisAlignedBB.hpp"
@@ -94,7 +96,7 @@ namespace grid
                 if(d > 5)
                 {
                     Vector2f v(cos(rotation), sin(rotation));
-                    accelerate(50.f * v, up.delta);
+                    accelerate(50.f * v, up.delta, up.world);
                 }
 
                 if(sf::Randomizer::Random(0.f, 1.f) < 0.02f)
@@ -114,6 +116,12 @@ namespace grid
     void EntitySentinel::onDestruction(GameUpdate & up)
     {
         up.world->spawnEntity(new EntityShockWave(0.3, 3.5, 12, sf::Color(255,128,0)), pos);
+
+        Item * item = new HealthBonus();
+        EntityDroppedItem * drop = new EntityDroppedItem(item);
+        drop->pos = pos;
+        up.world->spawnEntity(drop);
+
         Sound::instance().playSound("explosion", sf::Randomizer::Random(0.8f, 1.2f), 100, pos);
     }
 

@@ -52,7 +52,8 @@ namespace grid
         ENT_SENTINEL,
         ENT_SHOT,
         ENT_SHOCKWAVE,
-        ENT_GRENADE
+        ENT_GRENADE,
+        ENT_DROPPED_ITEM
     };
 
     /*
@@ -165,6 +166,7 @@ namespace grid
         virtual bool isDrawable() const;
 
         virtual bool isPlayer() const { return false; }
+        virtual bool isDroppedItem() const { return false; }
 
         Entity & addComponent(Component * c);
         Entity & setRenderer(Renderer * r);

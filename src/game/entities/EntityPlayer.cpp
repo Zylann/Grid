@@ -69,6 +69,7 @@ namespace grid
         inv->setRenderer(invRend);
         inv->addItem(new BallShooter());
         inv->addItem(new GrenadeLauncher());
+        inv->setPickItems(true);
         addComponent(inv);
 
         Model * model = new Model();

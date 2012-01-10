@@ -36,6 +36,7 @@ namespace grid
 
         std::vector<Item*> m_items;
         int m_currentX;
+        bool m_pickItems;
 
     public :
 
@@ -46,6 +47,7 @@ namespace grid
 
             m_items.resize(width, NULL);
             m_currentX = 0;
+            m_pickItems = false;
         }
 
         ~Inventory()
@@ -67,6 +69,7 @@ namespace grid
         }
 
         virtual void update(GameUpdate & up);
+        virtual void updateItemPick(GameUpdate & up);
 
         virtual bool processMessage(Message & msg);
 
@@ -79,6 +82,9 @@ namespace grid
         // True if there is no items in the inventory
         bool isEmpty() const;
 
+        // True if there is no space to store an item
+        bool isFull() const;
+
         Item * getItem(int x);
         Item * getCurrentItem() { return m_items[m_currentX]; }
 
@@ -88,6 +94,8 @@ namespace grid
 
         inline int getSize() const { return m_items.size(); }
         inline int getCurrentX() const { return m_currentX; }
+
+        inline void setPickItems(bool b) { m_pickItems = b; }
 
         virtual void serialize(std::ostream & os);
         virtual void unserialize(std::istream & is);

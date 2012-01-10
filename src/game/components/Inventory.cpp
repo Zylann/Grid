@@ -19,11 +19,16 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "game/components/Inventory.hpp"
+#include "game/GameUpdate.hpp"
+#include "game/entities/EntityDroppedItem.hpp"
 
 namespace grid
 {
     void Inventory::update(GameUpdate & up)
     {
+        if(m_pickItems)
+            updateItemPick(up);
+
         for(unsigned int i = 0; i < m_items.size(); i++)
         {
             if(m_items[i] != NULL)
@@ -33,6 +38,29 @@ namespace grid
                 {
                     delete m_items[i];
                     m_items[i] = NULL;
+                }
+            }
+        }
+    }
+
+    void Inventory::updateItemPick(GameUpdate & up)
+    {
+        std::list<Entity*> entities;
+        std::list<Entity*>::iterator it;
+
+        up.world->getEntitiesInRadius(entities, r_owner->pos, 1);
+
+        Entity * e = NULL;
+        for(it = entities.begin(); it != entities.end(); it++)
+        {
+            e = (*it);
+            if(e->isDroppedItem() && e->isValid())
+            {
+                EntityDroppedItem * droppedItem = (EntityDroppedItem*)e;
+                if(!isFull())
+                {
+                    // the entity is invalidated here
+                    addItem(droppedItem->pickItem());
                 }
             }
         }
@@ -74,6 +102,16 @@ namespace grid
         for(unsigned int i = 0; i < m_items.size(); i++)
         {
             if(m_items[i] != NULL)
+                return false;
+        }
+        return true;
+    }
+
+    bool Inventory::isFull() const
+    {
+        for(unsigned int i = 0; i < m_items.size(); i++)
+        {
+            if(m_items[i] == NULL)
                 return false;
         }
         return true;
