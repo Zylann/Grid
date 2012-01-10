@@ -1,6 +1,6 @@
 /*
 Grid
-Item.cpp
+HealthBonus.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,44 +18,32 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef HEALTHBONUS_HPP_INCLUDED
+#define HEALTHBONUS_HPP_INCLUDED
+
 #include "game/base/Item.hpp"
-#include "game/base/Entity.hpp"
-#include "game/components/Inventory.hpp"
 
 namespace grid
 {
-    Entity * Item::getOwner() const
+    class HealthBonus : public Item
     {
-        if(r_inventory != NULL)
-            return r_inventory->getOwner();
-        return NULL;
-    }
+    protected :
 
-    void Item::registerRender(RenderManager & manager)
-    {
-        Entity * owner = getOwner();
-        if(owner == NULL)
-            return;
-        if(!owner->isPlayer())
-            return;
+        int m_health;
 
-        if(m_renderer != NULL)
-            manager.addRender(m_renderer);
-    }
+    public :
 
-    /*
-        Serialization
-    */
+        HealthBonus(int ID = -1);
 
-    void Item::serialize(std::ostream & os)
-    {
-        // TODO serialize Item
-    }
+        virtual void onPick();
+        virtual void update(GameUpdate & up);
+        virtual bool processMessage(Message & msg);
 
-    void Item::unserialize(std::istream & is)
-    {
-        // TODO unserialize Item
-    }
+        virtual void serialize(std::ostream & os);
+        virtual void unserialize(std::istream & is);
+    };
 
 } // namespace grid
 
+
+#endif // HEALTHBONUS_HPP_INCLUDED

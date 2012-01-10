@@ -68,6 +68,9 @@ namespace grid
         inline void setInventoryPosition(int x) { m_inventoryPosition = x; }
         inline int getInventoryPosition() const { return m_inventoryPosition; }
 
+        // Called when the item is picked, after being stored in the inventory
+        virtual void onPick() {}
+
         // Called when the item gains selection
         virtual void onSelect() {}
 
@@ -86,6 +89,11 @@ namespace grid
         virtual void update(GameUpdate & up) = 0;
         virtual bool processMessage(Message & msg) = 0;
         virtual void registerRender(RenderManager & manager);
+
+        /* Serialization */
+
+        virtual void serialize(std::ostream & os);
+        virtual void unserialize(std::istream & is);
     };
 
 } // namespace grid

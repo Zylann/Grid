@@ -24,7 +24,6 @@ namespace grid
 {
     void Inventory::update(GameUpdate & up)
     {
-        // Note : int the future, only update the current item?
         for(unsigned int i = 0; i < m_items.size(); i++)
         {
             if(m_items[i] != NULL)
@@ -149,6 +148,7 @@ namespace grid
                 m_items[i] = item;
                 item->setInventory(this);
                 item->setInventoryPosition(i);
+                item->onPick();
                 return true;
             }
         }
