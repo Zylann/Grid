@@ -59,7 +59,7 @@ namespace grid
 
     float GrenadeLauncher::getShootTime() const
     {
-        return 2.f;
+        return 1.5f;
     }
 
     float GrenadeLauncher::getRepulsion() const

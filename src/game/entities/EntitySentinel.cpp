@@ -23,15 +23,20 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/components/Physics.hpp"
 #include "game/components/Inventory.hpp"
 #include "game/components/Health.hpp"
+#include "game/components/BotController.hpp"
+
 #include "game/items/BallShooter.hpp"
 #include "game/items/HealthBonus.hpp"
+
 #include "game/renderers/RenderModel.hpp"
 #include "game/renderers/RenderHealth.hpp"
-#include "game/Model.hpp"
-#include "game/GameUpdate.hpp"
+
 #include "game/entities/EntityShockWave.hpp"
 #include "game/entities/EntityShot.hpp"
 #include "game/entities/EntityDroppedItem.hpp"
+
+#include "game/Model.hpp"
+#include "game/GameUpdate.hpp"
 #include "game/Sound.hpp"
 
 #include "utility/AxisAlignedBB.hpp"
@@ -48,10 +53,7 @@ namespace grid
         name = ss.str();
         instanceCount++;
 
-//        OctoDirMover * mover = new OctoDirMover(100);
-//        ctrl->setMover(mover);
-//        addComponent(mover);
-
+        addComponent(new BotController());
         addComponent(new Physics());
 
         Health * health = new Health(100, 100, true); // true : invalidate on death
@@ -80,32 +82,6 @@ namespace grid
 
     void EntitySentinel::updateMe(GameUpdate & up)
     {
-        Message msg(M_ITM_TRIGGER, this, false);
-        processMessage(msg);
-
-        rotation += M_PI * up.delta;
-
-        Entity * p = up.world->getMainPlayer();
-        if(p != NULL)
-        {
-            float d = distance2D(p->pos, pos);
-            if(d < 10)
-            {
-                lookAt(p->pos);
-
-                if(d > 5)
-                {
-                    Vector2f v(cos(rotation), sin(rotation));
-                    accelerate(50.f * v, up.delta, up.world);
-                }
-
-                if(sf::Randomizer::Random(0.f, 1.f) < 0.02f)
-                {
-                    Message msg(M_ITM_TRIGGER, this, true);
-                    processMessage(msg);
-                }
-            }
-        }
     }
 
     util::AxisAlignedBB * EntitySentinel::getBoundingBox()

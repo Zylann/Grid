@@ -20,6 +20,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/entities/EntityDroppedItem.hpp"
 #include "game/renderers/RenderImage.hpp"
+#include "game/Sound.hpp"
+
 #include "utility/ResourceManager.hpp"
 
 using namespace util;
@@ -42,6 +44,8 @@ namespace grid
     {
         Item * temp = m_item;
         m_item = NULL;
+        // TODO new sounds depending on the item
+        Sound::instance().playSound("item_pick", 1, 50);
         invalidate();
         return temp;
     }

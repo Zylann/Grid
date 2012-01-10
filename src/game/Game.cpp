@@ -45,7 +45,7 @@ namespace grid
             sf::Style::Resize | sf::Style::Close,
             sf::WindowSettings(24, 8, 3));
 
-        m_screen.UseVerticalSync(false);
+        m_screen.UseVerticalSync(true);
 
         // Framerate
         m_screen.SetFramerateLimit(60);

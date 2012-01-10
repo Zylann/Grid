@@ -64,7 +64,7 @@ namespace grid
 
     float BallShooter::getShootTime() const
     {
-        return 0.15f;
+        return 0.12f;
     }
 
     float BallShooter::getRepulsion() const

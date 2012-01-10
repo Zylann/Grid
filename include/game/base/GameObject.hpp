@@ -33,6 +33,7 @@ namespace grid
         int m_ID; // unique identifier
         bool m_valid; // is the object must be deleted ?
         bool m_enable; // is the object must be ignored ?
+        float m_lifeTime;
 
     public :
 
@@ -51,6 +52,7 @@ namespace grid
         inline bool isEnabled() const { return m_enable; }
         inline void invalidate() { m_valid = false; }
         inline bool isValid() const { return m_valid; }
+        inline float getLifeTime() const { return m_lifeTime; }
 
         // Serialization
         virtual bool isSerializable() const { return true; }

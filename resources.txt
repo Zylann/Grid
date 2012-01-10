@@ -21,6 +21,7 @@ SOUND guiError.ogg guiError
 SOUND guiInfo.ogg guiInfo
 SOUND editorPlace.ogg editorPlace
 SOUND launch.ogg launch
+SOUND item_pick.ogg item_pick
 FONT consola.ttf monofont
 POSTFX colorize.sfx colorize
 POSTFX wave.sfx wave
