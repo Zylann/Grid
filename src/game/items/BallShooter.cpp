@@ -23,6 +23,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/renderers/RenderItem.hpp"
 
 #include "utility/ResourceManager.hpp"
+#include "utility/noise.hpp"
 
 using namespace util;
 
@@ -49,7 +50,16 @@ namespace grid
     {
         Entity * owner = getOwner();
         if(owner != NULL)
-            Sound::instance().playSound("shoot", 1, 50, owner->pos);
+        {
+            float pitch = 1;
+            if(!owner->isPlayer())
+            {
+                // Slight pitch variation for better sound (useful in huge battles...).
+                // Pitch is not modified for players because it would be annoying a bit.
+                pitch = 0.9f + 0.2f * noise2d(0, 0, getID());
+            }
+            Sound::instance().playSound("shoot", pitch, 50, owner->pos);
+        }
     }
 
     float BallShooter::getPropulsionSpeed() const
