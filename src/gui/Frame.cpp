@@ -41,8 +41,8 @@ namespace gui
     // Virtual
     bool Frame::onEvent(const sf::Event & e, const Vector2i & mousePos)
     {
-        // Frame
-        bool res = EventListener::onEvent(e, mousePos);
+        if(!isEnabled())
+            return false;
 
         // Children
         std::list<Widget*>::iterator it;
@@ -51,7 +51,7 @@ namespace gui
             if((*it)->onEvent(e, mousePos))
                 return true;
         }
-        return res;
+        return EventListener::onEvent(e, mousePos);;
     }
 
     void Frame::onShow()
