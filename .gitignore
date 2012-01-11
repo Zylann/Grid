@@ -5,6 +5,7 @@ obj/
 old code/
 releases/
 resources/
+worlds/
 *.zip
 *.depend
 *.layout
