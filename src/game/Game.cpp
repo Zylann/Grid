@@ -133,13 +133,14 @@ namespace grid
             if(r_currentState != NULL)
                 r_currentState->leave();
 
-            // Enter new state
             r_currentState = it->second;
-            r_currentState->enter();
 
             // Create its gui if possible
             if(r_currentState->getGui() == NULL)
                 r_currentState->createGui();
+
+            // Enter new state
+            r_currentState->enter();
         }
         else
         {
