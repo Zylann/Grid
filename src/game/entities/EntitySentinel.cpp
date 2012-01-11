@@ -56,7 +56,7 @@ namespace grid
         addComponent(new BotController());
         addComponent(new Physics());
 
-        Health * health = new Health(100, 100, true); // true : invalidate on death
+        Health * health = new Health(75, 75, true); // true : invalidate on death
         RenderHealth * renderHealth = new RenderHealth(health, RP_INTERFACE, true);
         renderHealth->setEntity(this);
         health->setRenderer(renderHealth);
