@@ -22,18 +22,23 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/entities/EntityShockWave.hpp"
 #include "game/entities/EntityShot.hpp"
 #include "game/entities/EntityGrenade.hpp"
+
 #include "game/components/PlayerController.hpp"
 #include "game/components/MouseController.hpp"
 #include "game/components/Physics.hpp"
 #include "game/components/Inventory.hpp"
 #include "game/components/OctoDirMover.hpp"
 #include "game/components/Health.hpp"
+#include "game/components/ItemPicker.hpp"
+
 #include "game/items/BallShooter.hpp"
 #include "game/items/GrenadeLauncher.hpp"
+
 #include "game/renderers/RenderModel.hpp"
 #include "game/renderers/RenderImage.hpp"
 #include "game/renderers/RenderInventory.hpp"
 #include "game/renderers/RenderHealth.hpp"
+
 #include "game/Model.hpp"
 #include "game/GameUpdate.hpp"
 #include "game/Sound.hpp"
@@ -69,8 +74,9 @@ namespace grid
         inv->setRenderer(invRend);
         inv->addItem(new BallShooter());
         inv->addItem(new GrenadeLauncher());
-        inv->setPickItems(true);
         addComponent(inv);
+
+        addComponent(new ItemPicker(inv));
 
         Model * model = new Model();
         model->addShape( new sf::Shape(
@@ -84,8 +90,6 @@ namespace grid
         setRenderer(new RenderModel(RP_EVENTS, model));
 
         setBoundingBox(new AxisAlignedBB(-0.4, -0.4, 0.4, 0.4));
-
-//        m_targetID = -1;
     }
 
     util::AxisAlignedBB * EntityPlayer::getBoundingBox()
@@ -101,22 +105,6 @@ namespace grid
 
     void EntityPlayer::onFirstUpdate(GameUpdate & up)
     {
-//        sf::Image & targetImg = resources::getImage("target");
-//        targetImg.SetSmooth(false);
-//
-//        // Creating target
-//        Entity * target = new Entity();
-//        target->addComponent(new MouseController());
-//        RenderImage * r = new RenderImage(RP_INTERFACE, targetImg);
-//        r->setColor(sf::Color(255,255,32,192));
-//        r->setBlendMode(sf::Blend::Add);
-//        target->setRenderer(r);
-//
-//        // Binding target
-//        addComponent(new LookBind(target->getID()));
-//
-//        // Spawning target
-//        m_targetID = up.world->spawnEntity(target);
     }
 
     void EntityPlayer::onDestruction(GameUpdate & up)

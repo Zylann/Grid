@@ -32,6 +32,7 @@ namespace grid
 {
     class GameUpdate;
     class Inventory;
+    class World;
 
     /*
         An item is any kind of game object that can be stored in an inventory.
@@ -68,13 +69,14 @@ namespace grid
         inline void setInventoryPosition(int x) { m_inventoryPosition = x; }
         inline int getInventoryPosition() const { return m_inventoryPosition; }
 
-        // Called when the item is picked, after being stored in the inventory
-        virtual void onPick() {}
+        // Called when the item is picked.
+        // world can be used for instant items to spawn some graphics entities.
+        virtual void onPick(Entity * owner, World * world = NULL) {}
 
-        // Called when the item gains selection
+        // Called when the item gains inventory's focus
         virtual void onSelect() {}
 
-        // Called when the item loses selection
+        // Called when the item loses inventory's focus
         virtual void onUnselect() {}
 
         void setRenderer(Renderer * r)
@@ -85,6 +87,12 @@ namespace grid
         }
 
         Entity * getOwner() const;
+
+        // True if the item performs an action on pick and then disappear.
+        // It may work even if the owner's inventory is full or inexistent.
+        // Example : instant healing bonus
+        // (See ItemPicker for more information about how this is performed)
+        virtual bool isInstant() const { return false; }
 
         virtual void update(GameUpdate & up) = 0;
         virtual bool processMessage(Message & msg) = 0;

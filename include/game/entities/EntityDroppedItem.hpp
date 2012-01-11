@@ -47,6 +47,8 @@ namespace grid
         // Remember to free memory if the returned item is unusued.
         Item * pickItem();
 
+        const Item * getItem() const { return m_item; }
+
         virtual int getType() const { return ENT_DROPPED_ITEM; }
         virtual bool isDroppedItem() const { return true; }
     };

@@ -36,10 +36,8 @@ namespace grid
         setRenderer(new RenderItem(this, RP_INTERFACE, img));
     }
 
-    void HealthBonus::onPick()
+    void HealthBonus::onPick(Entity * owner, World * world)
     {
-        Entity * owner = getOwner();
-
         if(owner != NULL)
         {
             Message msg(M_HEA_HEAL, NULL);

@@ -1,6 +1,6 @@
 /*
 Grid
-HealthBonus.hpp
+ItemPicker.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,34 +18,42 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef HEALTHBONUS_HPP_INCLUDED
-#define HEALTHBONUS_HPP_INCLUDED
+#ifndef ITEMPICKER_HPP_INCLUDED
+#define ITEMPICKER_HPP_INCLUDED
 
-#include "game/base/Item.hpp"
+#include "game/base/Component.hpp"
+#include "game/components/Inventory.hpp"
 
 namespace grid
 {
-    class HealthBonus : public Item
+    /*
+        The owner of this component will pick items around him.
+        If the ItemPicker has a reference to the inventory (and if items are not instants),
+        it will put picked items in it if possible. If not, items are not picked.
+    */
+
+    class EntityDroppedItem;
+
+    class ItemPicker : public Component
     {
     protected :
 
-        int m_health;
+        Inventory * r_inventory;
 
     public :
 
-        HealthBonus(int ID = -1);
+        ItemPicker(Inventory * inventory = NULL, int ID = -1) : Component(ID)
+        {
+            r_inventory = inventory;
+        }
 
-        virtual void onPick(Entity * owner, World * world = NULL);
         virtual void update(GameUpdate & up);
+        virtual void pick(EntityDroppedItem * e);
         virtual bool processMessage(Message & msg);
 
-        virtual bool isInstant() const { return true; }
-
-        virtual void serialize(std::ostream & os);
-        virtual void unserialize(std::istream & is);
+        virtual bool isSerializable() const { return false; }
     };
 
 } // namespace grid
 
-
-#endif // HEALTHBONUS_HPP_INCLUDED
+#endif // ITEMPICKER_HPP_INCLUDED

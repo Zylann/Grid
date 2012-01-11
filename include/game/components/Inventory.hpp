@@ -30,13 +30,16 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
+    /*
+        The owner of the inventory can store and use items (except instant items).
+    */
+
     class Inventory : public Component
     {
     protected :
 
         std::vector<Item*> m_items;
         int m_currentX;
-        bool m_pickItems;
 
     public :
 
@@ -47,7 +50,6 @@ namespace grid
 
             m_items.resize(width, NULL);
             m_currentX = 0;
-            m_pickItems = false;
         }
 
         ~Inventory()
@@ -69,10 +71,7 @@ namespace grid
         }
 
         virtual void update(GameUpdate & up);
-        virtual void updateItemPick(GameUpdate & up);
-
         virtual bool processMessage(Message & msg);
-
         virtual void registerRender(RenderManager & manager);
 
         // Switches the current item in use.
@@ -94,8 +93,6 @@ namespace grid
 
         inline int getSize() const { return m_items.size(); }
         inline int getCurrentX() const { return m_currentX; }
-
-        inline void setPickItems(bool b) { m_pickItems = b; }
 
         virtual void serialize(std::ostream & os);
         virtual void unserialize(std::istream & is);
