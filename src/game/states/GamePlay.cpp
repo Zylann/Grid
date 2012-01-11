@@ -29,6 +29,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/components/RandomSpawner.hpp"
 #include "game/Sound.hpp"
 
+#include "gui/Button.hpp"
+
 #include "utility/ResourceManager.hpp"
 #include "utility/noise.hpp"
 #include "utility/Circle.hpp"
@@ -40,6 +42,7 @@ namespace grid
     GamePlay::GamePlay(int stateID, Game * game) : GameState(stateID, game)
     {
         m_world = NULL;
+        m_pause = false;
     }
 
     GamePlay::~GamePlay()
@@ -53,25 +56,43 @@ namespace grid
         }
     }
 
+    void GamePlay::createGui()
+    {
+        m_gui = new gui::Frame(100, 100, 600, 400);
+
+        const sf::Font & font = resources::getFont("monofont");
+
+        gui::Button * resumeBtn = new gui::Button(100, 100, 300, 24, "Resume game", font);
+        resumeBtn->setAction(new gui::Action<GamePlay>(this, &GamePlay::resumeGame));
+
+        gui::Button * quitBtn = new gui::Button(100, 130, 300, 24, "Quit game", font);
+        quitBtn->setAction(new gui::Action<GamePlay>(this, &GamePlay::quitGame));
+
+        m_gui->addChild(resumeBtn);
+        m_gui->addChild(quitBtn);
+
+        m_gui->setVisible(false);
+    }
+
     void GamePlay::update(GameUpdate & up)
     {
         up.gamePlay = this;
         up.world = m_world;
 
-        // Bullet time (debug)
-        const sf::Input & input = up.game->getInput();
-        if(input.IsKeyDown(sf::Key::Space))
-            up.delta /= 10.f;
-        else if(input.IsKeyDown(sf::Key::Escape))
-            r_game->enterState(ST_MAIN_MENU);
-
-        EntityPlayer * player = m_world->getMainPlayer();
-        if(player != NULL)
+        if(!m_pause)
         {
-            player->lookAt(r_game->getSceneMouseCoords());
-        }
+            // Bullet time (debug)
+            const sf::Input & input = up.game->getInput();
+            if(input.IsKeyDown(sf::Key::Space))
+                up.delta /= 10.f;
 
-        m_world->update(up);
+            EntityPlayer * player = m_world->getMainPlayer();
+            if(player != NULL)
+            {
+                player->lookAt(r_game->getSceneMouseCoords());
+            }
+            m_world->update(up);
+        }
     }
 
     void GamePlay::render(Graphics & gfx)
@@ -82,6 +103,10 @@ namespace grid
         gfx.drawGrid();
 
         m_world->render(gfx);
+
+        gfx.setView(VIEW_INTERFACE);
+        if(m_gui->isVisible())
+            gfx.draw(*m_gui);
 
 //        sf::PostFX & effect = resources::getPostFX("wave");
 //		effect.SetTexture("tex", NULL);
@@ -94,6 +119,7 @@ namespace grid
 
     void GamePlay::enter()
     {
+        resumeGame();
         init();
     }
 
@@ -128,6 +154,28 @@ namespace grid
         respawn();
     }
 
+    bool GamePlay::keyReleaseEvent(sf::Key::Code key, char character)
+    {
+        if(key == sf::Key::Back)
+        {
+            respawn();
+            return true;
+        }
+        else if(key == sf::Key::Escape)
+        {
+            m_pause = !m_pause;
+            m_gui->setVisible(m_pause);
+        }
+
+        // debug
+        else if(key == sf::Key::M)
+        {
+            std::cout << "SpaceDivider" << std::endl;
+            m_world->getSpaceDivider().print(std::cout, Vector2i(0,0), Vector2i(20,20));
+        }
+        return false;
+    }
+
     void GamePlay::respawn()
     {
         if(m_world->getMainPlayer() == NULL)
@@ -138,20 +186,20 @@ namespace grid
         }
     }
 
-    bool GamePlay::keyReleaseEvent(sf::Key::Code key, char character)
+    void GamePlay::resumeGame()
     {
-        if(key == sf::Key::Back)
+        m_pause = false;
+        m_gui->setVisible(false);
+    }
+
+    void GamePlay::quitGame()
+    {
+        if(m_world != NULL)
         {
-            respawn();
-            return true;
+            delete m_world;
+            m_world = NULL;
         }
-        // debug
-        else if(key == sf::Key::M)
-        {
-            std::cout << "SpaceDivider" << std::endl;
-            m_world->getSpaceDivider().print(std::cout, Vector2i(0,0), Vector2i(20,20));
-        }
-        return false;
+        r_game->enterState(ST_MAIN_MENU);
     }
 
 } // namespace grid

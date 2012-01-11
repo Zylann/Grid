@@ -32,6 +32,7 @@ namespace grid
 {
     void MainMenu::createGui()
     {
+        // The main theme is defined here
         if(m_gui == NULL)
             gui::Theme::setTheme(new GuiTheme());
 

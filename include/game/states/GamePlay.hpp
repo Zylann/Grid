@@ -31,6 +31,7 @@ namespace grid
     private :
 
         World * m_world;
+        bool m_pause;
 
     public :
 
@@ -43,11 +44,15 @@ namespace grid
         virtual void enter();
         virtual void leave();
 
+        virtual void createGui();
+
         void init();
 
         virtual bool keyReleaseEvent(sf::Key::Code key, char character);
 
         void respawn();
+        void resumeGame();
+        void quitGame();
     };
 
 } // namespace grid

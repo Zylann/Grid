@@ -88,7 +88,7 @@ namespace grid
         if(m_sounds.size() >= MAX_SOUNDS)
             return;
         const sf::Vector3f listenerPos = m_listener.GetPosition();
-        if(!relativeToListener && distance2D(pos, Vector2f(listenerPos.x, listenerPos.y)) > 20)
+        if(!relativeToListener && distance2D(pos, Vector2f(listenerPos.x, listenerPos.y)) > 25)
             return;
         if(m_lastSoundPlayTime.GetElapsedTime() < 0.01)
             return;
