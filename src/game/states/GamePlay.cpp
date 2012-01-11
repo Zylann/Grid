@@ -34,6 +34,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utility/ResourceManager.hpp"
 #include "utility/noise.hpp"
 #include "utility/Circle.hpp"
+#include "utility/filesystem.hpp"
 
 using namespace util;
 
@@ -133,7 +134,9 @@ namespace grid
             delete m_world;
         m_world = new World;
 
-        std::ifstream ifs("world", std::ios::in | std::ios::binary);
+        std::string worldPath = "worlds/world";
+        adaptFilePath(worldPath);
+        std::ifstream ifs(worldPath.c_str(), std::ios::in | std::ios::binary);
         if(ifs.good())
         {
             m_world->unserialize(ifs);

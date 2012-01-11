@@ -27,6 +27,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utility/ResourceManager.hpp"
 #include "utility/noise.hpp"
+#include "utility/filesystem.hpp"
 
 #include "gui/Button.hpp"
 #include "gui/Action.hpp"
@@ -83,7 +84,13 @@ namespace grid
         {
             try
             {
-                std::ofstream ofs("world", std::ios::out | std::ios::trunc | std::ios::binary);
+                std::string worldPath = "worlds/world";
+                adaptFilePath(worldPath);
+                std::ofstream ofs(worldPath.c_str(), std::ios::out | std::ios::trunc | std::ios::binary);
+
+                if(!ofs.good())
+                    throw Exception("cannot open file " + worldPath);
+
                 m_world->serialize(ofs);
                 ofs.close();
                 std::cout << "World saved." << std::endl;
