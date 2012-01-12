@@ -31,13 +31,9 @@ namespace grid
     EntityDroppedItem::EntityDroppedItem(Item * item, int ID) : Entity(ID)
     {
         m_item = item;
-        // TODO new renderers depending on the item
-        sf::Image & img = resources::getImage("item_health");
-        img.SetSmooth(false);
-        RenderImage * r = new RenderImage(RP_EVENTS, img);
-        r->setScale(0.5f / GAME_TILES_SIZE);
-        r->setBindScale(false);
-        setRenderer(r);
+
+        if(item != NULL)
+            setRenderer(item->createDroppedRenderer());
     }
 
     Item * EntityDroppedItem::pickItem()
@@ -45,13 +41,14 @@ namespace grid
         Item * temp = m_item;
         m_item = NULL;
         // TODO new sounds depending on the item
-        Sound::instance().playSound("item_pick", 1, 50);
+        Sound::instance().playSound("item_pick", 1, 25);
         invalidate();
         return temp;
     }
 
     void EntityDroppedItem::updateMe(GameUpdate & up)
     {
+        // The item vanishes after a while
         if(m_item == NULL || m_lifeTime > 60.f)
             invalidate();
     }
@@ -81,6 +78,7 @@ namespace grid
         try
         {
             m_item = Item::unserializeItem(is);
+            setRenderer(m_item->createDroppedRenderer());
         }
         catch(std::exception & ex)
         {

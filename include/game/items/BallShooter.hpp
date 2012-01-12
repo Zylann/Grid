@@ -33,6 +33,8 @@ namespace grid
 
         virtual Entity * createShot(int ownerID);
 
+        virtual Renderer * createDroppedRenderer();
+
         virtual void playShootSound() const;
 
         virtual int getType() const { return ITM_BALL_SHOOTER; }

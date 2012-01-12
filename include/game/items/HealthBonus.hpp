@@ -39,6 +39,8 @@ namespace grid
         virtual void update(GameUpdate & up);
         virtual bool processMessage(Message & msg);
 
+        virtual Renderer * createDroppedRenderer();
+
         virtual bool isInstant() const { return true; }
 
         virtual int getType() const { return ITM_HEALTH_BONUS; }

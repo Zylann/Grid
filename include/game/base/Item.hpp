@@ -95,6 +95,9 @@ namespace grid
             m_renderer = r;
         }
 
+        // Creates the renderer of the item associated to its dropped state
+        virtual Renderer * createDroppedRenderer() = 0;
+
         Entity * getOwner() const;
 
         // True if the item performs an action on pick and then disappear.

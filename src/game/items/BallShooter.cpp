@@ -46,6 +46,16 @@ namespace grid
         return shot;
     }
 
+    Renderer * BallShooter::createDroppedRenderer()
+    {
+        sf::Image & img = resources::getImage("item_ballshooter");
+        img.SetSmooth(false);
+        RenderImage * r = new RenderImage(RP_EVENTS, img);
+        r->setScale(0.5f / GAME_TILES_SIZE);
+        r->setBindScale(false);
+        return r;
+    }
+
     void BallShooter::playShootSound() const
     {
         Entity * owner = getOwner();

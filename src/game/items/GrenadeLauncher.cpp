@@ -40,6 +40,16 @@ namespace grid
         return new EntityGrenade(ownerID);
     }
 
+    Renderer * GrenadeLauncher::createDroppedRenderer()
+    {
+        sf::Image & img = resources::getImage("item_grenade");
+        img.SetSmooth(false);
+        RenderImage * r = new RenderImage(RP_EVENTS, img);
+        r->setScale(0.5f / GAME_TILES_SIZE);
+        r->setBindScale(false);
+        return r;
+    }
+
     void GrenadeLauncher::playShootSound() const
     {
         Entity * owner = getOwner();

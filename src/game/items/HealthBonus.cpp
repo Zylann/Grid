@@ -56,6 +56,16 @@ namespace grid
         return false;
     }
 
+    Renderer * HealthBonus::createDroppedRenderer()
+    {
+        sf::Image & img = resources::getImage("item_health");
+        img.SetSmooth(false);
+        RenderImage * r = new RenderImage(RP_EVENTS, img);
+        r->setScale(0.5f / GAME_TILES_SIZE);
+        r->setBindScale(false);
+        return r;
+    }
+
     /*
         Serialization
     */

@@ -32,6 +32,7 @@ namespace grid
         GrenadeLauncher(int ID = -1);
 
         virtual Entity * createShot(int ownerID);
+        virtual Renderer * createDroppedRenderer();
 
         virtual void playShootSound() const;
 
