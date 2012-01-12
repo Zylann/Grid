@@ -143,16 +143,16 @@ namespace grid
             ifs.close();
         }
 
-        for(unsigned int i = 0; i < 6; i ++)
-        {
-            Entity * spawner = new Entity();
-            spawner->addComponent(
-                new RandomSpawner(ENT_SENTINEL,
-                    new Circle(Vector2f(), 6), 10.f, 20.f, 1, 3));
-
-            Vector2f pos(sf::Randomizer::Random(1.f, 120.f), sf::Randomizer::Random(1.f, 60.f));
-            m_world->spawnEntity(spawner, pos);
-        }
+//        for(unsigned int i = 0; i < 6; i ++)
+//        {
+//            Entity * spawner = new Entity();
+//            spawner->addComponent(
+//                new RandomSpawner(ENT_SENTINEL,
+//                    new Circle(Vector2f(), 6), 10.f, 20.f, 1, 3));
+//
+//            Vector2f pos(sf::Randomizer::Random(1.f, 120.f), sf::Randomizer::Random(1.f, 60.f));
+//            m_world->spawnEntity(spawner, pos);
+//        }
 
         respawn();
     }
@@ -173,7 +173,7 @@ namespace grid
         // debug
         else if(key == sf::Key::M)
         {
-            std::cout << "SpaceDivider" << std::endl;
+            std::cout << "SpaceDivider :" << std::endl;
             m_world->getSpaceDivider().print(std::cout, Vector2i(0,0), Vector2i(20,20));
         }
         return false;
