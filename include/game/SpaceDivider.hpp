@@ -113,8 +113,9 @@ namespace grid
 		// and will be returned.
 		// However, it returns NULL if it doesn't exist.
 		SpaceDivision * getDivision(const Vector2i & dpos, bool create = true);
-		void getDivisionsFromBox(std::list<Entity*> & divs, const util::AxisAlignedBB & box);
-		void getDivisionsFromCircle(std::list<Entity*> & divs, const util::Circle & circle);
+
+		void getDivisionsFromBox(std::list<SpaceDivision*> & divs, const util::AxisAlignedBB & box);
+		void getDivisionsFromCircle(std::list<SpaceDivision*> & divs, const util::Circle & circle);
 
 		void addEntity(Entity * e);
 		void updateEntityDivision(Entity * e);

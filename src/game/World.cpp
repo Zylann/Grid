@@ -157,11 +157,30 @@ namespace grid
     {
         m_renderManager.clear();
 
-        std::map<int,Entity*>::iterator it;
-        for(it = m_entities.begin(); it != m_entities.end(); it++)
+        if(r_map != NULL)
+            r_map->registerRender(m_renderManager);
+
+        const sf::FloatRect & viewRect = gfx.getCurrentView().GetRect();
+        AxisAlignedBB clipBox(viewRect.Left, viewRect.Top, viewRect.Right, viewRect.Bottom);
+
+        std::list<SpaceDivision*> divs;
+        m_spaceDivider.getDivisionsFromBox(divs, clipBox);
+
+        std::list<SpaceDivision*>::iterator it1;
+        std::map<int,Entity*>::iterator it2;
+        Entity * e;
+        SpaceDivision * div;
+
+        // Only render entities of space divisions within the view clippig rectangle
+        for(it1 = divs.begin(); it1 != divs.end(); it1++)
         {
-            if(it->second->isDrawable())
-                it->second->registerRender(m_renderManager);
+            div = *it1;
+            for(it2 = div->entities.begin(); it2 != div->entities.end(); it2++)
+            {
+                e = it2->second;
+                if(e->isDrawable() && e->getType() != ENT_MAP)
+                    e->registerRender(m_renderManager);
+            }
         }
         m_renderManager.render(gfx);
     }

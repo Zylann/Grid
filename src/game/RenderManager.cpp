@@ -32,14 +32,18 @@ namespace grid
 
     void RenderManager::render(Graphics gfx)
     {
+        //int renderCount = 0;
+
         std::list<Renderer*>::iterator it;
         for(unsigned int i = 0; i < RP_COUNT; i++)
         {
             for(it = r_renders[i].begin(); it != r_renders[i].end(); it++)
             {
                 (*it)->render(gfx);
+                //renderCount++;
             }
         }
+        //std::cout << renderCount << std::endl;
     }
 
     void RenderManager::clear()

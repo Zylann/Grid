@@ -66,12 +66,23 @@ namespace grid
         return NULL;
     }
 
-    void SpaceDivider::getDivisionsFromBox(std::list<Entity*> & divs, const AxisAlignedBB & box)
+    void SpaceDivider::getDivisionsFromBox(std::list<SpaceDivision*> & divs, const AxisAlignedBB & box)
     {
-        // TODO getDivisionsFromBox
+        Vector2i minEdge = toDivisionCoords(box.minEdge);
+        Vector2i maxEdge = toDivisionCoords(box.maxEdge);
+        Vector2i pos;
+        SpaceDivision * div = NULL;
+
+        for(pos.y = minEdge.y; pos.y <= maxEdge.y; pos.y++)
+        for(pos.x = minEdge.x; pos.x <= maxEdge.x; pos.x++)
+        {
+            div = getDivision(pos, false); // false : don't create if not found
+            if(div != NULL)
+                divs.push_back(div);
+        }
     }
 
-    void SpaceDivider::getDivisionsFromCircle(std::list<Entity*> & divs, const Circle & circle)
+    void SpaceDivider::getDivisionsFromCircle(std::list<SpaceDivision*> & divs, const Circle & circle)
     {
         // TODO getDivisionsFromCircle
     }
