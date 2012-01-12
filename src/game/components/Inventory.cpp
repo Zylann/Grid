@@ -49,7 +49,7 @@ namespace grid
         {
             if(msg.type == M_INV_DROP)
             {
-                // TODO Inventory drop
+                dropItem(m_currentX);
                 return true;
             }
 
@@ -165,6 +165,18 @@ namespace grid
             }
         }
         return false;
+    }
+
+    void Inventory::dropItem(int x)
+    {
+        if(m_items[x] == NULL || r_owner->getWorld() == NULL)
+            return;
+
+        EntityDroppedItem * e = new EntityDroppedItem(m_items[x]);
+        e->pos = r_owner->pos;
+        r_owner->getWorld()->spawnEntity(e);
+
+        m_items[x] = NULL;
     }
 
     int Inventory::getItemAmount() const

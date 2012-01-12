@@ -59,6 +59,13 @@ namespace grid
             }
         }
 
+        // Inventory drop
+        if(input.IsKeyDown(sf::Key::G))
+        {
+            Message m(M_INV_DROP, r_owner);
+            r_owner->processMessage(m);
+        }
+
         /* Mouse controls */
 
         bool mouseLeft = input.IsMouseButtonDown(sf::Mouse::Left);

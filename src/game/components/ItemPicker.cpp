@@ -36,7 +36,9 @@ namespace grid
         for(it = entities.begin(); it != entities.end(); it++)
         {
             e = (*it);
-            if(e->isDroppedItem() && e->isValid())
+            // If the entity is a valid dropped item, and if it has lived more than 1 second
+            // (this delay is important, because the item would be picked immediatly after being dropped)
+            if(e->isDroppedItem() && e->isValid() && e->getLifeTime() > 1.f)
             {
                 pick((EntityDroppedItem*)e);
             }

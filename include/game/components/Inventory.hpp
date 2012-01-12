@@ -38,7 +38,7 @@ namespace grid
     {
     protected :
 
-        std::vector<Item*> m_items;
+        std::vector<Item*> m_items; // slots
         int m_currentX;
 
     public :
@@ -91,6 +91,9 @@ namespace grid
         // Adds an item to the first free place in the inventory.
         // Returns true if success, false if no place was found.
         bool addItem(Item * item);
+
+        // Drops the item stored in the specified slot
+        void dropItem(int x);
 
         inline int getSize() const { return m_items.size(); }
         inline int getCurrentX() const { return m_currentX; }
