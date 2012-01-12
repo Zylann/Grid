@@ -342,7 +342,7 @@ namespace grid
             try
             {
                 e = Entity::unserializeEntity(is);
-                addEntity(e);
+                addEntity(e, e->pos);
             }
             catch(std::exception & e)
             {
