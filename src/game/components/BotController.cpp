@@ -39,9 +39,6 @@ namespace grid
 
         r_owner->rotation += M_PI * up.delta;
 
-        // TODO improve bots IA
-        // The current method makes them see through walls
-
         Entity * p = up.world->getMainPlayer();
         if(p != NULL)
         {

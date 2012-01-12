@@ -78,7 +78,7 @@ namespace util
         m_step++;
 
         // Path finding method : A*
-        // TODO make A* pathfinding (it is actually random-driven)
+        // TODO implement A* pathfinding (it is actually random-driven)
 
         std::vector<int> availableDirections;
 
