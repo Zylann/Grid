@@ -23,6 +23,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/base/Component.hpp"
 #include "game/components/Mover.hpp"
+#include "game/RayCaster.hpp"
+#include "game/PathFinder.hpp"
 
 namespace grid
 {
@@ -31,6 +33,8 @@ namespace grid
     protected :
 
         bool m_weaponTrigger;
+        RayCaster m_rayCaster;
+        PathFinder m_pathFinder;
 
     public :
 

@@ -48,19 +48,29 @@ namespace grid
             float d = distance2D(p->pos, r_owner->pos);
             if(d < 10)
             {
-                r_owner->lookAt(p->pos);
+                float angle = getAngle(r_owner->pos, p->pos);
 
-                if(d > 5)
-                {
-                    Vector2f v(cos(r_owner->rotation), sin(r_owner->rotation));
-                    r_owner->accelerate(50.f * v, up.delta, up.world);
-                }
+                m_rayCaster.setMap(&(up.world->getMap()));
+                m_rayCaster.setOptions(RayCasterOptions(
+                    r_owner->pos, angle, d));
 
-                if(sf::Randomizer::Random(0.f, 1.f) < 0.02f)
+                m_rayCaster.stepAll();
+
+                if(!m_rayCaster.isBlocked())
                 {
-                    Message msg(M_ITM_TRIGGER, r_owner, true);
-                    r_owner->processMessage(msg);
-                    m_weaponTrigger = true;
+                    r_owner->rotation = angle;
+                    if(d > 5)
+                    {
+                        Vector2f v(cos(r_owner->rotation), sin(r_owner->rotation));
+                        r_owner->accelerate(50.f * v, up.delta, up.world);
+                    }
+
+                    if(sf::Randomizer::Random(0.f, 1.f) < 0.02f)
+                    {
+                        Message msg(M_ITM_TRIGGER, r_owner, true);
+                        r_owner->processMessage(msg);
+                        m_weaponTrigger = true;
+                    }
                 }
             }
         }
