@@ -28,6 +28,30 @@ namespace grid
 {
 namespace terrain
 {
+    /*
+        Instance
+    */
+
+    const Ground & Instance::getGround() const
+    {
+        return Ground::get(groundType);
+    }
+
+    const Block & Instance::getBlock() const
+    {
+        return Block::get(blockType);
+    }
+
+    void Instance::print(std::ostream & os)
+    {
+        os << "GT=" << getGround().getName()
+            << ", BT=" << getBlock().getName();
+    }
+
+    /*
+        Global variables
+    */
+
     Ground * g_grounds[GT_COUNT];
     Block * g_blocks[BT_COUNT];
 

@@ -62,6 +62,9 @@ namespace terrain
         Instance
     */
 
+    class Ground;
+    class Block;
+
     struct Instance
     {
         unsigned char groundType;
@@ -81,15 +84,10 @@ namespace terrain
             blockType = p_blockType;
         }
 
-//        const Ground & getGround() const
-//        {
-//            return Ground::get(groundType);
-//        }
-//
-//        const Block & getBlock() const
-//        {
-//            return Block::get(blockType);
-//        }
+        const Ground & getGround() const;
+        const Block & getBlock() const;
+
+        void print(std::ostream & os);
 
         void serialize(std::ostream & os) const
         {
@@ -117,8 +115,8 @@ namespace terrain
 
     public :
 
-        const std::string & getName() { return m_name; }
-        const unsigned char getTypeID() { return m_typeID; }
+        const std::string & getName() const { return m_name; }
+        const unsigned char getTypeID() const { return m_typeID; }
 
     protected :
 

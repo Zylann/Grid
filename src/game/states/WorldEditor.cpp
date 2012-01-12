@@ -206,6 +206,29 @@ namespace grid
         return true;
     }
 
+    bool WorldEditor::mouseWheelUpEvent()
+    {
+        if(terrain::BT_COUNT == 0)
+            return false;
+        m_terrain.blockType++;
+        if(m_terrain.blockType >= terrain::BT_COUNT)
+            m_terrain.blockType = 0;
+        std::cout << "WorldEditor terrain : "; m_terrain.print(std::cout); std::cout << std::endl;
+        return true;
+    }
+
+    bool WorldEditor::mouseWheelDownEvent()
+    {
+        if(terrain::BT_COUNT == 0)
+            return false;
+        if(m_terrain.blockType == 0)
+            m_terrain.blockType = terrain::BT_COUNT - 1;
+        else
+            m_terrain.blockType--;
+        std::cout << "WorldEditor terrain : "; m_terrain.print(std::cout); std::cout << std::endl;
+        return true;
+    }
+
     bool WorldEditor::keyReleaseEvent(sf::Key::Code key, char character)
     {
         if(key == sf::Key::E)

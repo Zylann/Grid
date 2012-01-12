@@ -65,6 +65,8 @@ namespace grid
         virtual bool mouseLeftPressEvent(Vector2i pos);
         virtual bool mouseRightPressEvent(Vector2i pos);
         virtual bool mouseMoveEvent(Vector2i previous, Vector2i current);
+        virtual bool mouseWheelUpEvent();
+        virtual bool mouseWheelDownEvent();
         virtual bool keyReleaseEvent(sf::Key::Code key, char character = 0);
 
         void quit();
