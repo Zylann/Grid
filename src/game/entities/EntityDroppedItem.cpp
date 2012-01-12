@@ -52,7 +52,7 @@ namespace grid
 
     void EntityDroppedItem::updateMe(GameUpdate & up)
     {
-        if(m_item == NULL)
+        if(m_item == NULL || m_lifeTime > 60.f)
             invalidate();
     }
 

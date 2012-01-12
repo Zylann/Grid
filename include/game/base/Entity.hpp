@@ -111,6 +111,7 @@ namespace grid
         util::AxisAlignedBB * m_boundingBox;
 
         Vector2f m_lastPos;   // position at last update
+        float m_lifeTime;
 
 //        // World access
 //        World * r_world;
@@ -136,6 +137,7 @@ namespace grid
             m_boundingBox = NULL;
             name = "_entity_";
             team = 0;
+            m_lifeTime = 0;
         }
 
         virtual ~Entity()
@@ -190,6 +192,8 @@ namespace grid
         virtual Entity & setRotation(float p_rotation);
 
         inline const Vector2f & getLastPosition() const { return m_lastPos; };
+
+        inline float getLifeTime() const { return m_lifeTime; }
 
         // Rotates the entity to face the specified point
         void lookAt(const Vector2f & target);

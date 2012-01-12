@@ -79,7 +79,6 @@ namespace grid
         uint8 e = m_enable;
         util::serialize(os, m_ID);
         util::serialize(os, e);
-        util::serialize(os, m_lifeTime);
     }
 
     void GameObject::unserialize(std::istream & is)
@@ -87,7 +86,6 @@ namespace grid
         uint8 e = 0;
         util::unserialize(is, m_ID);
         util::unserialize(is, e);
-        util::unserialize(is, m_lifeTime);
         m_enable = e > 0;
 
         // Note : in some cases, unserialization may lead to

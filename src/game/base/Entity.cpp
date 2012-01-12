@@ -55,6 +55,8 @@ namespace grid
 
         updateComponents(up);
         updateMe(up);
+
+        m_lifeTime += up.delta;
     }
 
     void Entity::render(Graphics & gfx)
@@ -355,6 +357,7 @@ namespace grid
         util::serialize(os, rotation);
         util::serialize(os, scale);
         util::serialize(os, team);
+        util::serialize(os, m_lifeTime);
 
         std::list<Component*>::iterator it;
         for(it = m_components.begin(); it != m_components.end(); it++)
@@ -376,6 +379,7 @@ namespace grid
         util::unserialize(is, rotation);
         util::unserialize(is, scale);
         util::unserialize(is, team);
+        util::unserialize(is, m_lifeTime);
 
         std::list<Component*>::iterator it;
         for(it = m_components.begin(); it != m_components.end(); it++)
