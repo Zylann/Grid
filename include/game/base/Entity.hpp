@@ -113,8 +113,8 @@ namespace grid
         Vector2f m_lastPos;   // position at last update
         float m_lifeTime;
 
-//        // World access
-//        World * r_world;
+        // World access
+        World * r_world;
 
     public :
 
@@ -138,6 +138,7 @@ namespace grid
             name = "_entity_";
             team = 0;
             m_lifeTime = 0;
+            r_world = NULL;
         }
 
         virtual ~Entity()
@@ -177,8 +178,8 @@ namespace grid
         Entity & setRenderer(Renderer * r);
         Renderer * getRenderer();
 
-//        void setWorld(World * w) { r_world = w; }
-//        World * getWorld() const { return r_world; }
+        inline void setWorld(World * w) { r_world = w; }
+        inline World * getWorld() const { return r_world; }
 
         void setBoundingBox(util::AxisAlignedBB * box);
         virtual util::AxisAlignedBB * getBoundingBox();

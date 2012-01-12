@@ -87,6 +87,7 @@ namespace grid
     int World::addEntityNoCheck(Entity * e, const Vector2f pos)
     {
         e->setPosition(pos);
+        e->setWorld(this);
 
         // Inserting
         m_entities.insert(std::pair<int, Entity*>(e->getID(), e));
