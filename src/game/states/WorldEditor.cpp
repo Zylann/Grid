@@ -208,10 +208,10 @@ namespace grid
 
     bool WorldEditor::keyReleaseEvent(sf::Key::Code key, char character)
     {
-        if(key == sf::Key::S)
+        if(key == sf::Key::E)
         {
             EntitySentinel * sentinel = new EntitySentinel();
-            m_world->addEntity(sentinel);
+            m_world->addEntity(sentinel, m_scenePos);
             Sound::instance().playSound("editorPlace");
             return true;
         }
