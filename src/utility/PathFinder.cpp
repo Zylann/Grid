@@ -68,7 +68,7 @@ namespace util
 
     void PathFinder::stepAll()
     {
-        while(step());
+        while(!step());
     }
 
     bool PathFinder::step()
