@@ -35,6 +35,8 @@ namespace grid
 
         virtual void playShootSound() const;
 
+        virtual int getType() const { return ITM_BALL_SHOOTER; }
+
         virtual float getShootTime() const;
         virtual float getRepulsion() const;
         virtual float getPropulsionSpeed() const;

@@ -26,6 +26,11 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/Game.hpp"
 #include "game/GameUpdate.hpp"
 
+#include "game/entities/EntitySentinel.hpp"
+#include "game/entities/EntityShockWave.hpp"
+#include "game/entities/EntityShot.hpp"
+#include "game/entities/EntitySpawner.hpp"
+
 #include "utility/geometry.hpp"
 
 using namespace util;
@@ -281,6 +286,64 @@ namespace grid
         Serialization is slightly the same than unserializing, we just have to do it
         in the same order.
     */
+
+    // Static
+    Entity * Entity::createEntityFromType(int type)
+    {
+        switch(type)
+        {
+            case ENT_MAP : return new Map();
+            case ENT_PLAYER : return new EntityPlayer();
+            case ENT_SENTINEL : return new EntitySentinel();
+            case ENT_SHOCKWAVE : return new EntityShockWave();
+            case ENT_SHOT : return new EntityShot();
+            case ENT_SPAWNER : return new EntitySpawner();
+
+            default : return NULL;
+        }
+    }
+
+    // Static
+    void Entity::serializeEntity(std::ostream & os, Entity & entity)
+    {
+        // Entity type
+        util::serialize(os, entity.getType());
+        // Entity data
+        entity.serialize(os);
+    }
+
+    // Static
+    Entity * Entity::unserializeEntity(std::istream & is) throw(GameException)
+    {
+        /* Creating entity from its type */
+
+        int entityType = -1;
+        util::unserialize(is, entityType);
+
+        Entity * e = createEntityFromType(entityType);
+        if(e == NULL)
+        {
+            std::stringstream ss;
+            ss << "Entity::unserializeEntity : "
+                << "unknown entity type " << entityType;
+            throw GameException(ss.str());
+        }
+
+        /* Unserializing entity */
+
+        try
+        {
+            e->unserialize(is);
+        }
+        catch(std::exception & e)
+        {
+            std::stringstream ss;
+            ss << e.what() << std::endl;
+            ss << "In Entity::unserializeEntity";
+            throw GameException(ss.str());
+        }
+        return e;
+    }
 
     void Entity::serialize(std::ostream & os)
     {

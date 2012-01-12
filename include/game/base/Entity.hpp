@@ -36,6 +36,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/base/Renderer.hpp"
 #include "game/components/Physics.hpp"
 #include "game/Collision.hpp"
+#include "game/GameException.hpp"
 
 namespace grid
 {
@@ -47,13 +48,15 @@ namespace grid
     // Used for serialization
     enum EntityType
     {
-        ENT_MAP = 0, // Keep 0
+        ENT_BASIC = 0, // Keep 0
+        ENT_MAP,
         ENT_PLAYER,
         ENT_SENTINEL,
         ENT_SHOT,
         ENT_SHOCKWAVE,
         ENT_GRENADE,
-        ENT_DROPPED_ITEM
+        ENT_DROPPED_ITEM,
+        ENT_SPAWNER
     };
 
     /*
@@ -216,14 +219,19 @@ namespace grid
         // Used for serialization
         virtual int getType() const { return -1; }
 
-        virtual void serialize(std::ostream & os);
-        virtual void unserialize(std::istream & is);
+        static Entity * createEntityFromType(int type);
+
+        // Serialization
+        static void serializeEntity(std::ostream & os, Entity & entity);
+        static Entity * unserializeEntity(std::istream & is) throw(GameException);
 
     protected :
 
         virtual void updateMe(GameUpdate & up) {}
-
         void updateComponents(GameUpdate & up);
+
+        virtual void serialize(std::ostream & os);
+        virtual void unserialize(std::istream & is);
     };
 
 } // namespace grid

@@ -50,5 +50,46 @@ namespace grid
         return temp;
     }
 
+    void EntityDroppedItem::updateMe(GameUpdate & up)
+    {
+        if(m_item == NULL)
+            invalidate();
+    }
+
+    /*
+        Serialization
+    */
+
+    void EntityDroppedItem::serialize(std::ostream & os)
+    {
+        Entity::serialize(os);
+
+        if(m_item != NULL)
+        {
+            Item::serializeItem(os, *m_item);
+        }
+    }
+
+    void EntityDroppedItem::unserialize(std::istream & is) throw(GameException)
+    {
+        Entity::unserialize(is);
+
+        if(m_item != NULL)
+            delete m_item;
+        m_item = NULL;
+
+        try
+        {
+            m_item = Item::unserializeItem(is);
+        }
+        catch(std::exception & ex)
+        {
+            std::stringstream ss;
+            ss << ex.what() << std::endl;
+            ss << "In EntityDroppedItem::unserialize";
+            throw GameException(ss.str());
+        }
+    }
+
 } // namespace grid
 

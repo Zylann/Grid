@@ -23,11 +23,20 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.hpp"
 
+#include "utility/serialization.hpp"
+
 namespace util
 {
     class AxisAlignedBB;
     class Circle;
     class Line;
+
+    enum ShapeType
+    {
+        SHAPE_BOX = 0, // keep 0
+        SHAPE_CIRCLE,
+        SHAPE_LINE
+    };
 
     class Shape
     {
@@ -51,6 +60,16 @@ namespace util
         virtual bool collides(const AxisAlignedBB & B) const = 0;
 
         virtual void print(std::ostream & os) = 0;
+
+        virtual int getType() const { return -1; }
+
+        static void serializeShape(std::ostream & os, Shape & shape);
+        static Shape * unserializeShape(std::istream & is);
+
+    protected :
+
+        virtual void serialize(std::ostream & os) const = 0;
+        virtual void unserialize(std::istream & is) = 0;
     };
 
 } // namespace util

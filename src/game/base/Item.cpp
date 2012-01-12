@@ -20,6 +20,11 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/base/Item.hpp"
 #include "game/base/Entity.hpp"
+
+#include "game/items/BallShooter.hpp"
+#include "game/items/GrenadeLauncher.hpp"
+#include "game/items/HealthBonus.hpp"
+
 #include "game/components/Inventory.hpp"
 
 namespace grid
@@ -49,14 +54,60 @@ namespace grid
         Serialization
     */
 
+    // Static
+    void Item::serializeItem(std::ostream & os, Item & item)
+    {
+        util::serialize(os, item.getType());
+        item.serialize(os);
+    }
+
+    // Static
+    Item * Item::unserializeItem(std::istream & is) throw(GameException)
+    {
+        int itemType = 0;
+        Item * item = NULL;
+
+        util::unserialize(is, itemType);
+
+        switch(itemType)
+        {
+            case ITM_BALL_SHOOTER :     item = new BallShooter();       break;
+            case ITM_GRENADE_LAUNCHER : item = new GrenadeLauncher();   break;
+            case ITM_HEALTH_BONUS :     item = new HealthBonus();       break;
+
+            default :
+                std::stringstream ss;
+                ss << "Inventory::unserialize : "
+                    << "unknown item type " << itemType;
+                throw GameException(ss.str());
+        }
+
+        /* Unserializing item */
+
+        try
+        {
+            item->unserialize(is);
+        }
+        catch(std::exception & e)
+        {
+            std::stringstream ss;
+            ss << e.what() << std::endl;
+            ss << "In Item::unserializeItem";
+            throw GameException(ss.str());
+        }
+        return item;
+    }
+
     void Item::serialize(std::ostream & os)
     {
-        // TODO serialize Item
+        GameObject::serialize(os);
+        util::serialize(os, m_inventoryPosition);
     }
 
     void Item::unserialize(std::istream & is)
     {
-        // TODO unserialize Item
+        GameObject::unserialize(is);
+        util::unserialize(is, m_inventoryPosition);
     }
 
 } // namespace grid

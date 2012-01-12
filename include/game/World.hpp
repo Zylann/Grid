@@ -65,9 +65,6 @@ namespace grid
         void create()
         {
             clear();
-
-            r_map = new Map();
-            addEntity(r_map);
         }
 
         // Clears all the world's contents to leave it empty

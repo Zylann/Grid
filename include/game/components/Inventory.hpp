@@ -86,6 +86,7 @@ namespace grid
 
         Item * getItem(int x);
         Item * getCurrentItem() { return m_items[m_currentX]; }
+        int getItemAmount() const;
 
         // Adds an item to the first free place in the inventory.
         // Returns true if success, false if no place was found.
@@ -95,7 +96,7 @@ namespace grid
         inline int getCurrentX() const { return m_currentX; }
 
         virtual void serialize(std::ostream & os);
-        virtual void unserialize(std::istream & is);
+        virtual void unserialize(std::istream & is) throw(GameException);
     };
 
 } // namespace grid

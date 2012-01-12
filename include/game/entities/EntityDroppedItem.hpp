@@ -34,7 +34,7 @@ namespace grid
 
     public :
 
-        EntityDroppedItem(Item * item, int ID = -1);
+        EntityDroppedItem(Item * item = NULL, int ID = -1);
 
         virtual ~EntityDroppedItem()
         {
@@ -49,8 +49,15 @@ namespace grid
 
         const Item * getItem() const { return m_item; }
 
+        virtual void updateMe(GameUpdate & up);
+
         virtual int getType() const { return ENT_DROPPED_ITEM; }
         virtual bool isDroppedItem() const { return true; }
+
+    protected :
+
+        virtual void serialize(std::ostream & os);
+        virtual void unserialize(std::istream & is) throw(GameException);
     };
 
 } // namespace grid

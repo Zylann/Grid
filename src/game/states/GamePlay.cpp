@@ -147,7 +147,7 @@ namespace grid
         {
             Entity * spawner = new Entity();
             spawner->addComponent(
-                new RandomSpawner<EntitySentinel>(
+                new RandomSpawner(ENT_SENTINEL,
                     new Circle(Vector2f(), 6), 10.f, 20.f, 1, 3));
 
             Vector2f pos(sf::Randomizer::Random(1.f, 120.f), sf::Randomizer::Random(1.f, 60.f));

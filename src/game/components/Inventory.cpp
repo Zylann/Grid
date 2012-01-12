@@ -167,6 +167,17 @@ namespace grid
         return false;
     }
 
+    int Inventory::getItemAmount() const
+    {
+        int sum = 0;
+        for(unsigned int i = 0; i < m_items.size(); i++)
+        {
+            if(m_items[i] != NULL)
+                sum++;
+        }
+        return sum;
+    }
+
     void Inventory::registerRender(RenderManager & manager)
     {
         Component::registerRender(manager);
@@ -189,15 +200,50 @@ namespace grid
     {
         GameObject::serialize(os);
 
+        // Buffer size
+        util::serialize(os, m_items.size());
+
+        // Selection
         util::serialize(os, m_currentX);
-        // TODO serialize items
+
+        // Item amount
+        util::serialize(os, getItemAmount());
+
+        // Items
+        for(unsigned int i = 0; i < m_items.size(); i++)
+        {
+            Item * item = m_items[i];
+            if(item != NULL)
+            {
+                Item::serializeItem(os, *item);
+            }
+        }
     }
 
-    void Inventory::unserialize(std::istream & is)
+    void Inventory::unserialize(std::istream & is) throw(GameException)
     {
         GameObject::unserialize(is);
 
+        clear();
+
+        // Buffer size
+        unsigned int bufferSize = 0;
+        util::unserialize(is, bufferSize);
+        m_items.resize(bufferSize, NULL);
+
+        // Selection
         util::unserialize(is, m_currentX);
+
+        // Item amount
+        int itemAmount = 0;
+        util::unserialize(is, itemAmount);
+
+        // Items
+        for(unsigned int i = 0; i < m_items.size(); i++)
+        {
+            Item * item = Item::unserializeItem(is);
+            m_items[item->getInventoryPosition()] = item;
+        }
     }
 
 } // namespace grid

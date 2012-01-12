@@ -25,79 +25,43 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/components/RandomEventMaker.hpp"
 #include "utility/Shape.hpp"
 
-#define SPAWNER_MAX_TRYINGS 5
-
 namespace grid
 {
-    // T must be an Entity
-    template <class T>
     class RandomSpawner : public RandomEventMaker
     {
     protected :
 
         util::Shape * m_bounds;
+        int m_entityType;
         int m_minSpawn;
         int m_maxSpawn;
 
     public :
 
-        RandomSpawner(util::Shape * bounds,
+        RandomSpawner(int ID = -1)
+        : RandomEventMaker(0, 0, ID)
+        {
+            m_entityType = -1;
+            m_bounds = NULL;
+            m_minSpawn = 0;
+            m_maxSpawn = 0;
+        }
+
+        RandomSpawner(int entityType, util::Shape * bounds,
             float minInterval, float maxInterval,
             int minSpawn, int maxSpawn, int ID = -1)
         : RandomEventMaker(minInterval, maxInterval, ID)
         {
+            m_entityType = entityType;
             m_bounds = bounds;
             m_minSpawn = minSpawn >= 0 ? minSpawn : 0;
             m_maxSpawn = maxSpawn >= m_minSpawn ? maxSpawn : m_minSpawn;
         }
 
-        virtual void doEvent(World & world)
-        {
-            m_bounds->setPosition(r_owner->pos);
+        virtual void doEvent(World & world);
 
-            int spawnings = sf::Randomizer::Random(m_minSpawn, m_maxSpawn);
-
-            // For each spawn to do
-            for(int i = 0; i < spawnings; i++)
-            {
-                // Create a new entity
-                T * e = new T();
-
-                // Try to spawn it
-                for(int j = 0; j < SPAWNER_MAX_TRYINGS; j++)
-                {
-                    // At a random position into bounds
-                    e->pos = m_bounds->getRandomPoint();
-
-                    // Test if there is collisions at this position
-                    if(!world.isCollisions(e))
-                    {
-                        // If success, spawn e
-                        world.spawnEntity(e);
-                        e = NULL;
-                        break; // And continue to next spawn
-                    }
-                }
-                // If e is not NULL, it means that we didn't found a place to spawn e.
-                if(e != NULL)
-                {
-                    delete e;
-                    e = NULL;
-                }
-            }
-        }
-
-        virtual void serialize(std::ostream & os)
-        {
-            GameObject::serialize(os);
-            // TODO serialize RandomSpawner
-        }
-
-        virtual void unserialize(std::istream & is)
-        {
-            GameObject::unserialize(is);
-
-        }
+        virtual void serialize(std::ostream & os);
+        virtual void unserialize(std::istream & is);
     };
 
 } // namespace grid

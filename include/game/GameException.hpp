@@ -21,6 +21,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef GAMEEXCEPTION_HPP_INCLUDED
 #define GAMEEXCEPTION_HPP_INCLUDED
 
+#include "utility/Exception.hpp"
+
 namespace grid
 {
     class GameException : public util::Exception

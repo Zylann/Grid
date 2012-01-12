@@ -22,7 +22,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ENTITYSENTINEL_HPP_INCLUDED
 
 #include "game/base/Entity.hpp"
-#include "game/PathFinder.hpp"
+//#include "game/PathFinder.hpp"
 
 namespace grid
 {
@@ -30,7 +30,7 @@ namespace grid
     {
     protected :
 
-        PathFinder m_pathFinder;
+        //PathFinder m_pathFinder;
 
     public :
 

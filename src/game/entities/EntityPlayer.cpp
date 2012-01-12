@@ -113,5 +113,19 @@ namespace grid
         Sound::instance().playSound("explosion", 1, 100, pos);
     }
 
+//    /*
+//        Serialization
+//    */
+//
+//    void EntityPlayer::serialize(std::ostream & os)
+//    {
+//        Entity::serialize(os);
+//    }
+//
+//    void EntityPlayer::unserialize(std::istream & is) throw(GameException)
+//    {
+//        Entity::unserialize(is);
+//    }
+
 } // namespace grid
 

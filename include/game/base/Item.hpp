@@ -26,13 +26,22 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/base/Message.hpp"
 #include "game/base/GameObject.hpp"
 #include "game/base/Renderer.hpp"
+
 #include "game/RenderManager.hpp"
+#include "game/GameException.hpp"
 
 namespace grid
 {
     class GameUpdate;
     class Inventory;
     class World;
+
+    enum ItemType
+    {
+        ITM_BALL_SHOOTER = 0,
+        ITM_GRENADE_LAUNCHER,
+        ITM_HEALTH_BONUS
+    };
 
     /*
         An item is any kind of game object that can be stored in an inventory.
@@ -94,12 +103,21 @@ namespace grid
         // (See ItemPicker for more information about how this is performed)
         virtual bool isInstant() const { return false; }
 
+        virtual int getType() const { return -1; }
+
         virtual void update(GameUpdate & up) = 0;
         virtual bool processMessage(Message & msg) = 0;
         virtual void registerRender(RenderManager & manager);
 
         /* Serialization */
 
+        // General part
+        static void serializeItem(std::ostream & os, Item & item);
+        static Item * unserializeItem(std::istream & is) throw(GameException);
+
+    protected :
+
+        // Specific part (polymorphism)
         virtual void serialize(std::ostream & os);
         virtual void unserialize(std::istream & is);
     };

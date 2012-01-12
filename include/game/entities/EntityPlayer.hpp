@@ -39,6 +39,11 @@ namespace grid
         virtual int getType() const { return ENT_PLAYER; }
 
         virtual util::AxisAlignedBB * getBoundingBox();
+
+//    protected :
+//
+//        virtual void serialize(std::ostream & os);
+//        virtual void unserialize(std::istream & is) throw(GameException);
     };
 
 } // namespace grid

@@ -1,6 +1,6 @@
 /*
 Grid
-GrenadeLauncher.hpp
+EntitySpawner.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,32 +18,30 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GRENADELAUNCHER_HPP_INCLUDED
-#define GRENADELAUNCHER_HPP_INCLUDED
+#ifndef ENTITYSPAWNER_HPP_INCLUDED
+#define ENTITYSPAWNER_HPP_INCLUDED
 
-#include "game/items/FireWeapon.hpp"
+#include "game/base/Entity.hpp"
+#include "game/components/RandomSpawner.hpp"
 
 namespace grid
 {
-    class GrenadeLauncher : public FireWeapon
+    class EntitySpawner : public Entity
     {
     public :
 
-        GrenadeLauncher(int ID = -1);
+        EntitySpawner(RandomSpawner * r = NULL, int ID = -1)
+        {
+            if(r != NULL)
+                addComponent(r);
+            else
+                addComponent(new RandomSpawner());
+        }
 
-        virtual Entity * createShot(int ownerID);
-
-        virtual void playShootSound() const;
-
-        virtual int getType() const { return ITM_GRENADE_LAUNCHER; }
-
-        virtual float getShootTime() const;
-        virtual float getRepulsion() const;
-        virtual float getPropulsionSpeed() const;
-        virtual float getDispersion() const;
+        virtual int getType() const { return ENT_SPAWNER; }
     };
 
 } // namespace grid
 
 
-#endif // GRENADELAUNCHER_HPP_INCLUDED
+#endif // ENTITYSPAWNER_HPP_INCLUDED

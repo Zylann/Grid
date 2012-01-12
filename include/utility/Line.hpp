@@ -63,6 +63,20 @@ namespace util
         virtual bool collides(const AxisAlignedBB & B) const;
 
         virtual void print(std::ostream & os);
+
+    protected :
+
+        virtual void serialize(std::ostream & os) const
+        {
+            util::serialize(os, start);
+            util::serialize(os, end);
+        }
+
+        virtual void unserialize(std::istream & is)
+        {
+            util::unserialize(is, start);
+            util::unserialize(is, end);
+        }
     };
 
 } // namespace util

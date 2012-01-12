@@ -81,5 +81,25 @@ namespace grid
         return &( m_boundingBox->set(-0.2, -0.2, 0.2, 0.2).offset(pos.x, pos.y) );
     }
 
+    /*
+        Serialization
+    */
+
+    void EntityGrenade::serialize(std::ostream & os)
+    {
+        Entity::serialize(os);
+
+        util::serialize(os, m_shooterID);
+        util::serialize(os, m_remainingTime);
+    }
+
+    void EntityGrenade::unserialize(std::istream & is) throw(GameException)
+    {
+        Entity::unserialize(is);
+
+        util::unserialize(is, m_shooterID);
+        util::unserialize(is, m_remainingTime);
+    }
+
 } // namespace grid
 

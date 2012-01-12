@@ -68,8 +68,8 @@ namespace grid
             m_world = new World();
 
             Vector2i size(128, 64);
-            Map & map = m_world->getMap();
-            map.create(size);
+            Map * map = new Map(-1, size);
+            m_world->addEntity(map);
         }
     }
 

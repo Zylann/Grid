@@ -83,5 +83,41 @@ namespace util
         //        return b * b - 4 * a * c > 0;
     }
 
+    /*
+        Serialization
+    */
+
+    // Static
+    void Shape::serializeShape(std::ostream & os, Shape & shape)
+    {
+        util::serialize(os, shape.getType());
+        shape.serialize(os);
+    }
+
+    // Static
+    Shape * Shape::unserializeShape(std::istream & is)
+    {
+        int type = 0;
+        util::unserialize(is, type);
+
+        Shape * shape = NULL;
+
+        switch(type)
+        {
+            case SHAPE_BOX : shape = new AxisAlignedBB(); break;
+            case SHAPE_CIRCLE : shape = new Circle(); break;
+            case SHAPE_LINE : shape = new Line(); break;
+
+            default : break;
+        }
+
+        if(shape != NULL)
+            shape->unserialize(is);
+        else
+            std::cout << "WARNING: couldn't create shape from type " << type << std::endl;
+
+        return shape;
+    }
+
 } // namespace util
 

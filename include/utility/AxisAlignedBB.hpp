@@ -26,6 +26,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "common.hpp"
 
 #include "utility/Shape.hpp"
+#include "utility/serialization.hpp"
 
 namespace util
 {
@@ -95,6 +96,20 @@ namespace util
 
         float calculateXOffset(const AxisAlignedBB & other, float motionX);
         float calculateYOffset(const AxisAlignedBB & other, float motionY);
+
+    protected :
+
+        virtual void serialize(std::ostream & os) const
+        {
+            util::serialize(os, minEdge);
+            util::serialize(os, maxEdge);
+        }
+
+        virtual void unserialize(std::istream & is)
+        {
+            util::unserialize(is, minEdge);
+            util::unserialize(is, maxEdge);
+        }
     };
 
 } // namespace util

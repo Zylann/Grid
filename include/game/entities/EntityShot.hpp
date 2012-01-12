@@ -42,6 +42,8 @@ namespace grid
 
         virtual int getType() const { return ENT_SHOT; }
 
+    protected :
+
         virtual void serialize(std::ostream & os);
         virtual void unserialize(std::istream & is);
     };

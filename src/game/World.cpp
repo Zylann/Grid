@@ -99,6 +99,14 @@ namespace grid
         if(e->isPlayer())
             r_mainPlayer = (EntityPlayer*)e;
 
+        // Updating map unicity
+        if(e->getType() == ENT_MAP)
+        {
+            if(r_map != NULL)
+                eraseEntity(r_map->getID());
+            r_map = (Map*)e;
+        }
+
         //std::cout << e->name << " spawned at (" << pos.x << ", " << pos.y << ")" << std::endl;
 
         return e->getID();
@@ -308,11 +316,7 @@ namespace grid
         // Entities
         for(it = m_entities.begin(); it != m_entities.end(); it++)
         {
-            // Entity type
-            util::serialize(os, it->second->getType());
-
-            // Entity data
-            it->second->serialize(os);
+            Entity::serializeEntity(os, *(it->second));
         }
     }
 
@@ -331,50 +335,13 @@ namespace grid
         // Entities
         for(uint32 i = 0; i < nbEntities; i++)
         {
-            /* Creating entity from its type */
-
-            int entityType = -1;
-            util::unserialize(is, entityType);
-
             Entity * e = NULL;
-
-            switch(entityType)
-            {
-                case ENT_MAP :
-                    r_map = new Map();
-                    e = r_map;
-                    break;
-
-                case ENT_PLAYER :
-                    e = new EntityPlayer();
-                    break;
-
-                case ENT_SENTINEL :
-                    e = new EntitySentinel();
-                    break;
-
-                case ENT_SHOCKWAVE :
-                    e = new EntityShockWave();
-                    break;
-
-                case ENT_SHOT :
-                    e = new EntityShockWave();
-                    break;
-
-                default :
-                    std::stringstream ss;
-                    ss << "World::unserialize : "
-                        << "unknown entity type " << entityType;
-                    throw GameException(ss.str());
-                    //break;
-
-            } // end switch(entityType)
 
             /* Unserializing entity */
 
             try
             {
-                e->unserialize(is);
+                e = Entity::unserializeEntity(is);
                 addEntity(e);
             }
             catch(std::exception & e)

@@ -71,9 +71,6 @@ namespace grid
 
         virtual int getType() const { return ENT_MAP; }
 
-        virtual void serialize(std::ostream & os);
-        virtual void unserialize(std::istream & is);
-
         /* Disables movement */
 
         virtual Entity & setPosition(const Vector2f & p_pos) { return *this; }
@@ -82,6 +79,11 @@ namespace grid
         virtual void accelerate(const Vector2f & acc, float delta) {}
         virtual void move(float delta, World & world) {}
         virtual Vector2f move(const Vector2f & motion, World & world) { return Vector2f(); }
+
+    protected :
+
+        virtual void serialize(std::ostream & os);
+        virtual void unserialize(std::istream & is);
     };
 
 } // namespace grid

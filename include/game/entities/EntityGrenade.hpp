@@ -43,6 +43,11 @@ namespace grid
 
         virtual bool isPlayer() const { return false; }
         virtual int getType() const { return ENT_GRENADE; }
+
+    protected :
+
+        virtual void serialize(std::ostream & os);
+        virtual void unserialize(std::istream & is) throw(GameException);
     };
 
 } // namespace grid

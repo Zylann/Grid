@@ -41,6 +41,10 @@ namespace grid
 
         virtual bool isInstant() const { return true; }
 
+        virtual int getType() const { return ITM_HEALTH_BONUS; }
+
+    protected :
+
         virtual void serialize(std::ostream & os);
         virtual void unserialize(std::istream & is);
     };
