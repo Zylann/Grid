@@ -24,6 +24,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/Game.hpp"
 #include "game/GameUpdate.hpp"
 #include "game/Sound.hpp"
+#include "game/entities/EntitySentinel.hpp"
 
 #include "utility/ResourceManager.hpp"
 #include "utility/noise.hpp"
@@ -142,6 +143,7 @@ namespace grid
 
         Vector2f worldPos = r_game->getSceneMouseCoords();
 
+        m_scenePos = worldPos;
         m_mapPos.x = worldPos.x;
         m_mapPos.y = worldPos.y;
 
@@ -198,7 +200,22 @@ namespace grid
 
     bool WorldEditor::mouseRightPressEvent(Vector2i pos)
     {
+        Map & map = m_world->getMap();
+        map.setTerrain(m_mapPos, terrain::Instance());
+        Sound::instance().playSound("editorPlace");
         return true;
+    }
+
+    bool WorldEditor::keyReleaseEvent(sf::Key::Code key, char character)
+    {
+        if(key == sf::Key::S)
+        {
+            EntitySentinel * sentinel = new EntitySentinel();
+            m_world->addEntity(sentinel);
+            Sound::instance().playSound("editorPlace");
+            return true;
+        }
+        return false;
     }
 
     bool WorldEditor::mouseMoveEvent(Vector2i previous, Vector2i current)
@@ -208,7 +225,6 @@ namespace grid
 
     void WorldEditor::leave()
     {
-
     }
 
 } // namespace grid

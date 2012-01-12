@@ -32,6 +32,7 @@ namespace grid
     private :
 
         World * m_world;
+        Vector2f m_scenePos;
         Vector2i m_mapPos;
         Vector2f m_viewCenter;
         terrain::Instance m_terrain;
@@ -64,6 +65,7 @@ namespace grid
         virtual bool mouseLeftPressEvent(Vector2i pos);
         virtual bool mouseRightPressEvent(Vector2i pos);
         virtual bool mouseMoveEvent(Vector2i previous, Vector2i current);
+        virtual bool keyReleaseEvent(sf::Key::Code key, char character = 0);
 
         void quit();
         void saveWorld();
