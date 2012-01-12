@@ -105,6 +105,12 @@ namespace grid
 
         m_world->render(gfx);
 
+        if(!m_pause)
+        {
+            m_target.SetPosition(r_game->getSceneMouseCoords());
+            gfx.draw(m_target);
+        }
+
         gfx.setView(VIEW_INTERFACE);
         if(m_gui->isVisible())
             gfx.draw(*m_gui);
@@ -120,6 +126,15 @@ namespace grid
 
     void GamePlay::enter()
     {
+        if(m_target.GetImage() == NULL)
+        {
+            sf::Image & img = resources::getImage("target");
+            img.SetSmooth(false);
+            m_target.SetImage(img);
+            m_target.SetCenter(img.GetWidth() / 2, img.GetHeight() / 2);
+            m_target.SetScale(1.f / GAME_TILES_SIZE, 1.f / GAME_TILES_SIZE);
+        }
+
         resumeGame();
         init();
     }
@@ -168,6 +183,7 @@ namespace grid
         {
             m_pause = !m_pause;
             m_gui->setVisible(m_pause);
+            r_game->setCursorVisible(true);
         }
 
         // debug
@@ -193,6 +209,7 @@ namespace grid
     {
         m_pause = false;
         m_gui->setVisible(false);
+        r_game->setCursorVisible(false);
     }
 
     void GamePlay::quitGame()

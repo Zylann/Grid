@@ -32,6 +32,7 @@ namespace grid
 
         World * m_world;
         bool m_pause;
+        sf::Sprite m_target;
 
     public :
 
