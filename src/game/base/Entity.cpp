@@ -246,7 +246,7 @@ namespace grid
     {
         if(m_boundingBox != NULL)
         {
-            if(m_boundingBox->collides(box))
+            if(getBoundingBox()->collides(box))
                 collisions.push_back(Collision(this, *m_boundingBox));
         }
     }

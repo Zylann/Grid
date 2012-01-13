@@ -275,15 +275,15 @@ namespace grid
         Vector2i minDiv = m_spaceDivider.toDivisionCoords(e->pos);
         minDiv.x--;
         minDiv.y--;
-        Vector2i maxDiv = minDiv + Vector2i(3, 3);
+        Vector2i maxDiv = minDiv + Vector2i(2, 2);
         std::map<int, Entity*>::const_iterator it;
 		SpaceDivision * div = NULL;
 
 		// Iterating on found divisions :
 		// For performance improvement, we don't look after all entities,
 		// but only those who are in divisions around e.
-        for(divPos.y = minDiv.y; divPos.y < maxDiv.y; divPos.y++)
-        for(divPos.x = minDiv.x; divPos.x < maxDiv.x; divPos.x++)
+        for(divPos.y = minDiv.y; divPos.y <= maxDiv.y; divPos.y++)
+        for(divPos.x = minDiv.x; divPos.x <= maxDiv.x; divPos.x++)
         {
 			div = m_spaceDivider.getDivision(divPos, false);
 
