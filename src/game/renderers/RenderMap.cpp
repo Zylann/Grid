@@ -23,6 +23,32 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
+    RenderMap::RenderMap(int pass, Map * map) : Renderer(pass)
+    {
+        r_map = map;
+        m_renderMinimap = new RenderMinimap(RP_INTERFACE);
+        m_renderMinimap->setMinimapImage(map->getMinimap());
+    }
+
+    void RenderMap::update()
+    {
+        if(r_map == NULL)
+            return;
+
+        m_renderMinimap->setMinimapImage(r_map->getMinimap());
+    }
+
+    void RenderMap::onTerrainChanged(const Vector2i & pos)
+    {
+    }
+
+    void RenderMap::registerRender(RenderManager & renderMgr)
+    {
+        Renderer::registerRender(renderMgr);
+        renderMgr.addRender(m_renderMinimap);
+    }
+
+    // TODO better map rendering
     void RenderMap::render(Graphics & gfx)
     {
         const sf::View & view = gfx.getCurrentView();
@@ -87,7 +113,7 @@ namespace grid
                 ice.SetPosition(pos.x, pos.y);
                 gfx.draw(ice);
             }
-            else
+            else if(t.groundType == terrain::GT_NORMAL && t.blockType != terrain::BT_VOID)
             {
                 ground.SetPosition(pos.x, pos.y);
                 gfx.draw(ground);

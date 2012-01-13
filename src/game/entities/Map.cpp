@@ -23,6 +23,36 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
+    Map::Map(int ID, Vector2i size) : Entity(ID)
+    {
+        name = "map";
+
+        r_renderMap = new RenderMap(RP_BACKGROUND, this);
+        setRenderer(r_renderMap);
+
+        create(size);
+    }
+
+    void Map::create(Vector2i size)
+    {
+        if(size.x > 0 && size.y > 0)
+        {
+            m_data.create(util::Area2D(size));
+            m_minimap.Create(size.x, size.y, sf::Color(0,0,0));
+            m_minimap.SetSmooth(false);
+
+            if(r_renderMap != NULL)
+                r_renderMap->update();
+
+            Vector2i pos;
+            for(pos.y = 0; pos.y < size.y; pos.y++)
+            for(pos.x = 0; pos.x < size.x; pos.x++)
+            {
+                updateMinimap(pos);
+            }
+        }
+    }
+
     terrain::Instance Map::getTerrain(const Vector2i & pos) const
     {
         if(m_data.getArea().valid(pos))
@@ -34,10 +64,14 @@ namespace grid
     void Map::setTerrain(const Vector2i & pos, terrain::Instance t)
     {
         if(!m_data.getArea().valid(pos))
-        {
             return;
-        }
+
         m_data.setNoEx(pos, t);
+
+        updateMinimap(pos);
+
+        if(r_renderMap != NULL)
+            r_renderMap->onTerrainChanged(pos);
     }
 
     void Map::getCollisions(
@@ -65,6 +99,19 @@ namespace grid
                 const terrain::Block & bp = terrain::Block::get(b); // get properties
                 bp.getCollisions(collisions, box, pos);
             }
+        }
+    }
+
+    void Map::updateMinimap(const Vector2i & pos)
+    {
+        terrain::Instance t = getTerrain(pos);
+        if(t.blockType != terrain::BT_EMPTY && t.blockType != terrain::BT_VOID)
+        {
+            m_minimap.SetPixel(pos.x, pos.y, t.getBlock().getMinimapColor());
+        }
+        else if(t.groundType != terrain::GT_VOID)
+        {
+            m_minimap.SetPixel(pos.x, pos.y, t.getGround().getMinimapColor());
         }
     }
 
@@ -114,7 +161,10 @@ namespace grid
         {
             t.unserialize(is);
             m_data.setNoEx(pos, t);
+            updateMinimap(pos);
         }
+        if(m_renderer != NULL)
+            m_renderer->update();
     }
 
 } // namespace grid

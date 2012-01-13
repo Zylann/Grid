@@ -1,6 +1,6 @@
 /*
 Grid
-RenderMap.hpp
+RenderMinimap.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,41 +18,36 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef RENDERMAP_HPP_INCLUDED
-#define RENDERMAP_HPP_INCLUDED
+#ifndef RENDERMINIMAP_HPP_INCLUDED
+#define RENDERMINIMAP_HPP_INCLUDED
 
+#include "common.hpp"
 #include "game/base/Renderer.hpp"
-#include "game/renderers/RenderMinimap.hpp"
 
 namespace grid
 {
-    class Map;
-
-    class RenderMap : public Renderer
+    class RenderMinimap : public Renderer
     {
     protected :
 
-        Map * r_map;
-        RenderMinimap * m_renderMinimap;
+        sf::Sprite m_minimap;
+        sf::Shape m_borders;
+        sf::Shape m_viewRect;
 
     public :
 
-        RenderMap(int pass, Map * map);
+        RenderMinimap(int pass);
 
-        virtual ~RenderMap()
-        {
-            delete m_renderMinimap;
-        }
+        virtual ~RenderMinimap()
+        {}
 
         virtual void update();
 
-        void onTerrainChanged(const Vector2i & pos);
-
+        void setMinimapImage(const sf::Image & img);
         virtual void render(Graphics & gfx);
-        virtual void registerRender(RenderManager & renderMgr);
     };
 
 } // namespace grid
 
 
-#endif // RENDERMAP_HPP_INCLUDED
+#endif // RENDERMINIMAP_HPP_INCLUDED

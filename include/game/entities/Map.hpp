@@ -36,28 +36,20 @@ namespace grid
     private :
 
         util::Buffer2D<terrain::Instance> m_data;
+        sf::Image m_minimap;
         RenderMap * r_renderMap;
 
     public :
 
-        Map(int ID = -1, Vector2i size = Vector2i()) : Entity(ID)
-        {
-            name = "map";
+        Map(int ID = -1, Vector2i size = Vector2i());
 
-            r_renderMap = new RenderMap(RP_BACKGROUND, this);
-            setRenderer(r_renderMap);
-
-            create(size);
-        }
-
-        void create(Vector2i size)
-        {
-            if(size.x != 0 && size.y != 0)
-                m_data.create(util::Area2D(size));
-        }
+        void create(Vector2i size);
 
         terrain::Instance getTerrain(const Vector2i & pos) const;
         void setTerrain(const Vector2i & pos, terrain::Instance t);
+        void updateMinimap(const Vector2i & pos);
+        const sf::Image & getMinimap() const { return m_minimap; }
+
         const Vector2i & getSize() const { return m_data.getArea().getSize(); }
         bool contains(const Vector2i & pos) const { return m_data.getArea().valid(pos); }
 
