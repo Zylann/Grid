@@ -33,8 +33,8 @@ namespace grid
 
         if(button.isEnabled())
         {
-            color.r = 0;
-            color.g = 0;
+            color.r = 192;
+            color.g = 192;
             color.b = 255;
 
             if(button.isHovered())
@@ -49,7 +49,8 @@ namespace grid
     {
         Vector2i A = frame.getPositionAbsolute();
         Vector2i B = A + frame.getSize();
-        screen.Draw(sf::Shape::Rectangle(A.x, A.y, B.x, B.y, sf::Color(0,0,128,192)));
+        screen.Draw(sf::Shape::Rectangle(
+            A.x, A.y, B.x, B.y, sf::Color(128,128,128,128), 4, sf::Color(192,192,255,224)));
     }
 
     void GuiTheme::playButtonHoverSound()
