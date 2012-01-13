@@ -30,6 +30,15 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace util
 {
+    void adaptFilePath(std::string & path)
+    {
+        for(unsigned int i = 0; i < path.size(); i++)
+        {
+            if(path[i] == '/' || path[i] == '\\')
+                path[i] = FS_DIR_CHAR;
+        }
+    }
+
 #if defined(WIN32) || defined(WIN64) // Windows
 
     bool isPathExists(std::string path)

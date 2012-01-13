@@ -61,8 +61,8 @@ namespace util
                 {
                     adaptFilePath(directory);
                     const int i = directory.size() - 1;
-                    if(directory[i] != DIR_SYM)
-                        directory += DIR_SYM;
+                    if(directory[i] != FS_DIR_CHAR)
+                        directory += FS_DIR_CHAR;
                 }
                 continue;
             }

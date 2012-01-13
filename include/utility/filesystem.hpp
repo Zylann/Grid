@@ -23,7 +23,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
-#include "System/FileSysPath.hpp"
+#include "utility/FileSysPath.hpp"
 
 namespace util
 {
@@ -46,6 +46,8 @@ namespace util
             }
         }
     };
+
+    void adaptFilePath(std::string & path);
 
     // get files and directories of a directory (just names)
     bool getDirContent(DirContent& content, std::string dirPath);
