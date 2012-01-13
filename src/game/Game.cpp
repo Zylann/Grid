@@ -68,6 +68,7 @@ namespace grid
 
         // Creating debug display
         m_debugDisplay = new DebugDisplay();
+        m_debugDisplay->enable(false);
 
         r_currentState = NULL;
         m_runFlag = false;
