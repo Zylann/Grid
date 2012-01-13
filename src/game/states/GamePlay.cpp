@@ -183,7 +183,7 @@ namespace grid
         {
             m_pause = !m_pause;
             m_gui->setVisible(m_pause);
-            r_game->setCursorVisible(true);
+            r_game->setCursorVisible(m_pause);
         }
 
         // debug
