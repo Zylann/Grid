@@ -39,6 +39,7 @@ namespace grid
         {
             for(it = r_renders[i].begin(); it != r_renders[i].end(); it++)
             {
+                gfx.setView((*it)->getViewID());
                 (*it)->render(gfx);
                 //renderCount++;
             }

@@ -56,6 +56,7 @@ namespace grid
         void setView(int viewID);
         void setGameViewCenter(const Vector2f & pos);
         const sf::View & getCurrentView() const;
+        const sf::View & getView(int viewID) const;
 
         void onScreenSizeChange();
     };

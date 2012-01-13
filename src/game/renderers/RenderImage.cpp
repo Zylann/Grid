@@ -31,8 +31,13 @@ namespace grid
         m_bindRotation = true;
         m_bindScale = true;
         m_sprite.SetImage(img);
+
         m_sprite.SetCenter(img.GetWidth() / 2, img.GetHeight() / 2);
-        m_sprite.SetScale(1.f / GAME_TILES_SIZE, 1.f / GAME_TILES_SIZE);
+
+        if(pass != RP_INTERFACE)
+        {
+            m_sprite.SetScale(1.f / GAME_TILES_SIZE, 1.f / GAME_TILES_SIZE);
+        }
     }
 
     void RenderImage::setColor(const sf::Color & color)

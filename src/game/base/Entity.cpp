@@ -215,6 +215,10 @@ namespace grid
 
     Vector2f Entity::move(const Vector2f & motion, World & world)
     {
+        // Don't make move computations if the motion is ignorable
+        if(util::isZero(motion.x) && util::isZero(motion.y))
+            return Vector2f();
+
         if(r_physics != NULL)
             return r_physics->moveEntity(motion, world);
         else
@@ -250,7 +254,7 @@ namespace grid
     void Entity::registerRender(RenderManager & manager)
     {
         if(m_renderer != NULL)
-            manager.addRender(m_renderer);
+            m_renderer->registerRender(manager);
 
         std::list<Component*>::iterator it;
         for(it = m_components.begin(); it != m_components.end(); it++)

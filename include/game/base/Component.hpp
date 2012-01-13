@@ -98,7 +98,7 @@ namespace grid
         virtual void registerRender(RenderManager & manager)
         {
             if(m_renderer != NULL)
-                manager.addRender(m_renderer);
+                m_renderer->registerRender(manager);
         }
     };
 

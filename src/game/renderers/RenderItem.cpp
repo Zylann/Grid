@@ -39,8 +39,8 @@ namespace grid
     void RenderItem::render(Graphics & gfx)
     {
         Vector2f invPos = RenderInventory::getInventoryPosition(gfx);
-        invPos.x += 0.5 + r_item->getInventoryPosition();
-        invPos.y += 0.5;
+        invPos.x += GAME_TILES_SIZE * (0.5 + r_item->getInventoryPosition());
+        invPos.y += GAME_TILES_SIZE * 0.5;
         m_sprite.SetPosition(invPos);
         gfx.draw(m_sprite);
     }

@@ -64,7 +64,7 @@ namespace grid
         addComponent(new Physics());
 
         Health * health = new Health(500, 500, true); // true : invalidate on death
-        RenderHealth * rh = new RenderHealth(health, RP_INTERFACE);
+        RenderHealth * rh = new RenderHealth(health, RP_SCENE_INTERFACE);
         rh->setEntity(this);
         health->setRenderer(rh);
         addComponent(health);

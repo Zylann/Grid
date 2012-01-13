@@ -20,9 +20,25 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/base/Entity.hpp"
 #include "game/base/Renderer.hpp"
+#include "game/RenderManager.hpp"
 
 namespace grid
 {
+    Renderer::Renderer(int pass)
+    {
+        m_pass = pass;
+        r_entity = NULL;
+        m_viewID = VIEW_GAME;
+
+        if(pass == RP_INTERFACE)
+            m_viewID = VIEW_INTERFACE;
+    }
+
+    void Renderer::registerRender(RenderManager & renderMgr)
+    {
+        renderMgr.addRender(this);
+    }
+
     void Renderer::renderBoundingBox(Graphics & gfx)
     {
         util::AxisAlignedBB * boxPtr = r_entity->getBoundingBox();

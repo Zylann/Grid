@@ -49,15 +49,14 @@ namespace grid
     {
         static int instanceCount = 1;
         std::stringstream ss;
-        ss << "sentinel_" << instanceCount;
-        name = ss.str();
+        name = "sentinel";
         instanceCount++;
 
         addComponent(new BotController());
         addComponent(new Physics());
 
         Health * health = new Health(75, 75, true); // true : invalidate on death
-        RenderHealth * renderHealth = new RenderHealth(health, RP_INTERFACE, true);
+        RenderHealth * renderHealth = new RenderHealth(health, RP_SCENE_INTERFACE, true);
         renderHealth->setEntity(this);
         health->setRenderer(renderHealth);
         addComponent(health);

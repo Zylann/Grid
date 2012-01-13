@@ -102,7 +102,7 @@ namespace grid
         m_gameView.Zoom(k * m_gameTilesSize);
 
         // Updating interface view
-        m_interfaceView.SetFromRect(sf::FloatRect(0, 0, screenSize.x, screenSize.y));
+        m_interfaceView.SetFromRect(sf::FloatRect(0, 0, screenSize.x / k, screenSize.y / k));
     }
 
     const sf::View & Graphics::getCurrentView() const
@@ -113,6 +113,14 @@ namespace grid
             return m_interfaceView;
         else
             return r_screen.GetDefaultView();
+    }
+
+    const sf::View & Graphics::getView(int viewID) const
+    {
+        if(viewID == VIEW_GAME)
+            return m_gameView;
+        else
+            return m_interfaceView;
     }
 
 } // namespace grid

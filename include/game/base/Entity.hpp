@@ -102,10 +102,10 @@ namespace grid
         std::list<Component*> m_nextComponents;
         Physics * r_physics;
 
+    protected :
+
         // How to draw the entity
         Renderer * m_renderer;
-
-    protected :
 
         // Shape used for collisions (currently a bounding box)
         util::AxisAlignedBB * m_boundingBox;
@@ -219,7 +219,7 @@ namespace grid
         // Renders the entity (not currently used)
         void render(Graphics & gfx);
 
-        void registerRender(RenderManager & manager);
+        virtual void registerRender(RenderManager & manager);
 
         // Used for serialization
         virtual int getType() const { return -1; }

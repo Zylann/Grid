@@ -32,6 +32,7 @@ namespace grid
         RP_EVENTS,
         RP_EFFECTS,
         RP_FOREGROUND,
+        RP_SCENE_INTERFACE,
         RP_INTERFACE,
 
         RP_COUNT // Keep last
@@ -39,6 +40,7 @@ namespace grid
 
     class Entity;
     class GameUpdate;
+    class RenderManager;
 
     class Renderer
     {
@@ -46,28 +48,24 @@ namespace grid
 
         Entity * r_entity;
         int m_pass;
+        int m_viewID;
         bool m_valid;
 
     public :
 
-        Renderer(int pass)
-        {
-            m_pass = pass;
-            r_entity = NULL;
-        }
+        Renderer(int pass);
 
         virtual ~Renderer()
         {}
 
-        virtual void setEntity(Entity * e)
-        {
-            r_entity = e;
-        }
+        virtual void setEntity(Entity * e) { r_entity = e; }
 
-        inline int getPass() { return m_pass; }
+        inline int getPass() const { return m_pass; }
+        inline int getViewID() const { return m_viewID; }
 
         virtual void update() = 0;
         virtual void render(Graphics & gfx) = 0;
+        virtual void registerRender(RenderManager & renderMgr);
 
         virtual void setColor(const sf::Color & color) {}
         virtual void setBlendMode(sf::Blend::Mode mode) {}

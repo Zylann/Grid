@@ -29,7 +29,7 @@ namespace grid
 
         const int size = r_inventory->getSize();
         sf::Shape * rect = new sf::Shape( sf::Shape::Rectangle(
-            0, 0, size, 1, sf::Color(0,0,0,64), 0.1, sf::Color(255,255,255,192)));
+            0, 0, size, 1, sf::Color(0,0,0,192), 0.1, sf::Color(255,255,255,192)));
 
         m_back.addShape(rect);
 
@@ -41,6 +41,9 @@ namespace grid
 
         m_selection = sf::Shape::Rectangle(
             0, 0, 1, 1, sf::Color(0,0,0,0), 0.1, sf::Color(255,255,0,192));
+
+        m_back.setScale(GAME_TILES_SIZE);
+        m_selection.SetScale(GAME_TILES_SIZE, GAME_TILES_SIZE);
     }
 
     void RenderInventory::setBlendMode(sf::Blend::Mode mode)
@@ -84,8 +87,8 @@ namespace grid
     Vector2f RenderInventory::getInventoryPosition(Graphics & gfx)
     {
         Vector2f pos = gfx.getCurrentView().GetCenter();
-        pos.x -= (float)(PLAYER_INVENTORY_SIZE) / 2.f;
-        pos.y = gfx.getCurrentView().GetRect().Bottom - 1.4f;
+        pos.x -= GAME_TILES_SIZE * (float)(PLAYER_INVENTORY_SIZE) / 2.f;
+        pos.y = gfx.getCurrentView().GetRect().Bottom - 1.4f * GAME_TILES_SIZE;
         return pos;
     }
 
