@@ -171,6 +171,7 @@ namespace grid
 
         const Vector2i & mapSize = m_world->getMap().getSize();
 
+        gfx.setView(VIEW_GAME);
         // Current cell
         if(m_mapPos.x >= 0 && m_mapPos.y >= 0 &&
            m_mapPos.x < mapSize.x && m_mapPos.y < mapSize.y)
@@ -178,7 +179,7 @@ namespace grid
             gfx.draw(sf::Shape::Rectangle(
                 m_mapPos.x, m_mapPos.y,
                 m_mapPos.x + 1, m_mapPos.y + 1,
-                sf::Color(0,0,0,0), 0.1, sf::Color(255,255,255,128)));
+                sf::Color(0,0,0,0), 0.01, sf::Color(255,255,255,128)));
         }
 
         // Map range
@@ -248,6 +249,11 @@ namespace grid
 
     void WorldEditor::leave()
     {
+        if(m_world != NULL)
+        {
+            delete m_world;
+            m_world = NULL;
+        }
     }
 
 } // namespace grid
