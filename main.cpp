@@ -19,11 +19,16 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 // TODO add ingame console module (chat, commands...)
-// TODO improve GUI
+// TODO improve GUI with listviews, sliders, checkboxes, auto-alignment...
 // TODO add world selector (game state WorldSelector)
-// TODO add a Player class with informations like lives, points, last death position, stats etc...
+// TODO add a Player class with informations like lives, score, last death position, score etc...
+// TODO add a beginning and an end to worlds
+// TODO add an undroppable default weapon to players,
+//      to give them a chance to win even if they are disarmed... :D
+// TODO add fullscreen
 
-// SUGG make a fast generic entity system, because the current one depends on inheriting C++ classes
+// SUGG make a fast generic entity system, because the current one depends on inheriting C++ classes.
+//      maybe use a script language to do that (AngelScript? Lua? Python?)
 
 #include <iostream>
 #include <cstdio>
