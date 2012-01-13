@@ -112,11 +112,13 @@ namespace terrain
 
         unsigned char m_typeID;
         std::string m_name;
+        sf::Color m_minimapColor;
 
     public :
 
         const std::string & getName() const { return m_name; }
         const unsigned char getTypeID() const { return m_typeID; }
+        const sf::Color & getMinimapColor() const { return m_minimapColor; }
 
     protected :
 
@@ -166,6 +168,12 @@ namespace terrain
         Ground & setName(const std::string & name)
         {
             m_name = name;
+            return *this;
+        }
+
+        Ground & setMinimapColor(const sf::Color & col)
+        {
+            m_minimapColor = col;
             return *this;
         }
     };
@@ -222,6 +230,12 @@ namespace terrain
         Block & setCrossable(bool c)
         {
             m_crossable = c;
+            return *this;
+        }
+
+        Block & setMinimapColor(const sf::Color & col)
+        {
+            m_minimapColor = col;
             return *this;
         }
     };

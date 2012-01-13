@@ -84,9 +84,18 @@ namespace terrain
         for(unsigned int i = 0; i < GT_COUNT; i++)
             g_grounds[i] = NULL;
 
-        setGround(new Ground(GT_VOID)).setName("void_ground");
-        setGround(new Ground(GT_NORMAL)).setName("normal_ground");
-        setGround(new Ground(GT_ICE)).setName("ice_ground").setSlipperiness(0.8);
+        setGround(new Ground(GT_VOID))
+            .setName("void_ground")
+            .setMinimapColor(sf::Color(0, 0, 0));
+
+        setGround(new Ground(GT_NORMAL))
+            .setName("normal_ground")
+            .setMinimapColor(sf::Color(64, 64, 64));
+
+        setGround(new Ground(GT_ICE))
+            .setName("ice_ground")
+            .setSlipperiness(0.8)
+            .setMinimapColor(sf::Color(0, 192, 192));
         //...
     }
 
@@ -129,10 +138,21 @@ namespace terrain
         for(unsigned int i = 0; i < BT_COUNT; i++)
             g_blocks[i] = NULL;
 
-        setBlock(new Block(BT_VOID)).setName("void_block").setCrossable(false);
-        setBlock(new Block(BT_EMPTY)).setName("empty_block").setCrossable(true);
-        setBlock(new Block(BT_WALL)).setName("wall").setCrossable(false);
-        setBlock(new Block(BT_DIRT)).setName("dirt").setCrossable(false);
+        setBlock(new Block(BT_VOID))
+            .setName("void_block").setCrossable(false)
+            .setMinimapColor(sf::Color(0, 0, 0));
+
+        setBlock(new Block(BT_EMPTY))
+            .setName("empty_block").setCrossable(true)
+            .setMinimapColor(sf::Color(0, 0, 0));
+
+        setBlock(new Block(BT_WALL))
+            .setName("wall").setCrossable(false)
+            .setMinimapColor(sf::Color(128, 128, 64));
+
+        setBlock(new Block(BT_DIRT))
+            .setName("dirt").setCrossable(false)
+            .setMinimapColor(sf::Color(128, 64, 32));
         //...
     }
 
