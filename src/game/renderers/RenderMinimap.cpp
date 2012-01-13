@@ -65,9 +65,6 @@ namespace grid
         gfx.draw(m_borders);
         gfx.draw(m_minimap);
         gfx.draw(m_viewRect);
-
-        // Draw main player position
-        // TODO
     }
 
 } // namespace grid

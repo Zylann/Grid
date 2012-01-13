@@ -119,7 +119,7 @@ namespace util
 
     void getDirContent(std::vector<FileSysNode> nodes, std::string dirPath)
     {
-        // TODO PORTING getDirContent for Linux POSIX
+        // TODO getDirContent for Linux POSIX
     }
 
 #endif

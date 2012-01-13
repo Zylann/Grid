@@ -1,3 +1,30 @@
+/*
+Grid
+PathFinder.hpp
+
+Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// TODO add ingame console module (chat, commands...)
+// TODO improve GUI
+// TODO add world selector (game state WorldSelector)
+// TODO add a Player class with informations like lives, points, last death position, stats etc...
+
+// SUGG make a fast generic entity system, because the current one depends on inheriting C++ classes
+
 #include <iostream>
 #include <cstdio>
 #include <cmath>
@@ -13,11 +40,13 @@ int main()
     std::cout << "Main begin" << std::endl;
 
     int exitCode = 0;
+
+    // Game creation
     grid::Game * g = new grid::Game();
 
     try
     {
-        g->run();
+        g->run(); // Game running
     }
     catch(std::exception & e)
     {
@@ -29,6 +58,7 @@ int main()
         exitCode = -1;
     }
 
+    // Game deletion
     delete g;
 
     std::cout << "Main end" << std::endl;
