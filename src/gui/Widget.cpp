@@ -38,14 +38,12 @@ namespace gui
             onHide();
 
         m_visible = visible;
-        enable(m_visible); // FIXME if we want the widget disabled, it will be enabled on next show...
     }
 
     void Widget::setHovered(bool h)
     {
         if(!m_hovered && h)
             onHover();
-
         m_hovered = h;
     }
 
@@ -53,8 +51,14 @@ namespace gui
     {
         if(!m_pressed && p)
             onPress();
-
         m_pressed = p;
+    }
+
+    void Widget::setFocused(bool f)
+    {
+        if(!m_focused && f)
+            onFocus();
+        m_focused = f;
     }
 
     const Vector2i Widget::getPositionAbsolute() const

@@ -37,6 +37,7 @@ namespace gui
         bool m_hovered; // is the cursor over the widget ?
         bool m_pressed; // is the widget activated by click or keypress ?
         bool m_visible; // is the widget visible ?
+        bool m_focused; // is the widget receives keyboard events ?
 
         // Parent
         Widget * r_parent;
@@ -48,6 +49,7 @@ namespace gui
             m_hovered = false;
             m_pressed = false;
             r_parent = parent;
+            m_focused = false;
             setGeometry(x, y, w, h);
         }
 
@@ -62,16 +64,18 @@ namespace gui
         inline bool isHovered() const { return m_hovered; }
         inline bool isPressed() const { return m_pressed; }
         inline bool isVisible() const { return m_visible; }
+        inline bool isFocused() const { return m_focused; }
 
-        // Note : setting a widget invisible also disables it
         void setVisible(bool visible);
         void setHovered(bool h);
         void setPressed(bool p);
+        void setFocused(bool f);
 
         virtual void onShow() {};
         virtual void onHide() {};
         virtual void onHover() {};
         virtual void onPress() {};
+        virtual void onFocus() {};
 
         /* Geometry */
 
