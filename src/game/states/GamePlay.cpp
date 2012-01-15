@@ -59,7 +59,8 @@ namespace grid
 
     void GamePlay::createGui()
     {
-        m_gui = new gui::Frame(100, 100, 600, 400);
+        m_gui = new gui::WidgetContainer(0,0,800,600);
+        gui::Frame * frame = new gui::Frame(100, 100, 600, 400);
 
         const sf::Font & font = resources::getFont("monofont");
 
@@ -69,10 +70,12 @@ namespace grid
         gui::Button * quitBtn = new gui::Button(100, 130, 300, 24, "Quit game", font);
         quitBtn->setAction(new gui::Action<GamePlay>(this, &GamePlay::quitGame));
 
-        m_gui->addChild(resumeBtn);
-        m_gui->addChild(quitBtn);
+        frame->addChild(resumeBtn);
+        frame->addChild(quitBtn);
 
+        m_gui->addChild(frame);
         m_gui->setVisible(false);
+        m_gui->enable(false);
     }
 
     void GamePlay::update(GameUpdate & up)
@@ -183,6 +186,7 @@ namespace grid
         {
             m_pause = !m_pause;
             m_gui->setVisible(m_pause);
+            m_gui->enable(m_pause);
             r_game->setCursorVisible(m_pause);
         }
 

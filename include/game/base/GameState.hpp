@@ -47,7 +47,7 @@ namespace grid
     protected :
 
         int m_ID;
-        gui::Frame * m_gui;
+        gui::WidgetContainer * m_gui;
         Game * r_game;
 
     public :
@@ -76,7 +76,7 @@ namespace grid
 
         virtual bool onEvent(const sf::Event & e, const Vector2i & mouse);
 
-        gui::Frame * getGui() { return m_gui; }
+        gui::WidgetContainer * getGui() { return m_gui; }
 
         // Returns true if the gui is builded and active
         bool isGuiOpened();

@@ -39,7 +39,8 @@ namespace grid
 {
     void WorldEditor::createGui()
     {
-        m_gui = new gui::Frame(0, 0, 800, 60);
+        m_gui = new gui::WidgetContainer(0,0,800,600);
+        gui::Frame * frame = new gui::Frame(0, 0, 800, 60);
 
         const sf::Font & font = resources::getFont("monofont");
 
@@ -52,9 +53,11 @@ namespace grid
         gui::Button * genBtn = new gui::Button(230, 10, 100, 24, "Generate", font);
         genBtn->setAction(new gui::Action<WorldEditor>(this, &WorldEditor::generateMap));
 
-        m_gui->addChild(quitBtn);
-        m_gui->addChild(saveBtn);
-        m_gui->addChild(genBtn);
+        frame->addChild(quitBtn);
+        frame->addChild(saveBtn);
+        frame->addChild(genBtn);
+
+        m_gui->addChild(frame);
     }
 
     void WorldEditor::enter()
@@ -147,6 +150,17 @@ namespace grid
         m_mapPos.x = worldPos.x;
         m_mapPos.y = worldPos.y;
 
+        if(input.IsMouseButtonDown(sf::Mouse::Left))
+        {
+            Map & map = m_world->getMap();
+            map.setTerrain(m_mapPos, m_terrain);
+        }
+        else if(input.IsMouseButtonDown(sf::Mouse::Right))
+        {
+            Map & map = m_world->getMap();
+            map.setTerrain(m_mapPos, terrain::Instance());
+        }
+
         float speed = 15.f;
         if(input.IsKeyDown(sf::Key::Q))
             m_viewCenter.x -= speed * up.delta;
@@ -160,8 +174,6 @@ namespace grid
 
     void WorldEditor::render(Graphics & gfx)
     {
-//        const sf::Input & input = r_game->getInput();
-
         gfx.setView(VIEW_GAME);
         gfx.setGameViewCenter(m_viewCenter);
         gfx.drawGrid();
@@ -193,18 +205,14 @@ namespace grid
 
     bool WorldEditor::mouseLeftPressEvent(Vector2i pos)
     {
-        Map & map = m_world->getMap();
-        map.setTerrain(m_mapPos, m_terrain);
         Sound::instance().playSound("editorPlace");
         return true;
     }
 
     bool WorldEditor::mouseRightPressEvent(Vector2i pos)
     {
-        Map & map = m_world->getMap();
-        map.setTerrain(m_mapPos, terrain::Instance());
         Sound::instance().playSound("editorPlace");
-        return true;
+        return false;
     }
 
     bool WorldEditor::mouseWheelUpEvent()

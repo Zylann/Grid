@@ -23,6 +23,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/GuiTheme.hpp"
 
 #include "gui/Button.hpp"
+#include "gui/TextBar.hpp"
 
 #include "utility/ResourceManager.hpp"
 
@@ -36,7 +37,8 @@ namespace grid
         if(m_gui == NULL)
             gui::Theme::setTheme(new GuiTheme());
 
-        m_gui = new gui::Frame(100, 100, 600, 400);
+        m_gui = new gui::WidgetContainer(0,0,800,600);
+        gui::Frame * frame = new gui::Frame(100, 100, 600, 400);
 
         const sf::Font & font = resources::getFont("monofont");
 
@@ -49,9 +51,13 @@ namespace grid
         gui::Button * quitBtn = new gui::Button(100, 160, 300, 24, "Quit game", font);
         quitBtn->setAction(new gui::Action<Game>(r_game, &Game::quit));
 
-        m_gui->addChild(startBtn);
-        m_gui->addChild(editorBtn);
-        m_gui->addChild(quitBtn);
+        frame->addChild(new gui::TextBar(10, 300, 400, 24, font));
+
+        frame->addChild(startBtn);
+        frame->addChild(editorBtn);
+        frame->addChild(quitBtn);
+
+        m_gui->addChild(frame);
     }
 
     void MainMenu::startGame()
@@ -71,10 +77,6 @@ namespace grid
 
     void MainMenu::update(GameUpdate & up)
     {
-        const sf::Input & input = up.game->getInput();
-
-        if(input.IsKeyDown(sf::Key::Return))
-            startGame();
     }
 
     void MainMenu::render(Graphics & gfx)
