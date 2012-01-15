@@ -49,8 +49,38 @@ namespace grid
     {
         Vector2i A = frame.getPositionAbsolute();
         Vector2i B = A + frame.getSize();
+
+        sf::Color back(128,128,128,128);
+        sf::Color border(192,192,255,224);
+
+        if(!frame.isEnabled())
+        {
+            border = back;
+        }
+
+        screen.Draw(sf::Shape::Rectangle(A.x, A.y, B.x, B.y, back, 4, border));
+    }
+
+    void GuiTheme::renderTextBar(TextBar & textBar, sf::RenderWindow & screen)
+    {
+        Vector2i A = textBar.getPositionAbsolute();
+        Vector2i B = A + textBar.getSize();
         screen.Draw(sf::Shape::Rectangle(
-            A.x, A.y, B.x, B.y, sf::Color(128,128,128,128), 4, sf::Color(192,192,255,224)));
+            A.x, A.y, B.x, B.y, sf::Color(0,0,0,128), 4, sf::Color(192,192,255,224)));
+
+        if(textBar.isFocused())
+        {
+            int caretIndex = textBar.getCaretPosition();
+            const sf::String & renderText = textBar.getRenderText();
+
+            Vector2f caretPos1 = renderText.GetCharacterPos(caretIndex);
+            caretPos1.x += A.x;
+            caretPos1.y += A.y;
+            Vector2f caretPos2 = caretPos1;
+            caretPos2.y += renderText.GetRect().GetHeight();
+
+            screen.Draw(sf::Shape::Line(caretPos1, caretPos2, 2, sf::Color(255,0,0)));
+        }
     }
 
     void GuiTheme::playButtonHoverSound()

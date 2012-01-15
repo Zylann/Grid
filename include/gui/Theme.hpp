@@ -23,6 +23,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gui/Button.hpp"
 #include "gui/Frame.hpp"
+#include "gui/TextBar.hpp"
 
 namespace gui
 {
@@ -36,13 +37,14 @@ namespace gui
         virtual ~Theme()
         {}
 
-        // Note : at the moment, there are only one theme
+        // Note : at the moment, there is only one theme
         static void setTheme(Theme * newTheme);
         static Theme & getTheme();
         static void freeThemes();
 
         virtual void renderButton(Button & button, sf::RenderWindow & screen);
         virtual void renderFrame(Frame & frame, sf::RenderWindow & screen);
+        virtual void renderTextBar(TextBar & textBar, sf::RenderWindow & screen) {}
 
         virtual void playButtonHoverSound() {}
         virtual void playButtonPressSound() {}
