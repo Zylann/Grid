@@ -6,6 +6,7 @@ old code/
 releases/
 resources/
 worlds/
+screenshots/
 *.zip
 *.depend
 *.layout
