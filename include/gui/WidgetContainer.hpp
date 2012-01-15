@@ -1,6 +1,6 @@
 /*
 Grid
-Frame.hpp
+WidgetContainer.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,31 +18,42 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef FRAME_HPP_INCLUDED
-#define FRAME_HPP_INCLUDED
+#ifndef WIDGETCONTAINER_HPP_INCLUDED
+#define WIDGETCONTAINER_HPP_INCLUDED
 
-#include "gui/WidgetContainer.hpp"
+#include <list>
+
+#include "gui/Widget.hpp"
 
 namespace gui
 {
-    class Frame : public WidgetContainer
+    class WidgetContainer : public Widget
     {
+    protected :
+
+        std::list<Widget*> m_children;
+
     public :
 
-        Frame(int x, int y, int w, int h, Widget* parent = NULL)
-        : WidgetContainer(x, y, w, h, parent)
+        WidgetContainer(int x, int y, int w, int h, Widget* parent = NULL)
+        : Widget(x, y, w, h, parent)
         {}
 
-        virtual ~Frame()
-        {}
-
-        virtual void onShow();
-        virtual void onHide();
+        virtual ~WidgetContainer()
+        {
+            std::list<Widget*>::iterator it;
+            for(it = m_children.begin(); it != m_children.end(); it++)
+                delete (*it);
+        }
 
         virtual void render(sf::RenderWindow & screen);
+
+        void addChild(Widget * widget);
+
+        virtual bool onEvent(const sf::Event & e, const Vector2i & mousePos);
     };
 
 } // namespace gui
 
 
-#endif // FRAME_HPP_INCLUDED
+#endif // WIDGETCONTAINER_HPP_INCLUDED

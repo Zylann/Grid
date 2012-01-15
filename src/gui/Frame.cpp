@@ -23,37 +23,6 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace gui
 {
-    void Frame::addChild(Widget * widget)
-    {
-        if(widget->getParent() == NULL)
-        {
-            widget->setParent(this);
-            m_children.push_back(widget);
-        }
-        else
-        {
-            std::cout << "ERROR: Frame::addChild:"
-                << "cannot add a children that have already a parent" << std::endl;
-            delete widget;
-        }
-    }
-
-    // Virtual
-    bool Frame::onEvent(const sf::Event & e, const Vector2i & mousePos)
-    {
-        if(!isEnabled())
-            return false;
-
-        // Children
-        std::list<Widget*>::iterator it;
-        for(it = m_children.begin(); it != m_children.end(); it++)
-        {
-            if((*it)->onEvent(e, mousePos))
-                return true;
-        }
-        return EventListener::onEvent(e, mousePos);;
-    }
-
     void Frame::onShow()
     {
         Theme::getTheme().playShowFrameSound();
@@ -71,11 +40,7 @@ namespace gui
         Theme::getTheme().renderFrame(*this, screen);
 
         // Render children
-        std::list<Widget*>::iterator it;
-        for(it = m_children.begin(); it != m_children.end(); it++)
-        {
-            (*it)->render(screen);
-        }
+        WidgetContainer::render(screen);
     }
 
 } // namespace gui
