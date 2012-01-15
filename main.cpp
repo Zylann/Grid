@@ -26,9 +26,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 // TODO add an undroppable default weapon to players,
 //      to give them a chance to win even if they are disarmed... :D
 // TODO add fullscreen
-
-// SUGG make a fast generic entity system, because the current one depends on inheriting C++ classes.
-//      maybe use a script language to do that (AngelScript? Lua? Python?)
+// TODO add scripting API for extensibility (AngelScript? Lua? Python?)
+// TODO move the minimap a bit to make its bounding rect fit in the view
 
 #include <iostream>
 #include <cstdio>
