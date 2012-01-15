@@ -29,8 +29,6 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-    // TODO instant items (activated/finished on pick, no need to store them in the inventory)
-
     Entity * Item::getOwner() const
     {
         if(r_inventory != NULL)
