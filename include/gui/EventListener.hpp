@@ -52,6 +52,9 @@ namespace gui
         virtual bool keyReleaseEvent(sf::Key::Code key, char character = 0)
         { return false; }
 
+        virtual bool textEnteredEvent(unsigned int unicode)
+        { return false; }
+
         virtual bool mouseLeftPressEvent(Vector2i pos)
         { return false; }
 

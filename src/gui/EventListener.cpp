@@ -41,6 +41,9 @@ namespace gui
             case sf::Event::KeyReleased :
                 return keyReleaseEvent(e.Key.Code, e.Key.Code);
 
+            case sf::Event::TextEntered :
+                return textEnteredEvent(e.Text.Unicode);
+
             // Mouse press
             case sf::Event::MouseButtonPressed :
                 mousePos = p_mousePos;
