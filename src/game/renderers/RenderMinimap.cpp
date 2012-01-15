@@ -51,7 +51,7 @@ namespace grid
         }
 
         const sf::FloatRect & rect = gfx.getCurrentView().GetRect();
-        Vector2f pos(rect.Left, rect.Bottom - imgHeight);
+        Vector2f pos(rect.Left + 4, rect.Bottom - imgHeight - 4);
         m_minimap.SetPosition(pos);
         m_borders.SetPosition(pos);
 
