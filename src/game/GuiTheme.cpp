@@ -58,7 +58,7 @@ namespace grid
             border = back;
         }
 
-        screen.Draw(sf::Shape::Rectangle(A.x, A.y, B.x, B.y, back, 4, border));
+        screen.Draw(sf::Shape::Rectangle(A.x, A.y, B.x, B.y, back, 3, border));
     }
 
     void GuiTheme::renderTextBar(TextBar & textBar, sf::RenderWindow & screen)
@@ -66,21 +66,47 @@ namespace grid
         Vector2i A = textBar.getPositionAbsolute();
         Vector2i B = A + textBar.getSize();
         screen.Draw(sf::Shape::Rectangle(
-            A.x, A.y, B.x, B.y, sf::Color(0,0,0,128), 4, sf::Color(192,192,255,224)));
+            A.x, A.y, B.x, B.y, sf::Color(0,0,0,128), 3, sf::Color(192,192,255,224)));
 
         if(textBar.isFocused())
         {
+            sf::Color caretColor(255,255,255);
+            caretColor.a = 128.f + 64.f * (1.f + cos(8.f * m_time.GetElapsedTime()));
+
             int caretIndex = textBar.getCaretPosition();
             const sf::String & renderText = textBar.getRenderText();
 
             Vector2f caretPos1 = renderText.GetCharacterPos(caretIndex);
-            caretPos1.x += A.x;
-            caretPos1.y += A.y;
+            caretPos1.x += A.x + 2;
+            caretPos1.y += A.y + 2;
             Vector2f caretPos2 = caretPos1;
-            caretPos2.y += renderText.GetRect().GetHeight();
+            caretPos2.y += textBar.getSize().y - 4;
 
-            screen.Draw(sf::Shape::Line(caretPos1, caretPos2, 2, sf::Color(255,0,0)));
+            screen.Draw(sf::Shape::Line(caretPos1, caretPos2, 2, caretColor));
         }
+    }
+
+    void GuiTheme::renderConsoleLine(
+        ConsoleLine & line, Console & console,
+        int index, sf::RenderWindow & screen)
+    {
+        if(!console.getTextBar().isFocused())
+            return;
+
+        Vector2i barSize = console.getTextBar().getSize();
+        Vector2i ipos = console.getPositionAbsolute();
+
+        Vector2f A(ipos.x, ipos.y);
+        A.y -= (index + 1) * (barSize.y - 6) + 6;
+
+        Vector2f B = A;
+        B.x += barSize.x;
+        B.y += barSize.y - 6;
+
+        screen.Draw(sf::Shape::Rectangle(A, B, sf::Color(0,0,0,128)));
+
+        line.getRenderText().SetPosition(A);
+        screen.Draw(line.getRenderText());
     }
 
     void GuiTheme::playButtonHoverSound()

@@ -27,6 +27,10 @@ namespace grid
 {
     class GuiTheme : public gui::Theme
     {
+    protected :
+
+        sf::Clock m_time;
+
     public :
 
         GuiTheme() : gui::Theme()
@@ -38,6 +42,10 @@ namespace grid
         virtual void renderButton(gui::Button & button, sf::RenderWindow & screen);
         virtual void renderFrame(gui::Frame & frame, sf::RenderWindow & screen);
         virtual void renderTextBar(gui::TextBar & textBar, sf::RenderWindow & screen);
+
+        virtual void renderConsoleLine(
+            gui::ConsoleLine & line, gui::Console & console,
+            int index, sf::RenderWindow & screen);
 
         virtual void playButtonHoverSound();
         virtual void playButtonPressSound();

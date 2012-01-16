@@ -24,6 +24,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "gui/Button.hpp"
 #include "gui/Frame.hpp"
 #include "gui/TextBar.hpp"
+#include "gui/Console.hpp"
 
 namespace gui
 {
@@ -45,6 +46,11 @@ namespace gui
         virtual void renderButton(Button & button, sf::RenderWindow & screen);
         virtual void renderFrame(Frame & frame, sf::RenderWindow & screen);
         virtual void renderTextBar(TextBar & textBar, sf::RenderWindow & screen) {}
+
+        virtual void renderConsoleLine(
+            ConsoleLine & line, Console & console,
+            int index, sf::RenderWindow & screen)
+        {}
 
         virtual void playButtonHoverSound() {}
         virtual void playButtonPressSound() {}
