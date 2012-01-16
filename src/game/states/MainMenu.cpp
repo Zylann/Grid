@@ -23,7 +23,6 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/GuiTheme.hpp"
 
 #include "gui/Button.hpp"
-#include "gui/TextBar.hpp"
 
 #include "utility/ResourceManager.hpp"
 
@@ -50,8 +49,6 @@ namespace grid
 
         gui::Button * quitBtn = new gui::Button(100, 160, 300, 24, "Quit game", font);
         quitBtn->setAction(new gui::Action<Game>(r_game, &Game::quit));
-
-        frame->addChild(new gui::TextBar(10, 300, 400, 24, font));
 
         frame->addChild(startBtn);
         frame->addChild(editorBtn);
