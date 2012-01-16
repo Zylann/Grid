@@ -32,6 +32,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gui/Button.hpp"
 #include "gui/Action.hpp"
+#include "gui/Console.hpp"
 
 using namespace util;
 
@@ -40,7 +41,7 @@ namespace grid
     void WorldEditor::createGui()
     {
         m_gui = new gui::WidgetContainer(0,0,800,600);
-        gui::Frame * frame = new gui::Frame(0, 0, 800, 60);
+        gui::Frame * frame = new gui::Frame(0, 0, 800, 45);
 
         const sf::Font & font = resources::getFont("monofont");
 
@@ -58,6 +59,9 @@ namespace grid
         frame->addChild(genBtn);
 
         m_gui->addChild(frame);
+
+        r_console = new gui::Console(10, 500, 400, 24, &font);
+        m_gui->addChild(r_console);
     }
 
     void WorldEditor::enter()
@@ -146,30 +150,24 @@ namespace grid
 
         Vector2f worldPos = r_game->getSceneMouseCoords();
 
+        // TODO move the view with the mouse at screen borders
+
         m_scenePos = worldPos;
         m_mapPos.x = worldPos.x;
         m_mapPos.y = worldPos.y;
 
-        if(input.IsMouseButtonDown(sf::Mouse::Left))
+        if(!r_console->getTextBar().isFocused())
         {
-            Map & map = m_world->getMap();
-            map.setTerrain(m_mapPos, m_terrain);
+            float speed = 15.f;
+            if(input.IsKeyDown(sf::Key::Q))
+                m_viewCenter.x -= speed * up.delta;
+            if(input.IsKeyDown(sf::Key::D))
+                m_viewCenter.x += speed * up.delta;
+            if(input.IsKeyDown(sf::Key::S))
+                m_viewCenter.y += speed * up.delta;
+            if(input.IsKeyDown(sf::Key::Z))
+                m_viewCenter.y -= speed * up.delta;
         }
-        else if(input.IsMouseButtonDown(sf::Mouse::Right))
-        {
-            Map & map = m_world->getMap();
-            map.setTerrain(m_mapPos, terrain::Instance());
-        }
-
-        float speed = 15.f;
-        if(input.IsKeyDown(sf::Key::Q))
-            m_viewCenter.x -= speed * up.delta;
-        if(input.IsKeyDown(sf::Key::D))
-            m_viewCenter.x += speed * up.delta;
-        if(input.IsKeyDown(sf::Key::S))
-            m_viewCenter.y += speed * up.delta;
-        if(input.IsKeyDown(sf::Key::Z))
-            m_viewCenter.y -= speed * up.delta;
     }
 
     void WorldEditor::render(Graphics & gfx)
@@ -205,12 +203,16 @@ namespace grid
 
     bool WorldEditor::mouseLeftPressEvent(Vector2i pos)
     {
+        Map & map = m_world->getMap();
+        map.setTerrain(m_mapPos, m_terrain);
         Sound::instance().playSound("editorPlace");
         return true;
     }
 
     bool WorldEditor::mouseRightPressEvent(Vector2i pos)
     {
+        Map & map = m_world->getMap();
+        map.setTerrain(m_mapPos, terrain::Instance());
         Sound::instance().playSound("editorPlace");
         return false;
     }
@@ -240,18 +242,29 @@ namespace grid
 
     bool WorldEditor::keyReleaseEvent(sf::Key::Code key, char character)
     {
-        if(key == sf::Key::E)
-        {
-            EntitySentinel * sentinel = new EntitySentinel();
-            m_world->addEntity(sentinel, m_scenePos);
-            Sound::instance().playSound("editorPlace");
-            return true;
-        }
+//        if(key == sf::Key::E)
+//        {
+//            EntitySentinel * sentinel = new EntitySentinel();
+//            m_world->addEntity(sentinel, m_scenePos);
+//            Sound::instance().playSound("editorPlace");
+//            return true;
+//        }
         return false;
     }
 
     bool WorldEditor::mouseMoveEvent(Vector2i previous, Vector2i current)
     {
+        const sf::Input & input = r_game->getInput();
+        if(input.IsMouseButtonDown(sf::Mouse::Left))
+        {
+            Map & map = m_world->getMap();
+            map.setTerrain(m_mapPos, m_terrain);
+        }
+        else if(input.IsMouseButtonDown(sf::Mouse::Right))
+        {
+            Map & map = m_world->getMap();
+            map.setTerrain(m_mapPos, terrain::Instance());
+        }
         return true;
     }
 
@@ -262,6 +275,7 @@ namespace grid
             delete m_world;
             m_world = NULL;
         }
+        r_console->clear();
     }
 
 } // namespace grid

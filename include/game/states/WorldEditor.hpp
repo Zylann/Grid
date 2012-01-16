@@ -23,7 +23,10 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/base/GameState.hpp"
 #include "game/World.hpp"
+
 #include "utility/Area2D.hpp"
+
+#include "gui/Console.hpp"
 
 namespace grid
 {
@@ -36,6 +39,7 @@ namespace grid
         Vector2i m_mapPos;
         Vector2f m_viewCenter;
         terrain::Instance m_terrain;
+        gui::Console * r_console;
 
     public :
 
