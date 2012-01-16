@@ -74,12 +74,6 @@ namespace gui
             executeEnterAction();
             return true;
         }
-//        else if(character >= 32 && character <= 126) // if the character is printable
-//        {
-//            m_text += character;
-//            m_renderText.SetText(m_text);
-//            return true;
-//        }
         else if(key == sf::Key::Back)
         {
             if(!m_text.empty())
@@ -94,6 +88,9 @@ namespace gui
 
     bool TextBar::textEnteredEvent(unsigned int unicode)
     {
+        if(!isFocused())
+            return false;
+
         if(unicode >= 31 && unicode <= 126) // if the character is printable and in ASCII table
         {
             m_text += (char)unicode;

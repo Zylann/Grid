@@ -54,7 +54,10 @@ namespace gui
         }
 
         virtual ~TextBar()
-        {}
+        {
+            if(m_enterAction != NULL)
+                delete m_enterAction;
+        }
 
         const std::string & getText() const { return m_text; }
         const sf::String & getRenderText() const { return m_renderText; }
