@@ -41,9 +41,11 @@ namespace grid
     {
         if(m_gui != NULL)
         {
+            // return true if the gui processed the event
             if(m_gui->onEvent(e, mouse))
                 return true;
         }
+        // however, the state itself will perform the event
         return gui::EventListener::onEvent(e, mouse);
     }
 
