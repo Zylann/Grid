@@ -19,7 +19,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "game/entities/ShockWave.hpp"
-#include "game/renderers/RenderModel.hpp"
+#include "game/renderers/RenderShockWave.hpp"
 #include "game/GameUpdate.hpp"
 
 namespace grid
@@ -38,29 +38,23 @@ namespace entity
         m_endRadius = endRadius;
         m_propagateSpeed = propagateSpeed;
 
-        Model * m = new Model();
-        m->addShape(new sf::Shape(
-            sf::Shape::Circle(pos.x, pos.y, 0.5, sf::Color(0,0,0,0), 0.2, color)));
-        RenderModel * r = new RenderModel(RP_EFFECTS, m);
-
+//        Model * m = new Model();
+//        m->addShape(new sf::Shape(
+//            sf::Shape::Circle(pos.x, pos.y, 0.5, sf::Color(0,0,0,0), 0.2, color)));
+//        RenderModel * r = new RenderModel(RP_EFFECTS, m);
+        RenderShockWave * r = new RenderShockWave(RP_EFFECTS);
+        r->setColor(color);
         setRenderer(r);
+    }
+
+    float ShockWave::getFadingRatio() const
+    {
+        return (1 - (m_radius - m_startRadius) / (m_endRadius - m_startRadius));
     }
 
     void ShockWave::updateMe(GameUpdate & up)
     {
         m_radius += m_propagateSpeed * up.delta;
-
-        Renderer * r = getRenderer();
-        if(r != NULL)
-        {
-            unsigned char a = 0;
-
-            if(m_radius <= m_endRadius)
-                a = 255.f * (1 - (m_radius - m_startRadius) / (m_endRadius - m_startRadius));
-
-            r->setColor(sf::Color(255,255,255, a));
-        }
-
         scale = m_radius;
 
         if(m_radius >= m_endRadius)

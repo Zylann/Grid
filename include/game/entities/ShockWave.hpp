@@ -51,6 +51,10 @@ namespace entity
             sf::Color color = sf::Color(255,255,255),
             int ID = -1);
 
+        float getFadingRatio() const;
+        float getStartRadius() const { return m_startRadius; }
+        float getEndRadius() const { return m_endRadius; }
+
         void updateMe(GameUpdate & up);
 
         virtual int getType() const { return ENT_SHOCKWAVE; }

@@ -41,6 +41,9 @@ namespace grid
 
     void Renderer::renderBoundingBox(Graphics & gfx)
     {
+        if(r_entity == NULL)
+            return;
+
         util::AxisAlignedBB * boxPtr = r_entity->getBoundingBox();
         if(boxPtr != NULL)
         {

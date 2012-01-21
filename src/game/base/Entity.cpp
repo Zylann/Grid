@@ -158,10 +158,13 @@ namespace grid
 
     Entity & Entity::setRenderer(Renderer * r)
     {
+        // The old one is deleted
         if(m_renderer != NULL)
             delete m_renderer;
 
         m_renderer = r;
+
+        // The renderer must know its owner
         m_renderer->setEntity(this);
 
         return *this;
