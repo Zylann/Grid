@@ -20,7 +20,15 @@ Description :
 Planned features :
 
 	see main.cpp.
-		
+
+Download releases :
+	
+	2012/01/21 - Windows 7 32-bits
+	http://www.mediafire.com/?ez7s7f1953sfkwv
+	
+	These releases are rapidly tested, and may work on the specified platorms.
+	However, they are not official releases and may contain bugs.
+
 How to compile :
 
 	Grid is written in C++ and can compile with MinGW (tested).
@@ -52,8 +60,8 @@ How to compile :
 	Game resources :
 	
 		The game include several audio/image/postfx files
-		that are not included in the repo. You must download them
-		at <not uploaded yet...> and place them into a resources/ directory.
+		that are not included in the repo. You may find them in
+		the last released binary.
 		
 		Note : under Code::Blocks, to run and debug the project,
 		the default directory for loading files is the same as the *.cbp.
