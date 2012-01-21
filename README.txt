@@ -1,26 +1,31 @@
 GRID
 Main developer : Marc Gilleron
 marc.gilleron@free.fr
-README last update : 10/01/2012 18:29
+README last update : 21/01/2012 22:43
 
 Description :
 
 	Grid is a cross-platform 2D hack-n-slash-shooter game project.
 	You spawn in a world, and you have to explore it and defending yourself.
-	In the current version, there is no real purpose in the game (it will come later).
-	It includes a world editor, wich is the same for designers and players.
+	In the current version, there is no real purpose in the game
+	(it will come later). It includes a level editor, which is the same for
+	designers and players.
 	
-	Multiplayer is planned, but is not under development.
+	Multiplayer is planned, but is not currently under development.
 	If you have knownledge in this domain, your help is welcome !
 	
-	Grid is designed to be feature-extensive, so if you have any funny (an reasonable) idea to
+	If you have any funny (an reasonable) idea to
 	add in the game, please contact or just join the project !
 	
+Planned features :
+
+	see main.cpp.
+		
 How to compile :
 
-	Grid is written in C++ and compiled by the GNU GCC compiler.
-	The IDE used is Code::Blocks with MinGW
-	(but you can use another one if you find the way to configure it)
+	Grid is written in C++ and can compile with MinGW (tested).
+	The IDE I currently use is Code::Blocks
+	(but you can use another one if you find the way to configure it).
 	
 	Project dependencies :
 
@@ -29,6 +34,8 @@ How to compile :
 			-lsfml-graphics
 			-lsfml-window
 			-lsfml-system
+			
+		* Lua 5.1.4, with the Lunar extension
 	
 	Binary dependencies :
 	
@@ -40,6 +47,7 @@ How to compile :
 		* openal32
 		* libsndfile-1
 		* libgcc_s_dw2 (introduced by SFML 1.6)
+		* lua5.1
 	
 	Game resources :
 	
@@ -49,7 +57,7 @@ How to compile :
 		
 		Note : under Code::Blocks, to run and debug the project,
 		the default directory for loading files is the same as the *.cbp.
-		You must copy resources files at this point, or configure Code::Block's
+		You must copy resources files at this point, or configure Code::Blocks
 		in order to set it relative to the binary executable.
 
 Project's files structure :
@@ -59,7 +67,7 @@ Project's files structure :
 	
 	utility :
 		Global-purpose functions and classes.
-		dependencies : SFML (not for all)
+		dependencies : SFML (not for all) and Lua (can be easily removed)
 		
 	gui :
 		Simple GUI classes.
@@ -67,6 +75,7 @@ Project's files structure :
 	
 	game :
 		Sources related to the game.
+		dependencies : utility/ and gui/
 		
 	game/base :
 		Base classes of the game.
@@ -88,15 +97,20 @@ Project's code conventions :
 
 	Naming :
 
-		class names and types are written as this : WithUpperCaseLettersAtWordsBeginning.
-		functions and variable names are written the same, but theFirstLetterIsInLowerCase.
+		class names and types are written as this :
+			WithUpperCaseLettersAtWordsBeginning.
+		
+		functions and variable names are written the same,
+			but theFirstLetterIsInLowerCase.
 
 		Prefixing :
 
-			m_ : private or protected class-member. Public members are not prefixed.
+			m_ : private or protected class-member.
+				 Public members are not prefixed.
 			     If it is a pointer, it must be deleted after use.
 				 
-			r_ : private or protected class-member reference, or pointer used as a reference.
+			r_ : private or protected class-member reference,
+				 or pointer used as a reference.
 				 There is no memory management to perform with these variables.
 				 
 			p_ : Function parameter (optional). Use it in case of conflict.
@@ -106,24 +120,30 @@ Project's code conventions :
 			s_ : static variable
 
 		Each file containing one class has the same name for header and source.
-		If there is more classes, the file has the name of the main class or main class group.
-		if a file do not contains any class, its name begins with a lower case character.
+		If there is more classes, the file has the name of the main class or
+		main class group.
+		if a file do not contains any class, its name begins with a
+		lower case character.
 		The project can have header-only files.
 
 	Indentation :
 
 		Size : 4 spaces, all braces-aligned format (ANSI).
-		some exceptions can be done for very small, huge block combinations or too long lines.
-		exception : no indentation before "public", "protected" or "private" keywords.
+		some exceptions can be done for very small,
+		huge block combinations or too long lines.
+		exception : no indentation before "public", "protected" or
+		"private" keywords.
 
 	Margin :
 
 		the margin is set to 100 characters.
+		If a line is too large, please split it.
 
 	Comments :
 		
 		FIXME: known or potential bug to fix
-		TODO : task to do, removed when done. Global tasks are placed in main.cpp
+		TODO : task to do, removed when done.
+			   Global tasks are placed in main.cpp.
 		SUGG : suggestion
 		NOTE : note
 		
@@ -137,5 +157,4 @@ Project's code conventions :
 		
 		/** Strong comments are reserved for documentation only. **/
 		
-	
 	

@@ -50,6 +50,9 @@ namespace util
     {
     public :
 
+        LoadingList()
+        {}
+
         // Adds an item to the list by adapting it if needed (OS compatibility).
         // Returns false if the item is invalid.
         bool addItem(LoadingListItem item);
@@ -72,6 +75,27 @@ namespace util
     private :
 
         std::list<LoadingListItem> m_toLoad;
+
+#ifdef LUA_VERSION
+    /* LUA/Lunar interface *///{
+
+    private :
+
+        friend class Lunar<LoadingList>;
+        static const char className[];
+        static Lunar<LoadingList>::RegType methods[];
+
+    public :
+
+        LoadingList(lua_State * L)
+        {}
+
+        int addItem(lua_State* L);
+
+        bool loadFromLuaScript(std::string scriptPath);
+
+        //}
+#endif
     };
 
 } // namespace util

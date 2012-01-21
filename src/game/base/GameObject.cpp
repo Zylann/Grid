@@ -90,7 +90,7 @@ namespace grid
 
         // Note : in some cases, unserialization may lead to
         // conflicting identifiers with some already created ones.
-        // FIXME unserialization ID conflict : how to fix that?
+        // TODO unserialization ID conflict : how to fix that?
         // Actually, unserialization only occurs on world loading, so
         // there is no harm at the moment.
 

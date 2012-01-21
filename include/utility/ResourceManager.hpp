@@ -89,6 +89,7 @@ namespace util
             else
                 name = alias;
 
+            // Makes the path work both on Windows/UNIX systems
             adaptFilePath(path);
 
             typename std::map<std::string, T*>::iterator it = m_resources.find(name);

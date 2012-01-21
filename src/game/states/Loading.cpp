@@ -18,6 +18,9 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <lua.hpp>
+#include <lunar.h>
+
 #include "game/states/Loading.hpp"
 #include "game/Game.hpp"
 #include "game/GameUpdate.hpp"
@@ -67,7 +70,7 @@ namespace grid
     void Loading::enter()
     {
         // Read resource list file
-        if(!m_loadingList.readResourceListFile("resources.txt"))
+        if(!m_loadingList.loadFromLuaScript("registerResources.lua"))
         {
             std::stringstream ss;
             ss << "Loading::enter: "

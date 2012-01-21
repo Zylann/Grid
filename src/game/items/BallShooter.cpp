@@ -1,6 +1,6 @@
 /*
 Grid
-.cpp
+BallShooter.cpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
