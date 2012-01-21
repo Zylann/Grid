@@ -30,6 +30,12 @@ namespace gui
         m_size.y = h;
     }
 
+    void Widget::setPosition(int x, int y)
+    {
+        m_pos.x = x;
+        m_pos.y = y;
+    }
+
     void Widget::setVisible(bool visible)
     {
         if(!m_visible && visible)

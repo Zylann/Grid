@@ -84,6 +84,7 @@ namespace gui
         const Vector2i getPositionAbsolute() const;
         bool contains(const Vector2i & pos) const;
 
+        void setPosition(int x, int y);
         void setGeometry(int x, int y, int w, int h);
 
         /* Parent */
