@@ -45,6 +45,8 @@ namespace grid
 
         void setMinimapImage(const sf::Image & img);
         virtual void render(Graphics & gfx);
+
+        static const Vector2i & getLastMinimapPosition();
     };
 
 } // namespace grid

@@ -198,6 +198,8 @@ namespace grid
             sf::Color(0,0,0,0), 0.1, sf::Color(255,255,255,128)));
 
         gfx.setView(VIEW_INTERFACE);
+        r_console->setPosition(
+            10, RenderMinimap::getLastMinimapPosition().y - r_console->getSize().y - 12);
         gfx.draw(*m_gui);
     }
 

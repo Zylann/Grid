@@ -42,6 +42,12 @@ namespace grid
             sf::Color(0,0,0,192), 4, sf::Color(255,255,255,192));
     }
 
+    Vector2i g_lastMinimapPosition;
+    const Vector2i & RenderMinimap::getLastMinimapPosition()
+    {
+        return g_lastMinimapPosition;
+    }
+
     void RenderMinimap::render(Graphics & gfx)
     {
         int imgHeight = 0;
@@ -52,6 +58,8 @@ namespace grid
 
         const sf::FloatRect & rect = gfx.getCurrentView().GetRect();
         Vector2f pos(rect.Left + 4, rect.Bottom - imgHeight - 4);
+        g_lastMinimapPosition.x = pos.x;
+        g_lastMinimapPosition.y = pos.y;
         m_minimap.SetPosition(pos);
         m_borders.SetPosition(pos);
 
