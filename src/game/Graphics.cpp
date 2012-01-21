@@ -19,6 +19,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "game/Graphics.hpp"
+#include "game/Model.hpp"
 
 namespace grid
 {
@@ -48,6 +49,11 @@ namespace grid
     void Graphics::draw(gui::Widget & w)
     {
         w.render(r_screen);
+    }
+
+    void Graphics::draw(const Model & m)
+    {
+        m.render(*this);
     }
 
     void Graphics::drawGrid()

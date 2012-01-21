@@ -35,6 +35,8 @@ namespace grid
         VIEW_DEFAULT
     };
 
+    class Model;
+
     class Graphics
     {
     private :
@@ -51,6 +53,7 @@ namespace grid
 
         void draw(const sf::Drawable & d);
         void draw(gui::Widget & w);
+        void draw(const Model & m);
         void drawGrid();
 
         void setView(int viewID);
