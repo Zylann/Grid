@@ -202,17 +202,11 @@ namespace util
         // We create the Lua execution context
         lua_State * L = luaL_newstate();
 
-        std::cout << "1"; getchar();
-
         // We load the Lua libraries
         luaL_openlibs(L);
 
-        std::cout << "2"; getchar();
-
         // We register LoadingList
         Lunar<LoadingList>::Register(L);
-
-        std::cout << "3"; getchar();
 
         // We launch the script
         if(luaL_dofile(L, scriptPath.c_str()) != 0)
@@ -224,7 +218,6 @@ namespace util
             return false;
         }
 
-        std::cout << "4"; getchar();
         // We launch the registerResources function
         lua_getglobal(L, "registerResources");
         if(!lua_isfunction(L, -1))

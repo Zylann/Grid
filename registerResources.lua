@@ -9,6 +9,7 @@ function registerResources(list)
 	list:addItem(T, dir.."target.png", "target");
 	list:addItem(T, dir.."shot.png", "shot");
 	list:addItem(T, dir.."cursor.png", "cursor");
+	list:addItem(T, dir.."grenade.png", "grenade");
 	list:addItem(T, dir.."item_ballshooter.png", "item_ballshooter");
 	list:addItem(T, dir.."item_grenade.png", "item_grenade");
 	list:addItem(T, dir.."clash.png", "clash");

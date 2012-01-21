@@ -26,8 +26,10 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 // TODO add an undroppable default weapon to players,
 //      to give them a chance to win even if they are disarmed... :D
 // TODO add fullscreen
-// TODO add scripting API for extensibility (AngelScript? Lua? Python?)
+// TODO add scripting API for extensibility (with Lua)
 // TODO move the minimap a bit to make its bounding rect fit in the view
+// TODO add a graphical error state when bad exceptions occurs,
+//      because if the game runs on fullscreen, there is no way to close it
 
 #include <iostream>
 #include <cstdio>
