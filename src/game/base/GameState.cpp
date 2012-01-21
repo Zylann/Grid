@@ -22,7 +22,6 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-
     GameState::GameState(int stateID, Game * game)
     {
         m_ID = stateID;
@@ -58,14 +57,18 @@ namespace grid
 
     void GameState::openGui()
     {
-        if(m_gui != NULL)
-            m_gui->setVisible(true);
+        if(m_gui == NULL)
+            return;
+        m_gui->setVisible(true);
+        m_gui->enable(true);
     }
 
     void GameState::closeGui()
     {
-        if(m_gui != NULL)
-            m_gui->setVisible(false);
+        if(m_gui == NULL)
+            return;
+        m_gui->setVisible(false);
+        m_gui->enable(false);
     }
 
 } // namespace grid

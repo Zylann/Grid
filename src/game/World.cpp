@@ -25,10 +25,10 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utility/geometry.hpp"
 
 #include "game/World.hpp"
-#include "game/entities/EntityPlayer.hpp"
-#include "game/entities/EntityShot.hpp"
-#include "game/entities/EntityShockWave.hpp"
-#include "game/entities/EntitySentinel.hpp"
+#include "game/entities/Player.hpp"
+#include "game/entities/Shot.hpp"
+#include "game/entities/ShockWave.hpp"
+#include "game/entities/Sentinel.hpp"
 
 using namespace util;
 
@@ -41,7 +41,7 @@ namespace grid
            m_nextEntities.find(ID) != m_nextEntities.end();
     }
 
-    int World::spawnEntity(Entity * e, const Vector2f pos)
+    int World::spawnEntity(Entity * e)
     {
         // Make sure the ID is unique in the world
         if(isEntityExistOrWillSpawn(e->getID()))
@@ -55,21 +55,13 @@ namespace grid
             throw(EntityException(ss.str(), e, EntityException::EX_ERROR));
         }
 
-        // Setting position
-        e->setPosition(pos);
-
         // Adding entity to spawn list
         m_nextEntities.insert(std::pair<int, Entity*>( e->getID(), e ));
 
         return e->getID();
     }
 
-    int World::spawnEntity(Entity * e)
-    {
-        return spawnEntity(e, e->pos);
-    }
-
-    int World::addEntity(Entity * e, const Vector2f pos)
+    int World::addEntity(Entity * e)
     {
         // Make sure the ID is unique in the world
         if(isEntityExistOrWillSpawn(e->getID()))
@@ -81,12 +73,11 @@ namespace grid
         }
 
         // Inserting entity
-        return addEntityNoCheck(e, pos);
+        return addEntityNoCheck(e);
     }
 
-    int World::addEntityNoCheck(Entity * e, const Vector2f pos)
+    int World::addEntityNoCheck(Entity * e)
     {
-        e->setPosition(pos);
         e->setWorld(this);
 
         // Inserting
@@ -98,18 +89,17 @@ namespace grid
 
         // Updating main player reference
         if(e->isPlayer())
-            r_mainPlayer = (EntityPlayer*)e;
+            r_localPlayer = (entity::Player*)e;
 
         // Updating map unicity
         if(e->getType() == ENT_MAP)
         {
+            std::cout << "WARNING: World::addEntityNoCheck:"
+                << " a map entity is already registered" << std::endl;
             if(r_map != NULL)
                 eraseEntity(r_map->getID());
-            r_map = (Map*)e;
+            r_map = (entity::Map*)e;
         }
-
-        //std::cout << e->name << " spawned at (" << pos.x << ", " << pos.y << ")" << std::endl;
-
         return e->getID();
     }
 
@@ -125,7 +115,7 @@ namespace grid
         for(it = m_nextEntities.begin(); it != m_nextEntities.end(); it++)
         {
             Entity * e = it->second;
-            addEntityNoCheck(e, e->pos);
+            addEntityNoCheck(e);
         }
         m_nextEntities.clear();
 
@@ -193,10 +183,10 @@ namespace grid
         {
             Entity * e = it->second;
 
-            if(r_mainPlayer != NULL)
+            if(r_localPlayer != NULL)
             {
-                if(e->getID() == r_mainPlayer->getID())
-                    r_mainPlayer = NULL;
+                if(e->getID() == r_localPlayer->getID())
+                    r_localPlayer = NULL;
             }
 
             // Erasing it
@@ -362,7 +352,7 @@ namespace grid
             try
             {
                 e = Entity::unserializeEntity(is);
-                addEntity(e, e->pos);
+                addEntity(e);
             }
             catch(std::exception & e)
             {

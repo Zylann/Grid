@@ -23,6 +23,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
+namespace entity
+{
     Map::Map(int ID, Vector2i size) : Entity(ID)
     {
         name = "map";
@@ -167,5 +169,6 @@ namespace grid
             m_renderer->update();
     }
 
+} // namespace entity
 } // namespace grid
 

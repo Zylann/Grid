@@ -21,7 +21,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/components/PlayerController.hpp"
 #include "game/GameUpdate.hpp"
 
-#include "game/entities/EntityPlayer.hpp"
+#include "game/entities/Player.hpp"
 
 namespace grid
 {

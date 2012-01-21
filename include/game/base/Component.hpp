@@ -77,7 +77,7 @@ namespace grid
             r_owner = e;
         }
 
-        Entity * getOwner()
+        Entity * getEntity()
         {
             return r_owner;
         }

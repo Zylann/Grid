@@ -30,16 +30,16 @@ namespace grid
     {
     protected :
 
-        Map * r_map;
+        entity::Map * r_map;
 
     public :
 
-        RayCaster(Map * map = NULL) : util::RayCaster()
+        RayCaster(entity::Map * map = NULL) : util::RayCaster()
         {
             r_map = map;
         }
 
-        inline void setMap(Map * map) { r_map = map; }
+        inline void setMap(entity::Map * map) { r_map = map; }
 
         virtual bool canPass(Vector2i & pos);
     };

@@ -30,16 +30,16 @@ namespace grid
     {
     protected :
 
-        const Map * r_map;
+        const entity::Map * r_map;
 
     public :
 
-        PathFinder(const Map * map = NULL) : util::PathFinder()
+        PathFinder(const entity::Map * map = NULL) : util::PathFinder()
         {
             r_map = map;
         }
 
-        void setMap(const Map * map) { r_map = map; }
+        void setMap(const entity::Map * map) { r_map = map; }
 
         virtual bool canPass(const Vector2i & pos);
     };

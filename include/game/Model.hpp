@@ -66,6 +66,8 @@ namespace grid
         void setScale(float s);
         void setColor(const sf::Color & color);
 
+        sf::Shape * getShape(int index);
+
         void render(Graphics & gfx);
     };
 

@@ -50,7 +50,7 @@ namespace grid
         Vector2i A = frame.getPositionAbsolute();
         Vector2i B = A + frame.getSize();
 
-        sf::Color back(128,128,128,128);
+        sf::Color back(96,96,96,128);
         sf::Color border(192,192,255,224);
 
         if(!frame.isEnabled())

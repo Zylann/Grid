@@ -21,6 +21,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/items/HealthBonus.hpp"
 #include "game/base/Entity.hpp"
 #include "game/renderers/RenderItem.hpp"
+#include "game/renderers/RenderModel.hpp"
 
 #include "utility/ResourceManager.hpp"
 
@@ -31,9 +32,6 @@ namespace grid
     HealthBonus::HealthBonus(int ID) : Item(ID)
     {
         m_health = 50;
-        sf::Image & img = resources::getImage("item_health");
-        img.SetSmooth(false);
-        setRenderer(new RenderItem(this, RP_INTERFACE, img));
     }
 
     void HealthBonus::onPick(Entity * owner, World * world)
@@ -58,11 +56,15 @@ namespace grid
 
     Renderer * HealthBonus::createDroppedRenderer()
     {
-        sf::Image & img = resources::getImage("item_health");
-        img.SetSmooth(false);
-        RenderImage * r = new RenderImage(RP_EVENTS, img);
-        r->setScale(0.5f / GAME_TILES_SIZE);
-        r->setBindScale(false);
+        Model * m = new Model();
+
+        sf::Shape * circle = new sf::Shape(
+            sf::Shape::Circle(0, 0, 0.1f, sf::Color(0,255,0), 0.05f, sf::Color(0,128,0,192)));
+
+        m->addShape(circle);
+
+        RenderModel * r = new RenderModel(RP_EVENTS, m);
+
         return r;
     }
 

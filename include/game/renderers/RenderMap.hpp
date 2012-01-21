@@ -26,18 +26,18 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-    class Map;
+    namespace entity { class Map; }
 
     class RenderMap : public Renderer
     {
     protected :
 
-        Map * r_map;
+        entity::Map * r_map;
         RenderMinimap * m_renderMinimap;
 
     public :
 
-        RenderMap(int pass, Map * map);
+        RenderMap(int pass, entity::Map * map);
 
         virtual ~RenderMap()
         {

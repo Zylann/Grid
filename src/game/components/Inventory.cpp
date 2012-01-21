@@ -20,7 +20,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/components/Inventory.hpp"
 #include "game/GameUpdate.hpp"
-#include "game/entities/EntityDroppedItem.hpp"
+#include "game/entities/DroppedItem.hpp"
 
 namespace grid
 {
@@ -172,7 +172,7 @@ namespace grid
         if(m_items[x] == NULL || r_owner->getWorld() == NULL)
             return;
 
-        EntityDroppedItem * e = new EntityDroppedItem(m_items[x]);
+        entity::DroppedItem * e = new entity::DroppedItem(m_items[x]);
         e->pos = r_owner->pos;
         r_owner->getWorld()->spawnEntity(e);
 

@@ -51,7 +51,7 @@ namespace grid
     {
         Vector2i mpos(r_owner->pos.x, r_owner->pos.y);
 
-        const Map & map = up.world->getMap();
+        const entity::Map & map = up.world->getMap();
         terrain::Instance t = map.getTerrain(mpos);
 
         const terrain::Ground & gp = terrain::Ground::get(t.groundType);

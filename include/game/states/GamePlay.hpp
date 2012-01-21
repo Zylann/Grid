@@ -23,6 +23,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/base/GameState.hpp"
 #include "game/World.hpp"
+#include "game/PlayerInfo.hpp"
 
 namespace grid
 {
@@ -33,6 +34,7 @@ namespace grid
         World * m_world;
         bool m_pause;
         sf::Sprite m_target;
+        PlayerInfo m_playerInfo;
 
     public :
 

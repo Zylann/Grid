@@ -39,7 +39,7 @@ namespace grid
 
         r_owner->rotation += M_PI * up.delta;
 
-        Entity * p = up.world->getMainPlayer();
+        Entity * p = up.world->getLocalPlayer();
         if(p != NULL)
         {
             float d = distance2D(p->pos, r_owner->pos);

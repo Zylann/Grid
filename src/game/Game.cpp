@@ -124,19 +124,27 @@ namespace grid
         }
     }
 
+    GameState * Game::getState(int stateID)
+    {
+        std::map<int, GameState*>::iterator it = m_states.find(stateID);
+        if(it != m_states.end())
+            return it->second;
+        return NULL;
+    }
+
     void Game::enterState(int stateID)
     {
         // Finding state
-        std::map<int, GameState*>::iterator it = m_states.find(stateID);
-        if(it != m_states.end())
+        GameState * newState = getState(stateID);
+        if(newState != NULL)
         {
             // Leave last state
             if(r_currentState != NULL)
                 r_currentState->leave();
 
-            r_currentState = it->second;
+            r_currentState = newState;
 
-            // Create its gui if possible
+            // Create its gui if it's not done
             if(r_currentState->getGui() == NULL)
                 r_currentState->createGui();
 

@@ -24,7 +24,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/Game.hpp"
 #include "game/GameUpdate.hpp"
 #include "game/Sound.hpp"
-#include "game/entities/EntitySentinel.hpp"
+#include "game/entities/Sentinel.hpp"
 
 #include "utility/ResourceManager.hpp"
 #include "utility/noise.hpp"
@@ -76,7 +76,7 @@ namespace grid
             m_world = new World();
 
             Vector2i size(128, 64);
-            Map * map = new Map(-1, size);
+            entity::Map * map = new entity::Map(-1, size);
             m_world->addEntity(map);
         }
     }
@@ -116,7 +116,7 @@ namespace grid
     void WorldEditor::generateMap()
     {
         Vector2i size(128, 64), pos;
-        Map & map = m_world->getMap();
+        entity::Map & map = m_world->getMap();
         map.create(size);
 
         unsigned int seed = sf::Randomizer::Random(0, 1000);
@@ -148,13 +148,13 @@ namespace grid
     {
         const sf::Input & input = r_game->getInput();
 
-        Vector2f worldPos = r_game->getSceneMouseCoords();
+        Vector2f scenePos = r_game->getSceneMouseCoords();
 
         // TODO move the view with the mouse at screen borders
 
-        m_scenePos = worldPos;
-        m_mapPos.x = worldPos.x;
-        m_mapPos.y = worldPos.y;
+        m_scenePos = scenePos;
+        m_mapPos.x = scenePos.x;
+        m_mapPos.y = scenePos.y;
 
         if(!r_console->getTextBar().isFocused())
         {
@@ -203,7 +203,7 @@ namespace grid
 
     bool WorldEditor::mouseLeftPressEvent(Vector2i pos)
     {
-        Map & map = m_world->getMap();
+        entity::Map & map = m_world->getMap();
         map.setTerrain(m_mapPos, m_terrain);
         Sound::instance().playSound("editorPlace");
         return true;
@@ -211,7 +211,7 @@ namespace grid
 
     bool WorldEditor::mouseRightPressEvent(Vector2i pos)
     {
-        Map & map = m_world->getMap();
+        entity::Map & map = m_world->getMap();
         map.setTerrain(m_mapPos, terrain::Instance());
         Sound::instance().playSound("editorPlace");
         return false;
@@ -257,12 +257,12 @@ namespace grid
         const sf::Input & input = r_game->getInput();
         if(input.IsMouseButtonDown(sf::Mouse::Left))
         {
-            Map & map = m_world->getMap();
+            entity::Map & map = m_world->getMap();
             map.setTerrain(m_mapPos, m_terrain);
         }
         else if(input.IsMouseButtonDown(sf::Mouse::Right))
         {
-            Map & map = m_world->getMap();
+            entity::Map & map = m_world->getMap();
             map.setTerrain(m_mapPos, terrain::Instance());
         }
         return true;

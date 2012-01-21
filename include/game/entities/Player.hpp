@@ -1,6 +1,6 @@
 /*
 Grid
-EntityShot.hpp
+entity::Player.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,37 +18,45 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ENTITYSHOT_HPP_INCLUDED
-#define ENTITYSHOT_HPP_INCLUDED
+#ifndef ENTITYPLAYER_HPP_INCLUDED
+#define ENTITYPLAYER_HPP_INCLUDED
 
 #include "game/base/Entity.hpp"
+#include "game/PlayerInfo.hpp"
 
 namespace grid
 {
-    class EntityShot : public Entity
+namespace entity
+{
+    class Player : public Entity
     {
     protected :
 
-        int m_shooterID;
+        PlayerInfo * r_playerInfo;
 
     public :
 
-        EntityShot(int shooterID = -1, int ID = -1);
+        Player(int ID = -1);
 
-        virtual void doHit(World & world, Collision & c, float delta);
+        void setPlayerInfo(PlayerInfo * inf) { r_playerInfo = inf; }
 
-        virtual void updateMe(GameUpdate & up);
+        virtual void onFirstUpdate(GameUpdate & up);
         virtual void onDestruction(GameUpdate & up);
+        virtual void updateMe(GameUpdate & up);
 
-        virtual int getType() const { return ENT_SHOT; }
+        virtual bool isPlayer() const { return true; }
+        virtual int getType() const { return ENT_PLAYER; }
 
-    protected :
+        virtual util::AxisAlignedBB * getBoundingBox();
 
-        virtual void serialize(std::ostream & os);
-        virtual void unserialize(std::istream & is);
+//    protected :
+//
+//        virtual void serialize(std::ostream & os);
+//        virtual void unserialize(std::istream & is) throw(GameException);
     };
 
+} // namespace entity
 } // namespace grid
 
 
-#endif // ENTITYSHOT_HPP_INCLUDED
+#endif // ENTITYPLAYER_HPP_INCLUDED

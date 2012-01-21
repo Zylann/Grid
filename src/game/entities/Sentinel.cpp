@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "game/entities/EntitySentinel.hpp"
+#include "game/entities/Sentinel.hpp"
 
 #include "game/components/Physics.hpp"
 #include "game/components/Inventory.hpp"
@@ -31,9 +31,9 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/renderers/RenderModel.hpp"
 #include "game/renderers/RenderHealth.hpp"
 
-#include "game/entities/EntityShockWave.hpp"
-#include "game/entities/EntityShot.hpp"
-#include "game/entities/EntityDroppedItem.hpp"
+#include "game/entities/ShockWave.hpp"
+#include "game/entities/Shot.hpp"
+#include "game/entities/DroppedItem.hpp"
 
 #include "game/Model.hpp"
 #include "game/GameUpdate.hpp"
@@ -45,7 +45,9 @@ using namespace util;
 
 namespace grid
 {
-    EntitySentinel::EntitySentinel(int ID) : Entity(ID)
+namespace entity
+{
+    Sentinel::Sentinel(int ID) : Entity(ID)
     {
         static int instanceCount = 1;
         std::stringstream ss;
@@ -79,26 +81,29 @@ namespace grid
         setBoundingBox(new AxisAlignedBB(-0.4, -0.4, 0.4, 0.4));
     }
 
-    void EntitySentinel::updateMe(GameUpdate & up)
+    void Sentinel::updateMe(GameUpdate & up)
     {
     }
 
-    util::AxisAlignedBB * EntitySentinel::getBoundingBox()
+    util::AxisAlignedBB * Sentinel::getBoundingBox()
     {
         return &( m_boundingBox->set(-0.4, -0.4, 0.4, 0.4).offset(pos.x, pos.y) );
     }
 
-    void EntitySentinel::onDestruction(GameUpdate & up)
+    void Sentinel::onDestruction(GameUpdate & up)
     {
-        up.world->spawnEntity(new EntityShockWave(0.3, 3.5, 12, sf::Color(255,128,0)), pos);
-
-        Item * item = new HealthBonus();
-        EntityDroppedItem * drop = new EntityDroppedItem(item);
-        drop->pos = pos;
-        up.world->spawnEntity(drop);
-
+        up.world->spawnEntity(new entity::ShockWave(0.3, 3.5, 12, sf::Color(255,128,0)), pos);
         Sound::instance().playSound("explosion", sf::Randomizer::Random(0.8f, 1.2f), 100, pos);
+
+        if(sf::Randomizer::Random(0.f, 1.f) > 0.5f)
+        {
+            Item * item = new HealthBonus();
+            entity::DroppedItem * drop = new entity::DroppedItem(item);
+            drop->pos = pos;
+            up.world->spawnEntity(drop);
+        }
     }
 
+} // entity
 } // namespace grid
 

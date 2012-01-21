@@ -19,7 +19,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "game/items/GrenadeLauncher.hpp"
-#include "game/entities/EntityGrenade.hpp"
+#include "game/entities/Grenade.hpp"
 #include "game/renderers/RenderItem.hpp"
 
 #include "utility/ResourceManager.hpp"
@@ -37,7 +37,7 @@ namespace grid
 
     Entity * GrenadeLauncher::createShot(int ownerID)
     {
-        return new EntityGrenade(ownerID);
+        return new entity::Grenade(ownerID);
     }
 
     Renderer * GrenadeLauncher::createDroppedRenderer()

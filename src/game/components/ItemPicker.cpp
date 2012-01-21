@@ -20,7 +20,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/components/ItemPicker.hpp"
 #include "game/components/Inventory.hpp"
-#include "game/entities/EntityDroppedItem.hpp"
+#include "game/entities/DroppedItem.hpp"
 #include "game/GameUpdate.hpp"
 
 namespace grid
@@ -40,12 +40,12 @@ namespace grid
             // (this delay is important, because the item would be picked immediatly after being dropped)
             if(e->isDroppedItem() && e->isValid() && e->getLifeTime() > 1.f)
             {
-                pick((EntityDroppedItem*)e);
+                pick((entity::DroppedItem*)e);
             }
         }
     }
 
-    void ItemPicker::pick(EntityDroppedItem * e)
+    void ItemPicker::pick(entity::DroppedItem * e)
     {
         if(e->getItem() == NULL)
             return;

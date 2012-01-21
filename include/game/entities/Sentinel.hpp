@@ -1,6 +1,6 @@
 /*
 Grid
-EntitySentinel.hpp
+entity::Sentinel.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -22,11 +22,12 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ENTITYSENTINEL_HPP_INCLUDED
 
 #include "game/base/Entity.hpp"
-//#include "game/PathFinder.hpp"
 
 namespace grid
 {
-    class EntitySentinel : public Entity
+namespace entity
+{
+    class Sentinel : public Entity
     {
     protected :
 
@@ -34,7 +35,7 @@ namespace grid
 
     public :
 
-        EntitySentinel(int ID = -1);
+        Sentinel(int ID = -1);
 
         virtual void updateMe(GameUpdate & up);
 
@@ -44,6 +45,7 @@ namespace grid
         virtual int getType() const { return ENT_SENTINEL; }
     };
 
+} // namespace entity
 } // namespace grid
 
 

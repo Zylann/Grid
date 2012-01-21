@@ -19,7 +19,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "game/items/BallShooter.hpp"
-#include "game/entities/EntityShot.hpp"
+#include "game/entities/Shot.hpp"
 #include "game/renderers/RenderItem.hpp"
 
 #include "utility/ResourceManager.hpp"
@@ -37,11 +37,11 @@ namespace grid
     Entity * BallShooter::createShot(int ownerID)
     {
         Entity * owner = getOwner();
-        EntityShot * shot = new EntityShot(ownerID);
+        entity::Shot * shot = new entity::Shot(ownerID);
         if(owner != NULL)
         {
             if(owner->team == 1)
-                shot->getRenderer()->setColor(sf::Color(0, 255, 255));
+                shot->getRenderer()->setColor(sf::Color(32, 255, 255));
         }
         return shot;
     }

@@ -26,7 +26,9 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-    class EntityDroppedItem : public Entity
+namespace entity
+{
+    class DroppedItem : public Entity
     {
     protected :
 
@@ -34,9 +36,9 @@ namespace grid
 
     public :
 
-        EntityDroppedItem(Item * item = NULL, int ID = -1);
+        DroppedItem(Item * item = NULL, int ID = -1);
 
-        virtual ~EntityDroppedItem()
+        virtual ~DroppedItem()
         {
             if(m_item != NULL)
                 delete m_item;
@@ -60,6 +62,7 @@ namespace grid
         virtual void unserialize(std::istream & is) throw(GameException);
     };
 
+} // namespace entity
 } // namespace grid
 
 

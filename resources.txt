@@ -6,7 +6,6 @@ IMAGE cursor.png cursor
 IMAGE grenade.png grenade
 IMAGE item_ballshooter.png item_ballshooter
 IMAGE item_grenade.png item_grenade
-IMAGE item_health.png item_health
 SOUND triangle.ogg test
 SOUND spawn.ogg spawn
 SOUND shockfire.ogg shoot

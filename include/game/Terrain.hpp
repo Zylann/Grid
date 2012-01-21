@@ -195,7 +195,7 @@ namespace terrain
         static void freeAll();
         static Block & get(unsigned char typeID) throw(util::Exception);
 
-        bool isCrossable() { return m_crossable; }
+        bool isCrossable() const { return m_crossable; }
 
         virtual util::AxisAlignedBB getBoundingBox(const Vector2i & pos) const;
 

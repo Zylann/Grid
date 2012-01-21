@@ -24,7 +24,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/base/Item.hpp"
 #include "game/Sound.hpp"
 #include "game/GameUpdate.hpp"
-#include "game/entities/EntityShot.hpp"
+#include "game/entities/Shot.hpp"
 
 namespace grid
 {

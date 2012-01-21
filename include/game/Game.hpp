@@ -53,6 +53,7 @@ namespace grid
 
         void run();
         void enterState(int stateID);
+        GameState * getState(int stateID);
 
         const sf::Input & getInput() { return m_screen.GetInput(); }
         const Vector2f getSceneMouseCoords();

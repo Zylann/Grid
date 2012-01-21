@@ -26,10 +26,10 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/Game.hpp"
 #include "game/GameUpdate.hpp"
 
-#include "game/entities/EntitySentinel.hpp"
-#include "game/entities/EntityShockWave.hpp"
-#include "game/entities/EntityShot.hpp"
-#include "game/entities/EntitySpawner.hpp"
+#include "game/entities/Sentinel.hpp"
+#include "game/entities/ShockWave.hpp"
+#include "game/entities/Shot.hpp"
+#include "game/entities/Spawner.hpp"
 
 #include "utility/geometry.hpp"
 
@@ -298,11 +298,11 @@ namespace grid
     {
         switch(type)
         {
-            case ENT_MAP : return new Map();
-            case ENT_PLAYER : return new EntityPlayer();
-            case ENT_SENTINEL : return new EntitySentinel();
-            case ENT_SHOCKWAVE : return new EntityShockWave();
-            case ENT_SHOT : return new EntityShot();
+            case ENT_MAP : return new entity::Map();
+            case ENT_PLAYER : return new entity::Player();
+            case ENT_SENTINEL : return new entity::Sentinel();
+            case ENT_SHOCKWAVE : return new entity::ShockWave();
+            case ENT_SHOT : return new entity::Shot();
             case ENT_SPAWNER : return new EntitySpawner();
 
             default : return NULL;

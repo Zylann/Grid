@@ -1,6 +1,6 @@
 /*
 Grid
-.hpp
+entity::Grenade.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,45 +18,42 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ENTITYSHOCKWAVE_HPP_INCLUDED
-#define ENTITYSHOCKWAVE_HPP_INCLUDED
+#ifndef ENTITYGRENADE_HPP_INCLUDED
+#define ENTITYGRENADE_HPP_INCLUDED
 
 #include "game/base/Entity.hpp"
 
 namespace grid
 {
-    class EntityShockWave : public Entity
+namespace entity
+{
+    class Grenade : public Entity
     {
     protected :
 
-        float m_startRadius;
-        float m_radius;
-        float m_endRadius;
-        float m_propagateSpeed;
+        int m_shooterID;
+        float m_remainingTime;
 
     public :
 
-        EntityShockWave(int ID = -1) : Entity(ID)
-        {
-            m_startRadius = 0;
-            m_radius = 0;
-            m_endRadius = 0;
-            m_propagateSpeed = 1;
-        }
+        Grenade(int m_shooterID = -1, int ID = -1);
 
-        EntityShockWave(
-            float startRadius, float endRadius, float propagateSpeed,
-            sf::Color color = sf::Color(255,255,255),
-            int ID = -1);
+        virtual void onDestruction(GameUpdate & up);
+        virtual void updateMe(GameUpdate & up);
 
-        void updateMe(GameUpdate & up);
+        virtual util::AxisAlignedBB * getBoundingBox();
 
-        virtual int getType() const { return ENT_SHOCKWAVE; }
+        virtual bool isPlayer() const { return false; }
+        virtual int getType() const { return ENT_GRENADE; }
 
-        virtual bool isSerializable() const { return false; }
+    protected :
+
+        virtual void serialize(std::ostream & os);
+        virtual void unserialize(std::istream & is) throw(GameException);
     };
 
+} // namespace entity
 } // namespace grid
 
 
-#endif // ENTITYSHOCKWAVE_HPP_INCLUDED
+#endif // ENTITYGRENADE_HPP_INCLUDED

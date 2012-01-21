@@ -32,7 +32,7 @@ namespace grid
         it will put picked items in it if possible. If not, items are not picked.
     */
 
-    class EntityDroppedItem;
+    namespace entity { class DroppedItem; }
 
     class ItemPicker : public Component
     {
@@ -48,7 +48,7 @@ namespace grid
         }
 
         virtual void update(GameUpdate & up);
-        virtual void pick(EntityDroppedItem * e);
+        virtual void pick(entity::DroppedItem * e);
         virtual bool processMessage(Message & msg);
 
         virtual bool isSerializable() const { return false; }

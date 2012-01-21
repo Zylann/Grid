@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "game/entities/EntityDroppedItem.hpp"
+#include "game/entities/DroppedItem.hpp"
 #include "game/renderers/RenderImage.hpp"
 #include "game/Sound.hpp"
 
@@ -28,7 +28,9 @@ using namespace util;
 
 namespace grid
 {
-    EntityDroppedItem::EntityDroppedItem(Item * item, int ID) : Entity(ID)
+namespace entity
+{
+    DroppedItem::DroppedItem(Item * item, int ID) : Entity(ID)
     {
         m_item = item;
 
@@ -36,7 +38,7 @@ namespace grid
             setRenderer(item->createDroppedRenderer());
     }
 
-    Item * EntityDroppedItem::pickItem()
+    Item * DroppedItem::pickItem()
     {
         Item * temp = m_item;
         m_item = NULL;
@@ -46,7 +48,7 @@ namespace grid
         return temp;
     }
 
-    void EntityDroppedItem::updateMe(GameUpdate & up)
+    void DroppedItem::updateMe(GameUpdate & up)
     {
         // The item vanishes after a while
         if(m_item == NULL || m_lifeTime > 60.f)
@@ -57,7 +59,7 @@ namespace grid
         Serialization
     */
 
-    void EntityDroppedItem::serialize(std::ostream & os)
+    void DroppedItem::serialize(std::ostream & os)
     {
         Entity::serialize(os);
 
@@ -67,7 +69,7 @@ namespace grid
         }
     }
 
-    void EntityDroppedItem::unserialize(std::istream & is) throw(GameException)
+    void DroppedItem::unserialize(std::istream & is) throw(GameException)
     {
         Entity::unserialize(is);
 
@@ -89,5 +91,6 @@ namespace grid
         }
     }
 
+} // namespace entity
 } // namespace grid
 

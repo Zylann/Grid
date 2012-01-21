@@ -68,7 +68,6 @@ namespace gui
         if(!isFocused())
             return false;
 
-        std::cout << "'" << character << "' : " << m_text << std::endl;
         if(key == sf::Key::Return)
         {
             executeEnterAction();

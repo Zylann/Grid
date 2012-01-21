@@ -45,10 +45,10 @@ namespace grid
     class Entity;
     class GameUpdate;
 
-    // Used for serialization
     enum EntityType
     {
         ENT_BASIC = 0, // Keep 0
+
         ENT_MAP,
         ENT_PLAYER,
         ENT_SENTINEL,
@@ -56,7 +56,9 @@ namespace grid
         ENT_SHOCKWAVE,
         ENT_GRENADE,
         ENT_DROPPED_ITEM,
-        ENT_SPAWNER
+        ENT_SPAWNER,
+
+        ENT_TYPE_COUNT // keep last
     };
 
     /*
@@ -89,10 +91,9 @@ namespace grid
 
         /* Attributes */
 
-        bool m_isFirstUpdate;
+        bool m_isFirstUpdate; // have the entity ever been updated ?
 
-        // All components owned by the entity
-        std::list<Component*> m_components;
+        std::list<Component*> m_components; // All components owned by the entity
 
         // Next components of the entity. We need this second container because
         // new components may be added dynamically, particularly during the update of
@@ -100,30 +101,29 @@ namespace grid
         // during the iteration (wich would lead to a segmentation fault),
         // so they are stored here until the next update.
         std::list<Component*> m_nextComponents;
-        Physics * r_physics;
+
+        Physics * r_physics;    // Physics component shortcut-reference
 
     protected :
 
-        // How to draw the entity
-        Renderer * m_renderer;
+        Renderer * m_renderer;  // How to draw the entity
 
         // Shape used for collisions (currently a bounding box)
         util::AxisAlignedBB * m_boundingBox;
 
-        Vector2f m_lastPos;   // position at last update
-        float m_lifeTime;
+        Vector2f m_lastPos; // position at last update
+        float m_lifeTime;   // time in seconds
 
-        // World access
-        World * r_world;
+        World * r_world;    // reference world
 
     public :
 
         Vector2f pos;       // position in units
         Vector2f speed;     // movement in units/s
-        float rotation;         // rotation in radians
+        float rotation;     // rotation in radians
         float scale;
-        unsigned char team;
-        std::string name;
+        unsigned char team; // team of the entity. -1 means none.
+        std::string name;   // name of the entity.
 
         /* Constructors and destructor */
 
@@ -168,62 +168,95 @@ namespace grid
 
         /* Methods */
 
-        // Tells if the entity can be drawn with a renderer
+        // Tells if the entity can be drawn
         virtual bool isDrawable() const;
 
+        // Returns true if the entity is a player
         virtual bool isPlayer() const { return false; }
+
+        // Returns true if the entity is a dropped item
         virtual bool isDroppedItem() const { return false; }
 
+        // Adds a component to the entity
         Entity & addComponent(Component * c);
+
+        // Sets the entity's renderer
         Entity & setRenderer(Renderer * r);
+
+        // Get the entity's renderer. Returns NULL if there are none.
         Renderer * getRenderer();
 
+        // Sets the reference world of the entity
         inline void setWorld(World * w) { r_world = w; }
+
+        // Returns the reference world of the entity
         inline World * getWorld() const { return r_world; }
 
         void setBoundingBox(util::AxisAlignedBB * box);
+
+        // Returns the offset bounding box of the entity
         virtual util::AxisAlignedBB * getBoundingBox();
 
+        // Returns collisions of the specified shape on the entity
         virtual void getCollisions(
             std::list<Collision>& collisions,
             const util::AxisAlignedBB& box);
 
+        // Sets the position of the entity, and returns a reference for chaining
         virtual Entity & setPosition(const Vector2f & p_pos);
+
+        // Sets the speed of the entity, and returns a reference for chaining
         virtual Entity & setSpeed(const Vector2f & p_pos);
+
+        // Sets the rotation of the entity, and returns a reference for chaining
         virtual Entity & setRotation(float p_rotation);
 
+        // Returns the entity's position at last update
         inline const Vector2f & getLastPosition() const { return m_lastPos; };
 
+        // Returns the entity's life time in seconds
         inline float getLifeTime() const { return m_lifeTime; }
 
         // Rotates the entity to face the specified point
         void lookAt(const Vector2f & target);
 
-        // Applies an acceleration to the current speed.
+        // Applies an acceleration to the entity's speed.
         virtual void accelerate(const Vector2f & acc, float delta, World * world = NULL);
 
-        // Moves the entity from its current speed.
+        // Moves the entity using its current speed.
         virtual void move(float delta, World & world);
 
         // Moves the entity from a motion in units.
-        // If it has a Physics, the resulting motion can be different.
+        // If the entity has a Physics component, the resulting motion can be different.
         // Return : resulting motion.
         virtual Vector2f move(const Vector2f & motion, World & world);
 
+        // Updates the entity for one frame
         virtual void update(GameUpdate & up);
+
+        /* Events */
+
+        // Called on the first update before spawning
         virtual void onFirstUpdate(GameUpdate & up) {}
+
+        // Called just before the entity to be destroyed
         virtual void onDestruction(GameUpdate & up) {}
 
+        // Called when a message is send to the entity
         virtual bool processMessage(Message & msg);
 
         // Renders the entity (not currently used)
         void render(Graphics & gfx);
 
+        // Registers the entity's rendering
         virtual void registerRender(RenderManager & manager);
 
-        // Used for serialization
+        // Returns the type ID of the entity (Used for serialization and specializations)
         virtual int getType() const { return -1; }
 
+        /* Static methods */
+
+        // Creates an entity from a type ID
         static Entity * createEntityFromType(int type);
 
         // Serialization
@@ -232,9 +265,14 @@ namespace grid
 
     protected :
 
+        // Called from the update() method, for implementing very specific behaviors
         virtual void updateMe(GameUpdate & up) {}
+
+        // Called from the update() method.
+        // Updates the entity's components.
         void updateComponents(GameUpdate & up);
 
+        // Serialization (should not be used if we don't know the type of the entity)
         virtual void serialize(std::ostream & os);
         virtual void unserialize(std::istream & is);
     };

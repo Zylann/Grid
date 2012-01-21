@@ -24,8 +24,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/states/GamePlay.hpp"
 #include "game/GameUpdate.hpp"
 #include "game/renderers/RenderImage.hpp"
-#include "game/entities/EntityPlayer.hpp"
-#include "game/entities/EntitySentinel.hpp"
+#include "game/entities/Player.hpp"
+#include "game/entities/Sentinel.hpp"
 #include "game/components/RandomSpawner.hpp"
 #include "game/Sound.hpp"
 
@@ -90,7 +90,7 @@ namespace grid
             if(input.IsKeyDown(sf::Key::Space))
                 up.delta /= 10.f;
 
-            EntityPlayer * player = m_world->getMainPlayer();
+            entity::Player * player = m_world->getLocalPlayer();
             if(player != NULL)
             {
                 player->lookAt(r_game->getSceneMouseCoords());
@@ -160,6 +160,10 @@ namespace grid
             m_world->unserialize(ifs);
             ifs.close();
         }
+        else
+        {
+            throw GameException("Cannot load world '" + worldPath + "'");
+        }
 
 //        for(unsigned int i = 0; i < 6; i ++)
 //        {
@@ -201,9 +205,10 @@ namespace grid
 
     void GamePlay::respawn()
     {
-        if(m_world->getMainPlayer() == NULL)
+        if(m_world->getLocalPlayer() == NULL)
         {
-            EntityPlayer * p = new EntityPlayer();
+            entity::Player * p = new entity::Player();
+            p->setPlayerInfo(&m_playerInfo);
             m_world->spawnEntity(p, Vector2f(5,5));
             Sound::instance().playSound("spawn", 1, 50);
         }
@@ -213,6 +218,7 @@ namespace grid
     {
         m_pause = false;
         m_gui->setVisible(false);
+        m_gui->enable(false);
         r_game->setCursorVisible(false);
     }
 

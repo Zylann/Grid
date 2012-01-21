@@ -1,6 +1,6 @@
 /*
 Grid
-EntityGrenade.cpp
+entity::Grenade.cpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,9 +18,9 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "game/entities/EntityGrenade.hpp"
-#include "game/entities/EntityShockWave.hpp"
-#include "game/entities/EntityShot.hpp"
+#include "game/entities/Grenade.hpp"
+#include "game/entities/ShockWave.hpp"
+#include "game/entities/Shot.hpp"
 #include "game/renderers/RenderImage.hpp"
 #include "game/GameUpdate.hpp"
 #include "game/Sound.hpp"
@@ -31,7 +31,9 @@ using namespace util;
 
 namespace grid
 {
-    EntityGrenade::EntityGrenade(int shooterID, int ID)
+namespace entity
+{
+    Grenade::Grenade(int shooterID, int ID)
     {
         m_shooterID = shooterID;
         m_remainingTime = 2;
@@ -49,7 +51,7 @@ namespace grid
         setBoundingBox(new AxisAlignedBB(-0.2, -0.2, 0.2, 0.2));
     }
 
-    void EntityGrenade::updateMe(GameUpdate & up)
+    void Grenade::updateMe(GameUpdate & up)
     {
         m_remainingTime -= up.delta;
         rotation += up.delta * m_remainingTime;
@@ -57,9 +59,9 @@ namespace grid
             invalidate();
     }
 
-    void EntityGrenade::onDestruction(GameUpdate & up)
+    void Grenade::onDestruction(GameUpdate & up)
     {
-        up.world->spawnEntity(new EntityShockWave(0.3, 5.0, 12, sf::Color(255,255,0)), pos);
+        up.world->spawnEntity(new entity::ShockWave(0.3, 5.0, 12, sf::Color(255,255,0)), pos);
         Sound::instance().playSound("explosion2", sf::Randomizer::Random(0.8f, 1.2f), 100, pos);
 
         float step = 0.3f;
@@ -68,7 +70,7 @@ namespace grid
         for(float t = -M_PI + off; t < M_PI + off; t += step)
         {
             Vector2f v(cos(t), sin(t));
-            EntityShot * shot = new EntityShot(m_shooterID);
+            entity::Shot * shot = new entity::Shot(m_shooterID);
             shot->speed = 20.f * v;
             shot->pos = pos;
             shot->team = team;
@@ -76,7 +78,7 @@ namespace grid
         }
     }
 
-    util::AxisAlignedBB * EntityGrenade::getBoundingBox()
+    util::AxisAlignedBB * Grenade::getBoundingBox()
     {
         return &( m_boundingBox->set(-0.2, -0.2, 0.2, 0.2).offset(pos.x, pos.y) );
     }
@@ -85,7 +87,7 @@ namespace grid
         Serialization
     */
 
-    void EntityGrenade::serialize(std::ostream & os)
+    void Grenade::serialize(std::ostream & os)
     {
         Entity::serialize(os);
 
@@ -93,7 +95,7 @@ namespace grid
         util::serialize(os, m_remainingTime);
     }
 
-    void EntityGrenade::unserialize(std::istream & is) throw(GameException)
+    void Grenade::unserialize(std::istream & is) throw(GameException)
     {
         Entity::unserialize(is);
 
@@ -101,5 +103,6 @@ namespace grid
         util::unserialize(is, m_remainingTime);
     }
 
+} // namespace entity
 } // namespace grid
 

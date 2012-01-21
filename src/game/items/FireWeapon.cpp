@@ -78,7 +78,7 @@ namespace grid
 
     Entity * FireWeapon::createShot(int ownerID)
     {
-        return new EntityShot(ownerID);
+        return new entity::Shot(ownerID);
     }
 
     void FireWeapon::doShoot(World & world, float delta)

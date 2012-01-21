@@ -29,6 +29,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
+namespace entity
+{
     // Note : the map is an Entity, but none of movements must be used with it.
 
     class Map : public Entity
@@ -78,7 +80,7 @@ namespace grid
         virtual void unserialize(std::istream & is);
     };
 
+} // namespace entity
 } // namespace grid
-
 
 #endif // MAP_HPP_INCLUDED

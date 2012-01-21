@@ -18,10 +18,10 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "game/entities/EntityPlayer.hpp"
-#include "game/entities/EntityShockWave.hpp"
-#include "game/entities/EntityShot.hpp"
-#include "game/entities/EntityGrenade.hpp"
+#include "game/entities/Player.hpp"
+#include "game/entities/ShockWave.hpp"
+#include "game/entities/Shot.hpp"
+#include "game/entities/Grenade.hpp"
 
 #include "game/components/PlayerController.hpp"
 #include "game/components/MouseController.hpp"
@@ -49,10 +49,13 @@ using namespace util;
 
 namespace grid
 {
-    EntityPlayer::EntityPlayer(int ID) : Entity(ID)
+namespace entity
+{
+    Player::Player(int ID) : Entity(ID)
     {
         name = "player";
         team = 1;
+        r_playerInfo = NULL;
 
         PlayerController * ctrl = new PlayerController(this);
         addComponent(ctrl);
@@ -92,24 +95,24 @@ namespace grid
         setBoundingBox(new AxisAlignedBB(-0.4, -0.4, 0.4, 0.4));
     }
 
-    util::AxisAlignedBB * EntityPlayer::getBoundingBox()
+    util::AxisAlignedBB * Player::getBoundingBox()
     {
         return &( m_boundingBox->set(-0.4, -0.4, 0.4, 0.4).offset(pos.x, pos.y) );
     }
 
-    void EntityPlayer::updateMe(GameUpdate & up)
+    void Player::updateMe(GameUpdate & up)
     {
         up.game->getGraphics()->setGameViewCenter(pos);
         Sound::instance().setListenerPosition(pos);
     }
 
-    void EntityPlayer::onFirstUpdate(GameUpdate & up)
+    void Player::onFirstUpdate(GameUpdate & up)
     {
     }
 
-    void EntityPlayer::onDestruction(GameUpdate & up)
+    void Player::onDestruction(GameUpdate & up)
     {
-        up.world->spawnEntity(new EntityShockWave(0.3, 3.5, 12, sf::Color(255,128,0)), pos);
+        up.world->spawnEntity(new entity::ShockWave(0.3, 3.5, 12, sf::Color(255,128,0)), pos);
         Sound::instance().playSound("explosion", 1, 100, pos);
     }
 
@@ -117,15 +120,16 @@ namespace grid
 //        Serialization
 //    */
 //
-//    void EntityPlayer::serialize(std::ostream & os)
+//    void Player::serialize(std::ostream & os)
 //    {
 //        Entity::serialize(os);
 //    }
 //
-//    void EntityPlayer::unserialize(std::istream & is) throw(GameException)
+//    void Player::unserialize(std::istream & is) throw(GameException)
 //    {
 //        Entity::unserialize(is);
 //    }
 
+} // namespace entity
 } // namespace grid
 

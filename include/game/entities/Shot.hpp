@@ -1,6 +1,6 @@
 /*
 Grid
-EntityGrenade.hpp
+entity::Shot.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,39 +18,40 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ENTITYGRENADE_HPP_INCLUDED
-#define ENTITYGRENADE_HPP_INCLUDED
+#ifndef ENTITYSHOT_HPP_INCLUDED
+#define ENTITYSHOT_HPP_INCLUDED
 
 #include "game/base/Entity.hpp"
 
 namespace grid
 {
-    class EntityGrenade : public Entity
+namespace entity
+{
+    class Shot : public Entity
     {
     protected :
 
         int m_shooterID;
-        float m_remainingTime;
 
     public :
 
-        EntityGrenade(int m_shooterID = -1, int ID = -1);
+        Shot(int shooterID = -1, int ID = -1);
 
-        virtual void onDestruction(GameUpdate & up);
+        virtual void doHit(World & world, Collision & c, float delta);
+
         virtual void updateMe(GameUpdate & up);
+        virtual void onDestruction(GameUpdate & up);
 
-        virtual util::AxisAlignedBB * getBoundingBox();
-
-        virtual bool isPlayer() const { return false; }
-        virtual int getType() const { return ENT_GRENADE; }
+        virtual int getType() const { return ENT_SHOT; }
 
     protected :
 
         virtual void serialize(std::ostream & os);
-        virtual void unserialize(std::istream & is) throw(GameException);
+        virtual void unserialize(std::istream & is);
     };
 
+} // namespace entity
 } // namespace grid
 
 
-#endif // ENTITYGRENADE_HPP_INCLUDED
+#endif // ENTITYSHOT_HPP_INCLUDED

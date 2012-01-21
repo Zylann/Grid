@@ -1,6 +1,6 @@
 /*
 Grid
-EntityShot.cpp
+entity::Shot.cpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "game/entities/EntityShot.hpp"
-#include "game/entities/EntityShockWave.hpp"
+#include "game/entities/Shot.hpp"
+#include "game/entities/ShockWave.hpp"
 #include "game/renderers/RenderImage.hpp"
 #include "game/GameUpdate.hpp"
 #include "game/Sound.hpp"
@@ -31,7 +31,9 @@ using namespace util;
 
 namespace grid
 {
-    EntityShot::EntityShot(int shooterID, int ID) : Entity(ID)
+namespace entity
+{
+    Shot::Shot(int shooterID, int ID) : Entity(ID)
     {
         name = "shot";
         m_shooterID = shooterID;
@@ -40,14 +42,14 @@ namespace grid
 
         RenderImage * r = new RenderImage(RP_EFFECTS, shotImg);
         r->setBlendMode(sf::Blend::Add);
-        r->setColor(sf::Color(255, 255, 0));
+        r->setColor(sf::Color(255, 255, 32));
 
         setRenderer(r);
 
         scale = 0.5;
     }
 
-    void EntityShot::updateMe(GameUpdate & up)
+    void Shot::updateMe(GameUpdate & up)
     {
         Vector2i mpos(pos.x, pos.y);
 
@@ -84,7 +86,7 @@ namespace grid
             invalidate();
     }
 
-    void EntityShot::doHit(World & world, Collision & c, float delta)
+    void Shot::doHit(World & world, Collision & c, float delta)
     {
         sf::Color clr(255,255,255);
 
@@ -105,10 +107,10 @@ namespace grid
         }
 
         // Hit particles
-        world.spawnEntity(new EntityShockWave(0.1, 0.8, 4, clr), pos);
+        world.spawnEntity(new entity::ShockWave(0.1, 0.8, 4, clr), pos);
     }
 
-    void EntityShot::onDestruction(GameUpdate & up)
+    void Shot::onDestruction(GameUpdate & up)
     {
         Sound::instance().playSound("ricochet", sf::Randomizer::Random(0.9f, 1.1f), 20, pos);
     }
@@ -117,17 +119,18 @@ namespace grid
         Serialization
     */
 
-    void EntityShot::serialize(std::ostream & os)
+    void Shot::serialize(std::ostream & os)
     {
         Entity::serialize(os);
         util::serialize(os, m_shooterID);
     }
 
-    void EntityShot::unserialize(std::istream & is)
+    void Shot::unserialize(std::istream & is)
     {
         Entity::unserialize(is);
         util::unserialize(is, m_shooterID);
     }
 
+} // namespace entity
 } // namespace grid
 

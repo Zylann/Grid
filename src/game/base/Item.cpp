@@ -32,7 +32,7 @@ namespace grid
     Entity * Item::getOwner() const
     {
         if(r_inventory != NULL)
-            return r_inventory->getOwner();
+            return r_inventory->getEntity();
         return NULL;
     }
 

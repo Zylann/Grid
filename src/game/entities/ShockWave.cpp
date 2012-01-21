@@ -1,6 +1,6 @@
 /*
 Grid
-EntityShockWave.cpp
+entity::ShockWave.cpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,13 +18,15 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "game/entities/EntityShockWave.hpp"
+#include "game/entities/ShockWave.hpp"
 #include "game/renderers/RenderModel.hpp"
 #include "game/GameUpdate.hpp"
 
 namespace grid
 {
-    EntityShockWave::EntityShockWave(
+namespace entity
+{
+    ShockWave::ShockWave(
         float startRadius, float endRadius, float propagateSpeed,
         sf::Color color, int ID)
     : Entity(ID)
@@ -44,7 +46,7 @@ namespace grid
         setRenderer(r);
     }
 
-    void EntityShockWave::updateMe(GameUpdate & up)
+    void ShockWave::updateMe(GameUpdate & up)
     {
         m_radius += m_propagateSpeed * up.delta;
 
@@ -65,5 +67,6 @@ namespace grid
             invalidate();
     }
 
+} // namespace entity
 } // namespace grid
 

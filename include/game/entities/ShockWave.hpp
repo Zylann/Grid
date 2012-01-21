@@ -1,6 +1,6 @@
 /*
 Grid
-PlayerController.hpp
+entity::ShockWave.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,48 +18,48 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLAYERCONTROLLER_HPP_INCLUDED
-#define PLAYERCONTROLLER_HPP_INCLUDED
+#ifndef ENTITYSHOCKWAVE_HPP_INCLUDED
+#define ENTITYSHOCKWAVE_HPP_INCLUDED
 
-#include "game/base/Component.hpp"
-#include "game/components/Mover.hpp"
+#include "game/base/Entity.hpp"
 
 namespace grid
 {
-    namespace entity
-    {
-        class Player;
-    }
-
-    class PlayerController : public Component
+namespace entity
+{
+    class ShockWave : public Entity
     {
     protected :
 
-        bool m_lastMouseLeft;
-        bool m_lastMouseRight;
-        Mover * r_mover;
-        entity::Player * r_player;
+        float m_startRadius;
+        float m_radius;
+        float m_endRadius;
+        float m_propagateSpeed;
 
     public :
 
-        PlayerController(entity::Player * p, int ID = -1) : Component(ID)
+        ShockWave(int ID = -1) : Entity(ID)
         {
-            m_lastMouseLeft = false;
-            m_lastMouseRight = false;
-            r_mover = NULL;
-            r_player = p;
+            m_startRadius = 0;
+            m_radius = 0;
+            m_endRadius = 0;
+            m_propagateSpeed = 1;
         }
 
-        void setMover(Mover * m) { r_mover = m; }
+        ShockWave(
+            float startRadius, float endRadius, float propagateSpeed,
+            sf::Color color = sf::Color(255,255,255),
+            int ID = -1);
 
-        virtual void update(GameUpdate & up);
-        virtual bool processMessage(Message & msg);
+        void updateMe(GameUpdate & up);
 
-        // Controllers haven't to be serialized.
+        virtual int getType() const { return ENT_SHOCKWAVE; }
+
         virtual bool isSerializable() const { return false; }
     };
 
+} // namespace entity
 } // namespace grid
 
 
-#endif // PLAYERCONTROLLER_HPP_INCLUDED
+#endif // ENTITYSHOCKWAVE_HPP_INCLUDED
