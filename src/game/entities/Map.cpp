@@ -43,8 +43,8 @@ namespace entity
             m_minimap.Create(size.x, size.y, sf::Color(0,0,0));
             m_minimap.SetSmooth(false);
 
-            if(r_renderMap != NULL)
-                r_renderMap->update();
+//            if(r_renderMap != NULL)
+//                r_renderMap->update();
 
             Vector2i pos;
             for(pos.y = 0; pos.y < size.y; pos.y++)
@@ -165,8 +165,8 @@ namespace entity
             m_data.setNoEx(pos, t);
             updateMinimap(pos);
         }
-        if(m_renderer != NULL)
-            m_renderer->update();
+//        if(m_renderer != NULL)
+//            m_renderer->update();
     }
 
 } // namespace entity

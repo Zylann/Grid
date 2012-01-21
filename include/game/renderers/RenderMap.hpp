@@ -23,10 +23,43 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/base/Renderer.hpp"
 #include "game/renderers/RenderMinimap.hpp"
+#include "game/Model.hpp"
+#include "game/Terrain.hpp"
+
+#include "utility/Exception.hpp"
+#include "utility/Buffer2D.hpp"
 
 namespace grid
 {
     namespace entity { class Map; }
+
+    struct MapTile
+    {
+        terrain::Instance data;
+        bool borders[4];
+        bool upShadow;
+        unsigned char light; // [0,16]
+
+        MapTile()
+        {
+            for(int i = 0; i < 4; i++)
+                borders[i] = false;
+            upShadow = false;
+        }
+
+        MapTile(const entity::Map & map, const Vector2i & pos)
+        {
+            update(map, pos);
+        }
+
+        void update(const entity::Map & map, const Vector2i & pos);
+
+        // Ground and block
+        void renderPass1(Graphics & gfx, Vector2i & pos);
+
+        // Shadows and block borders
+        void renderPass2(Graphics & gfx, Vector2i & pos);
+    };
 
     class RenderMap : public Renderer
     {
@@ -34,15 +67,12 @@ namespace grid
 
         entity::Map * r_map;
         RenderMinimap * m_renderMinimap;
+        util::Buffer2D<MapTile> m_tiles;
 
     public :
 
         RenderMap(int pass, entity::Map * map);
-
-        virtual ~RenderMap()
-        {
-            delete m_renderMinimap;
-        }
+        virtual ~RenderMap();
 
         virtual void update();
 
@@ -50,6 +80,14 @@ namespace grid
 
         virtual void render(Graphics & gfx);
         virtual void registerRender(RenderManager & renderMgr);
+
+        /* Static methods */
+
+        static void freeTerrainTiles();
+        static void createTerrainTiles();
+
+        static Model & getGroundTile(unsigned char ID) throw(util::Exception);
+        static Model & getBlockTile(unsigned char ID) throw(util::Exception);
     };
 
 } // namespace grid
