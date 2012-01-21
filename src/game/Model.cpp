@@ -29,7 +29,7 @@ namespace grid
         return m_shapes.size() - 1;
     }
 
-    void Model::render(Graphics & gfx)
+    void Model::render(Graphics & gfx) const
     {
         for(unsigned int i = 0; i < m_shapes.size(); i++)
         {
@@ -37,7 +37,7 @@ namespace grid
         }
     }
 
-    void Model::setPosition(Vector2f & pos)
+    void Model::setPosition(const Vector2f & pos)
     {
         for(unsigned int i = 0; i < m_shapes.size(); i++)
             m_shapes[i]->SetPosition(pos);

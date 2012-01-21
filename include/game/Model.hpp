@@ -61,14 +61,14 @@ namespace grid
 
         int addShape(sf::Shape * newShape);
 
-        void setPosition(Vector2f & pos);
+        void setPosition(const Vector2f & pos);
         void setRotation(float t);
         void setScale(float s);
         void setColor(const sf::Color & color);
 
         sf::Shape * getShape(int index);
 
-        void render(Graphics & gfx);
+        void render(Graphics & gfx) const;
     };
 
 } // namespace grid
