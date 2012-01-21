@@ -52,22 +52,30 @@ namespace grid
         gfx.draw(m_fpsStr);
         gfx.draw(m_objectsCountStr);
 
-        // Drawing frametime use bar
-        float updateRatio = m_updateTime / m_frameTime;
-        float renderRatio = m_renderTime / m_frameTime;
-        float barSize = 200;
-        float barX = 200, barY = 5;
-        float updateRatioX = updateRatio * barSize;
-        float renderRatioX = updateRatioX + renderRatio * barSize;
+//        float updateRatio = m_updateTime / m_frameTime;
+//        float renderRatio = m_renderTime / m_frameTime;
+//        float barSize = 200;
+        float barX = 200, barY = 5, barH = 8, scale = 4000;
+        float updateX = barX + scale * m_updateTime;
+        float renderX = barX + scale * m_renderTime;
+        float remainX = barX + scale * (m_frameTime - m_updateTime - m_renderTime);
+        float limitX = barX + scale * 1 / 60.f;
 
-        gfx.draw(sf::Shape::Rectangle(
-            barX, barY, barX + updateRatioX, 30, sf::Color(255,0,0,128)));
+        // update part
+        gfx.draw(sf::Shape::Line(
+            barX, barY, updateX, barY, barH, sf::Color(255,0,0,192)));
 
-        gfx.draw(sf::Shape::Rectangle(
-            barX + updateRatioX, barY, barX + renderRatioX, 30, sf::Color(0,255,0,128)));
+        // render part
+        gfx.draw(sf::Shape::Line(
+            barX, barY + barH, renderX, barY + barH, barH, sf::Color(0,255,0,192)));
 
-        gfx.draw(sf::Shape::Rectangle(
-            barX + renderRatioX, barY, barX + barSize, 30, sf::Color(128,128,128,128)));
+        // remaining part
+        gfx.draw(sf::Shape::Line(
+            barX, barY + 2*barH, remainX, barY + 2*barH, barH, sf::Color(128,128,128,192)));
+
+        // limit
+        gfx.draw(sf::Shape::Line(
+            limitX, barY + barH/2, limitX, barY + 2*barH + barH/2, 1, sf::Color(255,255,255,192)));
     }
 
 } // namespace grid
