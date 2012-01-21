@@ -84,6 +84,8 @@ namespace terrain
         for(unsigned int i = 0; i < GT_COUNT; i++)
             g_grounds[i] = NULL;
 
+        // Ground types are defined here
+
         setGround(new Ground(GT_VOID))
             .setName("void_ground")
             .setMinimapColor(sf::Color(0, 0, 0));
@@ -137,6 +139,8 @@ namespace terrain
 
         for(unsigned int i = 0; i < BT_COUNT; i++)
             g_blocks[i] = NULL;
+
+        // Block types are defined here
 
         setBlock(new Block(BT_VOID))
             .setName("void_block").setCrossable(false)

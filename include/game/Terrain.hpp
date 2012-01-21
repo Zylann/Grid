@@ -87,6 +87,11 @@ namespace terrain
         const Ground & getGround() const;
         const Block & getBlock() const;
 
+        inline bool isVoid() const
+        {
+            return groundType == terrain::GT_VOID || blockType == terrain::BT_VOID;
+        }
+
         void print(std::ostream & os);
 
         void serialize(std::ostream & os) const
