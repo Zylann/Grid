@@ -21,13 +21,13 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 
 #include "game/Game.hpp"
+#include "game/Terrain.hpp"
+#include "game/Sound.hpp"
+#include "game/GameUpdate.hpp"
 #include "game/states/GamePlay.hpp"
 #include "game/states/MainMenu.hpp"
 #include "game/states/Loading.hpp"
 #include "game/states/WorldEditor.hpp"
-#include "game/Terrain.hpp"
-#include "game/Sound.hpp"
-#include "game/GameUpdate.hpp"
 
 #include "gui/Theme.hpp"
 
@@ -37,7 +37,7 @@ using namespace util;
 
 namespace grid
 {
-    Game::Game()
+    Game::Game() : StateMachine<GameState>()
     {
         // Create the main window
         m_screen.Create(
@@ -70,7 +70,6 @@ namespace grid
         m_debugDisplay = new DebugDisplay();
         m_debugDisplay->enable(false);
 
-        r_currentState = NULL;
         m_runFlag = false;
         m_cursorVisible = true;
     }
@@ -79,20 +78,14 @@ namespace grid
     {
         std::cout << "Game destruction..." << std::endl;
 
-        std::map<int, GameState*>::iterator it;
-        for(it = m_states.begin(); it != m_states.end(); it++)
-        {
-            delete it->second;
-            it->second = NULL;
-        }
-
+        // Deleting graphics engine
         delete m_graphics;
 
         // Deleting terrain types
         terrain::Ground::freeAll();
         terrain::Block::freeAll();
 
-        // Deleting sound
+        // Deleting sound engine
         Sound::kill();
 
         // Deleting debug display
@@ -105,67 +98,25 @@ namespace grid
         std::cout << "Game deleted (IC = " << GameObject::getInstanceCount() << ")" << std::endl;
     }
 
+    void Game::init()
+    {
+        std::map<int, GameState*>::iterator it;
+        for(it = m_states.begin(); it != m_states.end(); it++)
+            it->second->init();
+    }
+
     void Game::setCursorImage(const sf::Image & img)
     {
         m_cursor.SetImage(img);
-    }
-
-    void Game::addState(GameState * state)
-    {
-        std::pair<std::map<int, GameState*>::iterator, bool> res =
-            m_states.insert(std::pair<int, GameState*>( state->getID(), state ));
-
-        // States must be unique
-        if(!res.second)
-        {
-            std::cout << "ERROR: Game::addState: "
-                << "the state " << state->getID() << "is already registered" << std::endl;
-            return;
-        }
-    }
-
-    GameState * Game::getState(int stateID)
-    {
-        std::map<int, GameState*>::iterator it = m_states.find(stateID);
-        if(it != m_states.end())
-            return it->second;
-        return NULL;
-    }
-
-    void Game::enterState(int stateID)
-    {
-        // Finding state
-        GameState * newState = getState(stateID);
-        if(newState != NULL)
-        {
-            // Leave last state
-            if(r_currentState != NULL)
-                r_currentState->leave();
-
-            r_currentState = newState;
-
-            // Create its gui if it's not done
-            if(r_currentState->getGui() == NULL)
-                r_currentState->createGui();
-
-            // Enter new state
-            r_currentState->enter();
-        }
-        else
-        {
-            std::cout << "ERROR: Game::enterState: "
-                << "the state " << stateID << "is not registered" << std::endl;
-        }
     }
 
     void Game::run()
     {
         std::cout << "Game begin" << std::endl;
 
-        // Entering first state
+        // Entering first state : it must exist
         enterState(ST_LOADING);
-
-        if(r_currentState == NULL)
+        if(getCurrentState() == NULL)
         {
             std::cout << "ERROR: Game::run: "
                 << "the game couldn't run because no starting state were specified" << std::endl;
@@ -223,14 +174,14 @@ namespace grid
                         up.mouseWheelDown = true;
                 }
 
-                r_currentState->onEvent(
+                getCurrentState()->onEvent(
                     event, Vector2i(sceneMouseCoords.x, sceneMouseCoords.y));
             }
 
             timer.Reset();
 
             // Updating current state
-            r_currentState->update(up);
+            getCurrentState()->update(up);
 
             // Updating sound
             Sound::instance().update();

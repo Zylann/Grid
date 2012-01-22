@@ -45,12 +45,13 @@ namespace grid
     public :
 
         Loading(int stateID, Game * game);
+        virtual ~Loading();
 
         virtual void update(GameUpdate & up);
         virtual void render(Graphics & gfx);
 
-        virtual void enter();
-        virtual void leave();
+        virtual void onEnter();
+        virtual void onLeave();
     };
 
 } // namespace grid

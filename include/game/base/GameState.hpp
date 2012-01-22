@@ -24,16 +24,20 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "common.hpp"
 
 #include "utility/Exception.hpp"
+#include "utility/StateMachine.hpp"
+
 #include "game/Graphics.hpp"
+#include "game/GameException.hpp"
+
 #include "gui/Frame.hpp"
 #include "gui/EventListener.hpp"
-#include "game/GameException.hpp"
 
 namespace grid
 {
     enum GameStateID
     {
-        ST_LOADING = 0,
+        ST_ROOT = 0,
+        ST_LOADING,
         ST_MAIN_MENU,
         ST_GAME_PLAY,
         ST_WORLD_EDITOR
@@ -42,31 +46,34 @@ namespace grid
     class GameUpdate;
     class Game;
 
-    class GameState : public gui::EventListener
+    /*
+        A game state is a part of the game's state machine.
+        It can have sub-states that are updated and rendered at the same time of their parent.
+        Ex : in the GamePlay state, when we win, the state GameWin is running too.
+    */
+
+    class GameState :
+        public gui::EventListener,
+        public util::State,
+        public util::StateMachine<GameState>
     {
     protected :
 
-        int m_ID;
-        gui::WidgetContainer * m_gui;
-        Game * r_game;
+        Game * r_game; // Root
+        GameState * r_parent; // Parent
+        gui::WidgetContainer * m_gui; // Integrated GUI
 
     public :
 
-        GameState(int stateID, Game * game);
+        GameState(int stateID, Game * game, GameState * parent = NULL);
         virtual ~GameState();
-
-        inline int getID() const { return m_ID; }
 
         /* State */
 
-        virtual void update(GameUpdate & up) = 0;
-        virtual void render(Graphics & gfx) = 0;
+        virtual void init();
 
-        // Called when we enter the state
-        virtual void enter() {}
-
-        // Called when we leave the state
-        virtual void leave() {}
+        virtual void update(GameUpdate & up);
+        virtual void render(Graphics & gfx);
 
         /* GUI */
 
@@ -74,6 +81,7 @@ namespace grid
         // It is called after enterState().
         virtual void createGui() {}
 
+        // Overrides gui::EventListener::onEvent()
         virtual bool onEvent(const sf::Event & e, const Vector2i & mouse);
 
         gui::WidgetContainer * getGui() { return m_gui; }

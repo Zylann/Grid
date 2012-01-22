@@ -36,13 +36,19 @@ namespace grid
         m_initialLoadItemsCount = 0;
     }
 
+    Loading::~Loading()
+    {
+        std::cout << "Loading state deletion" << std::endl;
+    }
+
     void Loading::update(GameUpdate & up)
     {
         // Continue until all loadings are done
         if(m_loadingList.finished())
         {
-            up.game->setCursorImage(resources::getImage("cursor"));
-            up.game->enterState(ST_MAIN_MENU);
+            r_game->init();
+            r_game->setCursorImage(resources::getImage("cursor"));
+            r_game->enterState(ST_MAIN_MENU);
             return;
         }
 
@@ -67,7 +73,7 @@ namespace grid
         m_progressBar.render(gfx);
     }
 
-    void Loading::enter()
+    void Loading::onEnter()
     {
         // Read resource list file
         if(!m_loadingList.loadFromLuaScript("registerResources.lua"))
@@ -82,9 +88,8 @@ namespace grid
         m_initialLoadItemsCount = m_loadingList.getTotalRemaining();
     }
 
-    void Loading::leave()
+    void Loading::onLeave()
     {
-
     }
 
 } // namespace grid

@@ -20,33 +20,72 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/base/GameState.hpp"
 
+using namespace util;
+
 namespace grid
 {
-    GameState::GameState(int stateID, Game * game)
+    GameState::GameState(int stateID, Game * game, GameState * parent)
+    : gui::EventListener(), State(stateID), StateMachine<GameState>()
     {
-        m_ID = stateID;
         m_gui = NULL;
         r_game = game;
+        r_parent = parent;
     }
 
     GameState::~GameState()
     {
+        // Deleting GUI
         if(m_gui != NULL)
             delete m_gui;
-        std::cout << "State " << m_ID << " deleted" << std::endl;
+
+        std::cout << "State " << getID() << " deleted" << std::endl;
+    }
+
+    void GameState::init()
+    {
+        // Creating GUI
+        if(getGui() == NULL)
+            createGui();
+
+        // Initializing sub-states
+        std::map<int, GameState*>::iterator it;
+        for(it = m_states.begin(); it != m_states.end(); it++)
+            it->second->init();
     }
 
     bool GameState::onEvent(const sf::Event & e, const Vector2i & mouse)
     {
+        GameState * currentState = getCurrentState();
+        if(currentState != NULL)
+        {
+            // A sub state can intercept the event
+            if(currentState->onEvent(e, mouse))
+                return true;
+        }
+        // however, the state itself will perform the event
         if(m_gui != NULL)
         {
             // return true if the gui processed the event
             if(m_gui->onEvent(e, mouse))
                 return true;
         }
-        // however, the state itself will perform the event
+        // Or other events...
         return gui::EventListener::onEvent(e, mouse);
     }
+
+    void GameState::update(GameUpdate & up)
+    {
+        if(getCurrentState() != NULL)
+            getCurrentState()->update(up);
+    }
+
+    void GameState::render(Graphics & gfx)
+    {
+        if(getCurrentState() != NULL)
+            getCurrentState()->render(gfx);
+    }
+
+    /* GUI */
 
     bool GameState::isGuiOpened()
     {

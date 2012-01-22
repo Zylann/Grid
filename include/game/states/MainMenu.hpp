@@ -36,16 +36,15 @@ namespace grid
         MainMenu(int stateID, Game * game) : GameState(stateID, game)
         {}
 
-        virtual ~MainMenu()
-        {}
+        virtual ~MainMenu();
 
         virtual void createGui();
 
         virtual void update(GameUpdate & up);
         virtual void render(Graphics & gfx);
 
-        virtual void enter();
-        virtual void leave();
+        virtual void onEnter();
+        virtual void onLeave();
 
         void startGame();
         void enterEditor();

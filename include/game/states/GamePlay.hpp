@@ -44,12 +44,10 @@ namespace grid
         virtual void update(GameUpdate & up);
         virtual void render(Graphics & gfx);
 
-        virtual void enter();
-        virtual void leave();
+        virtual void onEnter();
+        virtual void onLeave();
 
         virtual void createGui();
-
-        void init();
 
         virtual bool keyReleaseEvent(sf::Key::Code key, char character);
 

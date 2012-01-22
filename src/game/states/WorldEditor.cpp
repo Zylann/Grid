@@ -64,12 +64,7 @@ namespace grid
         m_gui->addChild(r_console);
     }
 
-    void WorldEditor::enter()
-    {
-        init();
-    }
-
-    void WorldEditor::init()
+    void WorldEditor::onEnter()
     {
         if(m_world == NULL)
         {
@@ -270,7 +265,7 @@ namespace grid
         return true;
     }
 
-    void WorldEditor::leave()
+    void WorldEditor::onLeave()
     {
         if(m_world != NULL)
         {

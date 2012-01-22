@@ -33,7 +33,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-    class Game
+    class Game : public util::StateMachine<GameState>
     {
     private :
 
@@ -41,8 +41,6 @@ namespace grid
         Graphics * m_graphics;
         sf::Sprite m_cursor;
         bool m_cursorVisible;
-        std::map<int, GameState*> m_states;
-        GameState * r_currentState;
         bool m_runFlag;
         DebugDisplay * m_debugDisplay;
 
@@ -52,8 +50,7 @@ namespace grid
         ~Game();
 
         void run();
-        void enterState(int stateID);
-        GameState * getState(int stateID);
+        void init();
 
         const sf::Input & getInput() { return m_screen.GetInput(); }
         const Vector2f getSceneMouseCoords();
@@ -61,10 +58,6 @@ namespace grid
         void setCursorImage(const sf::Image & img);
         void setCursorVisible(bool visible) { m_cursorVisible = visible; }
         void quit() { m_runFlag = false; }
-
-    private :
-
-        void addState(GameState * state);
     };
 
 } // namespace grid

@@ -61,10 +61,8 @@ namespace grid
         virtual void update(GameUpdate & up);
         virtual void render(Graphics & gfx);
 
-        virtual void enter();
-        virtual void leave();
-
-        void init();
+        virtual void onEnter();
+        virtual void onLeave();
 
         virtual bool mouseLeftPressEvent(Vector2i pos);
         virtual bool mouseRightPressEvent(Vector2i pos);

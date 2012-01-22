@@ -80,6 +80,8 @@ namespace grid
 
     void GamePlay::update(GameUpdate & up)
     {
+        GameState::update(up);
+
         up.gamePlay = this;
         up.world = m_world;
 
@@ -101,7 +103,7 @@ namespace grid
 
     void GamePlay::render(Graphics & gfx)
     {
-//        static sf::Clock timer;
+        GameState::render(gfx);
 
         gfx.setView(VIEW_GAME);
         gfx.drawGrid();
@@ -118,6 +120,8 @@ namespace grid
         if(m_gui->isVisible())
             gfx.draw(*m_gui);
 
+        // This code is left here to remind how we could use post-effects
+//        static sf::Clock timer;
 //        sf::PostFX & effect = resources::getPostFX("wave");
 //		effect.SetTexture("tex", NULL);
 //		effect.SetParameter("time", 0.5 * timer.GetElapsedTime());
@@ -127,7 +131,7 @@ namespace grid
 //        gfx.draw(effect);
     }
 
-    void GamePlay::enter()
+    void GamePlay::onEnter()
     {
         if(m_target.GetImage() == NULL)
         {
@@ -138,16 +142,6 @@ namespace grid
             m_target.SetScale(1.f / GAME_TILES_SIZE, 1.f / GAME_TILES_SIZE);
         }
 
-        resumeGame();
-        init();
-    }
-
-    void GamePlay::leave()
-    {
-    }
-
-    void GamePlay::init()
-    {
         if(m_world != NULL)
             delete m_world;
         m_world = new World;
@@ -165,6 +159,7 @@ namespace grid
             throw GameException("Cannot load world '" + worldPath + "'");
         }
 
+        // This code add several spawners to the level
 //        for(unsigned int i = 0; i < 6; i ++)
 //        {
 //            Entity * spawner = new Entity();
@@ -177,6 +172,11 @@ namespace grid
 //        }
 
         respawn();
+        resumeGame();
+    }
+
+    void GamePlay::onLeave()
+    {
     }
 
     bool GamePlay::keyReleaseEvent(sf::Key::Code key, char character)

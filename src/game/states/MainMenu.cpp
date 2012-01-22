@@ -30,6 +30,11 @@ using namespace util;
 
 namespace grid
 {
+    MainMenu::~MainMenu()
+    {
+        std::cout << "MainMenu deletion" << std::endl;
+    }
+
     void MainMenu::createGui()
     {
         // The main theme is defined here
@@ -67,7 +72,7 @@ namespace grid
         r_game->enterState(ST_WORLD_EDITOR);
     }
 
-    void MainMenu::enter()
+    void MainMenu::onEnter()
     {
         m_background.SetImage(resources::getImage("main"));
     }
@@ -88,7 +93,7 @@ namespace grid
         gfx.draw(*m_gui);
     }
 
-    void MainMenu::leave()
+    void MainMenu::onLeave()
     {
     }
 
