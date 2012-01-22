@@ -252,7 +252,7 @@ namespace grid
         virtual void registerRender(RenderManager & manager);
 
         // Returns the type ID of the entity (Used for serialization and specializations)
-        virtual int getType() const { return -1; }
+        virtual int getType() const { return ENT_BASIC; }
 
         /* Static methods */
 
