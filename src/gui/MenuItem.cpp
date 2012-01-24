@@ -1,6 +1,6 @@
 /*
 Grid
-Frame.cpp
+gui/MenuItem.cpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,31 +18,47 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "gui/Frame.hpp"
+#include "gui/MenuItem.hpp"
 #include "gui/Theme.hpp"
 
 namespace gui
 {
-    void Frame::onShow()
-    {
-        Theme::getTheme().playShowFrameSound();
-    }
-
-    void Frame::onHide()
-    {
-        Theme::getTheme().playHideFrameSound();
-    }
-
-    void Frame::render(sf::RenderWindow & screen)
+    void MenuItem::render(sf::RenderWindow & screen)
     {
         if(!isVisible())
             return;
 
-        // Render frame
-        Theme::getTheme().renderFrame(*this, screen);
+        Theme::getTheme().renderMenuItem(*this, screen);
 
-        // Render children
-        WidgetContainer::render(screen);
+        const Vector2i absPos = getPositionAbsolute();
+        m_renderText.SetPosition(absPos.x, absPos.y);
+        screen.Draw(m_renderText);
+    }
+
+    void MenuItem::setMenu(Menu * menu)
+    {
+        r_menu = menu;
+    }
+
+    void MenuItem::onActionPerformed()
+    {
+        if(r_menu == NULL)
+            return;
+        r_menu->onItemSelect(this);
+    }
+
+    bool MenuItem::isFirst() const
+    {
+        if(r_menu == NULL)
+            return false;
+        return getIndex() == 0;
+    }
+
+    bool MenuItem::isLast() const
+    {
+        if(r_menu == NULL)
+            return false;
+        return getIndex() == r_menu->getItemCount();
     }
 
 } // namespace gui

@@ -57,7 +57,6 @@ namespace grid
         {
             border = back;
         }
-
         screen.Draw(sf::Shape::Rectangle(A.x, A.y, B.x, B.y, back, 3, border));
     }
 
@@ -107,6 +106,36 @@ namespace grid
 
         line.getRenderText().SetPosition(A);
         screen.Draw(line.getRenderText());
+    }
+
+    void GuiTheme::renderMenu(Menu & menu, sf::RenderWindow & screen)
+    {
+        Vector2i A = menu.getPositionAbsolute();
+        Vector2i B = A + menu.getSize();
+
+        sf::Color back(96,96,96,128);
+
+        screen.Draw(sf::Shape::Rectangle(A.x, A.y, B.x, B.y, back));
+    }
+
+    void GuiTheme::renderMenuItem(MenuItem & item, sf::RenderWindow & screen)
+    {
+        Vector2i A = item.getPositionAbsolute();
+        Vector2i B = A + item.getSize();
+        sf::Color color(128,128,128, 192);
+
+        if(item.isEnabled())
+        {
+            color.r = 192;
+            color.g = 192;
+            color.b = 255;
+
+            if(item.isHovered())
+                color.g = 128;
+            if(item.isPressed())
+                color.b = 128;
+        }
+        screen.Draw(sf::Shape::Rectangle(A.x, A.y, B.x, B.y, color));
     }
 
     void GuiTheme::playButtonHoverSound()

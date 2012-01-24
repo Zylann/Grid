@@ -59,7 +59,7 @@ namespace gui
 
         Console(int x, int y, int w, int h, const sf::Font * font,
                GenericAction * enterAction = NULL,
-               Widget * parent = NULL);
+               WidgetContainer * parent = NULL);
 
         virtual ~Console()
         {

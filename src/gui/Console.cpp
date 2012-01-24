@@ -44,7 +44,7 @@ namespace gui
     */
 
     Console::Console(int x, int y, int w, int h, const sf::Font * font,
-           GenericAction * enterAction, Widget * parent)
+           GenericAction * enterAction, WidgetContainer * parent)
     : WidgetContainer(x, y, w, h, parent)
     {
         m_enterAction = enterAction;
@@ -99,6 +99,8 @@ namespace gui
 
     void Console::render(sf::RenderWindow & screen)
     {
+        if(!isVisible())
+            return;
         WidgetContainer::render(screen);
 
         std::list<ConsoleLine*>::iterator it;

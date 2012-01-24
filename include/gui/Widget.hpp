@@ -25,6 +25,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace gui
 {
+    class WidgetContainer;
+
     class Widget : public EventListener
     {
     protected :
@@ -39,17 +41,22 @@ namespace gui
         bool m_visible; // is the widget visible ?
         bool m_focused; // is the widget receives keyboard events ?
 
+        Vector2i m_lastMousePressPosition;
+
         // Parent
-        Widget * r_parent;
+        WidgetContainer * r_parent;
 
     public :
 
-        Widget(int x, int y, int w, int h, Widget* parent = NULL)
+        Widget(int x, int y, int w, int h, WidgetContainer * parent = NULL)
         {
             m_hovered = false;
             m_pressed = false;
-            r_parent = parent;
             m_focused = false;
+            m_visible = true;
+
+            r_parent = parent;
+
             setGeometry(x, y, w, h);
         }
 
@@ -66,16 +73,31 @@ namespace gui
         inline bool isVisible() const { return m_visible; }
         inline bool isFocused() const { return m_focused; }
 
+        inline const Vector2i & getLastMousePressPosition() const
+        { return m_lastMousePressPosition; }
+
         void setVisible(bool visible);
         void setHovered(bool h);
         void setPressed(bool p);
         void setFocused(bool f);
 
-        virtual void onShow() {};
-        virtual void onHide() {};
-        virtual void onHover() {};
-        virtual void onPress() {};
-        virtual void onFocus() {};
+        void show() { setVisible(true); }
+
+    protected :
+
+        /* Events */
+
+        virtual void onShow() {}
+        virtual void onHide() {}
+        virtual void onHover() {}
+        virtual void onPress() {}
+        virtual void onFocus() {}
+
+    public :
+
+        virtual bool onEvent(const sf::Event & e, const Vector2i & mousePos);
+
+        virtual bool mouseLeftPressEvent(Vector2i pos);
 
         /* Geometry */
 
@@ -89,8 +111,10 @@ namespace gui
 
         /* Parent */
 
-        inline Widget * getParent() const { return r_parent; }
-        inline void setParent(Widget * p) { r_parent = p; }
+        inline WidgetContainer * getParent() const { return r_parent; }
+        void setParent(WidgetContainer * p);
+
+        void popup();
     };
 
 } // namespace gui

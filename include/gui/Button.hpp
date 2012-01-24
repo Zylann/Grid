@@ -39,7 +39,7 @@ namespace gui
         Button(int x, int y, int w, int h,
                const std::string & text,
                const sf::Font & font,
-               Widget * parent = NULL)
+               WidgetContainer * parent = NULL)
         : Widget(x, y, w, h, parent)
         {
             m_renderText.SetFont(font);
@@ -65,6 +65,7 @@ namespace gui
 
         virtual void onHover();
         virtual void onPress();
+        virtual void onActionPerformed() {}
 
         virtual void render(sf::RenderWindow & screen);
     };

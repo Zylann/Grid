@@ -45,7 +45,7 @@ namespace gui
         TextBar(int x, int y, int w, int h,
                 const sf::Font & font,
                 GenericAction * enterAction = NULL,
-                Widget * parent = NULL)
+                WidgetContainer * parent = NULL)
         : Widget(x, y, w, h, parent)
         {
             m_renderText.SetFont(font);

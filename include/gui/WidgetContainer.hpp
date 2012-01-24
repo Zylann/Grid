@@ -31,14 +31,30 @@ namespace gui
     {
     protected :
 
+        // Children ordered by drawing
         std::list<Widget*> m_children;
+
+        // during onEvent, widgets can be asked to popup, but this is done after iterating
+        // on children, because the list would be modified at the same time.
+        // Widgets are brang to front in the same order as this list.
+        // They are stored as references.
+        std::list<Widget*> m_widgetsToPopup;
+
+        // True if the container is currently iterating over m_children
+        bool m_isIterating;
 
     public :
 
-        WidgetContainer(int x, int y, int w, int h, Widget* parent = NULL)
+        // Constructs an empty container
+        // Note : the size is not used the WidgetContainer itself. However, it may be important
+        // for its subclasses.
+        WidgetContainer(int x, int y, int w, int h, WidgetContainer * parent = NULL)
         : Widget(x, y, w, h, parent)
-        {}
+        {
+            m_isIterating = false;
+        }
 
+        // Destroys the container and its children
         virtual ~WidgetContainer()
         {
             std::list<Widget*>::iterator it;
@@ -46,11 +62,17 @@ namespace gui
                 delete (*it);
         }
 
+        // Renders children widgets and the container (if needed)
         virtual void render(sf::RenderWindow & screen);
 
-        void addChild(Widget * widget);
-
+        // Dispatch events on children and the container (if needed)
         virtual bool onEvent(const sf::Event & e, const Vector2i & mousePos);
+
+        // Adds a widget in front of the others
+        virtual void addChild(Widget * widget);
+
+        // Executes doPopupChild after iterations over m_children
+        void popupChild(Widget * w);
     };
 
 } // namespace gui

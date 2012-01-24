@@ -19,6 +19,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "gui/Widget.hpp"
+#include "gui/WidgetContainer.hpp"
 
 namespace gui
 {
@@ -80,6 +81,36 @@ namespace gui
         const Vector2i absPos = getPositionAbsolute();
         return pos.x >= absPos.x && pos.x < absPos.x + m_size.x &&
                pos.y >= absPos.y && pos.y < absPos.y + m_size.y ;
+    }
+
+    void Widget::popup()
+    {
+        if(getParent() != NULL)
+            getParent()->popupChild(this);
+    }
+
+    void Widget::setParent(WidgetContainer * p)
+    {
+        if(r_parent == NULL)
+            r_parent = p;
+//        else
+//        {
+//            std::cerr << "WARNING: Widget::setParent: "
+//                << "the widget already have a parent" << std::endl;
+//        }
+    }
+
+    bool Widget::onEvent(const sf::Event & e, const Vector2i & mousePos)
+    {
+        if(isVisible())
+            return EventListener::onEvent(e, mousePos);
+        return false;
+    }
+
+    bool Widget::mouseLeftPressEvent(Vector2i pos)
+    {
+        m_lastMousePressPosition = pos;
+        return false;
     }
 
 } // namespace gui

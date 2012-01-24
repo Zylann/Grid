@@ -56,6 +56,7 @@ namespace gui
             setPressed(false);
             if(m_action != NULL)
                 m_action->execute();
+            onActionPerformed();
             return true;
         }
         setPressed(false);
@@ -85,6 +86,8 @@ namespace gui
     // Virtual
     void Button::render(sf::RenderWindow & screen)
     {
+        if(!isVisible())
+            return;
         Theme::getTheme().renderButton(*this, screen);
 
         const Vector2i absPos = getPositionAbsolute();

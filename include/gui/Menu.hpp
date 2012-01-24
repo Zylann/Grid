@@ -1,6 +1,6 @@
 /*
 Grid
-Frame.hpp
+gui/Menu.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,31 +18,46 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef FRAME_HPP_INCLUDED
-#define FRAME_HPP_INCLUDED
+#ifndef GUIMENU_HPP_INCLUDED
+#define GUIMENU_HPP_INCLUDED
 
 #include "gui/WidgetContainer.hpp"
+#include "gui/Action.hpp"
+//#include "gui/MenuItem.hpp"
 
 namespace gui
 {
-    class Frame : public WidgetContainer
+    class MenuItem;
+
+    class Menu : public WidgetContainer
     {
+    protected :
+
+        int m_itemCount;
+
     public :
 
-        Frame(int x, int y, int w, int h, WidgetContainer * parent = NULL)
+        Menu(int x, int y, int w, int h,
+             WidgetContainer * parent = NULL)
         : WidgetContainer(x, y, w, h, parent)
-        {}
+        {
+            m_itemCount = 0;
+        }
 
-        virtual ~Frame()
+        ~Menu()
         {}
-
-        virtual void onShow();
-        virtual void onHide();
 
         virtual void render(sf::RenderWindow & screen);
+
+        int addItem(MenuItem * item);
+        int addItem(const std::string & text, const sf::Font & font, GenericAction * action);
+        int getItemCount() const { return m_itemCount; }
+
+        void onItemSelect(MenuItem * item);
+        virtual bool mouseLeftPressEvent(Vector2i pos);
     };
 
 } // namespace gui
 
 
-#endif // FRAME_HPP_INCLUDED
+#endif // GUIMENU_HPP_INCLUDED

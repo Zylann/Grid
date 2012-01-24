@@ -37,7 +37,7 @@ namespace gui
     public :
 
         Label(int x, int y, int w, int h,
-               Widget * parent = NULL)
+               WidgetContainer * parent = NULL)
         : Widget(x, y, w, h, parent)
         {}
 

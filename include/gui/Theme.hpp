@@ -25,6 +25,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "gui/Frame.hpp"
 #include "gui/TextBar.hpp"
 #include "gui/Console.hpp"
+#include "gui/Menu.hpp"
+#include "gui/MenuItem.hpp"
 
 namespace gui
 {
@@ -46,6 +48,8 @@ namespace gui
         virtual void renderButton(Button & button, sf::RenderWindow & screen);
         virtual void renderFrame(Frame & frame, sf::RenderWindow & screen);
         virtual void renderTextBar(TextBar & textBar, sf::RenderWindow & screen) {}
+        virtual void renderMenu(Menu & menu, sf::RenderWindow & screen) {}
+        virtual void renderMenuItem(MenuItem & item, sf::RenderWindow & screen) {}
 
         virtual void renderConsoleLine(
             ConsoleLine & line, Console & console,

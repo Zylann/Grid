@@ -101,6 +101,9 @@ namespace gui
 
     void TextBar::render(sf::RenderWindow & screen)
     {
+        if(!isVisible())
+            return;
+
         Theme::getTheme().renderTextBar(*this, screen);
 
         const Vector2i absPos = getPositionAbsolute();

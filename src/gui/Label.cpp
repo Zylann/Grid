@@ -44,6 +44,9 @@ namespace gui
 
     void Label::render(sf::RenderWindow & screen)
     {
+        if(!isVisible())
+            return;
+
         Vector2i absPos = getPositionAbsolute();
 
         m_image.SetPosition(absPos.x, absPos.y);
