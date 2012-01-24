@@ -42,6 +42,8 @@ namespace grid
         virtual void renderButton(gui::Button & button, sf::RenderWindow & screen);
         virtual void renderFrame(gui::Frame & frame, sf::RenderWindow & screen);
         virtual void renderTextBar(gui::TextBar & textBar, sf::RenderWindow & screen);
+        virtual void renderMenu(gui::Menu & menu, sf::RenderWindow & screen);
+        virtual void renderMenuItem(gui::MenuItem & item, sf::RenderWindow & screen);
 
         virtual void renderConsoleLine(
             gui::ConsoleLine & line, gui::Console & console,
