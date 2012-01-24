@@ -61,7 +61,7 @@ namespace entity
 
     void Grenade::onDestruction(GameUpdate & up)
     {
-        up.world->spawnEntity(new entity::ShockWave(0.3, 5.0, 12, sf::Color(255,255,0)), pos);
+        up.level->spawnEntity(new entity::ShockWave(0.3, 5.0, 12, sf::Color(255,255,0)), pos);
         Sound::instance().playSound("explosion2", sf::Randomizer::Random(0.8f, 1.2f), 100, pos);
 
         float step = 0.3f;
@@ -74,7 +74,7 @@ namespace entity
             shot->speed = 20.f * v;
             shot->pos = pos;
             shot->team = team;
-            up.world->spawnEntity(shot);
+            up.level->spawnEntity(shot);
         }
     }
 

@@ -112,7 +112,7 @@ namespace entity
 
     void Player::onDestruction(GameUpdate & up)
     {
-        up.world->spawnEntity(new entity::ShockWave(0.3, 3.5, 12, sf::Color(255,128,0)), pos);
+        up.level->spawnEntity(new entity::ShockWave(0.3, 3.5, 12, sf::Color(255,128,0)), pos);
         Sound::instance().playSound("explosion", 1, 100, pos);
     }
 

@@ -35,12 +35,17 @@ namespace grid
         //int renderCount = 0;
 
         std::list<Renderer*>::iterator it;
+        bool renderBoundingBoxes = Renderer::isDisplayBoundingBoxes();
+
         for(unsigned int i = 0; i < RP_COUNT; i++)
         {
             for(it = r_renders[i].begin(); it != r_renders[i].end(); it++)
             {
                 gfx.setView((*it)->getViewID());
                 (*it)->render(gfx);
+
+                if(renderBoundingBoxes)
+                    (*it)->renderBoundingBox(gfx);
                 //renderCount++;
             }
         }

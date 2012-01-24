@@ -69,7 +69,7 @@ namespace grid
 
     void MainMenu::enterEditor()
     {
-        r_game->enterState(ST_WORLD_EDITOR);
+        r_game->enterState(ST_LEVEL_EDITOR);
     }
 
     void MainMenu::onEnter()

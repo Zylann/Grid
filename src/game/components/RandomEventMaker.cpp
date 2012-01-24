@@ -34,7 +34,7 @@ namespace grid
         if(m_remainingTime < 0)
         {
             randomizeRemainingTime();
-            doEvent(*(up.world));
+            doEvent(*(up.level));
         }
     }
 

@@ -51,7 +51,7 @@ namespace grid
 
         /* Sending acceleration */
 
-        r_owner->accelerate(acc * m_acceleration, up.delta, up.world);
+        r_owner->accelerate(acc * m_acceleration, up.delta, up.level);
     }
 
     bool OctoDirMover::processMessage(Message & msg)

@@ -1,6 +1,6 @@
 /*
 Grid
-World.cpp
+Level.cpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -24,7 +24,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utility/serialization.hpp"
 #include "utility/geometry.hpp"
 
-#include "game/World.hpp"
+#include "game/Level.hpp"
 #include "game/entities/Player.hpp"
 #include "game/entities/Shot.hpp"
 #include "game/entities/ShockWave.hpp"
@@ -34,20 +34,20 @@ using namespace util;
 
 namespace grid
 {
-    bool World::isEntityExistOrWillSpawn(int ID) const
+    bool Level::isEntityExistOrWillSpawn(int ID) const
     {
         // In entities OR in nextEntities
         return m_entities.find(ID) != m_entities.end() ||
            m_nextEntities.find(ID) != m_nextEntities.end();
     }
 
-    int World::spawnEntity(Entity * e)
+    int Level::spawnEntity(Entity * e)
     {
-        // Make sure the ID is unique in the world
+        // Make sure the ID is unique in the level
         if(isEntityExistOrWillSpawn(e->getID()))
         {
             std::stringstream ss;
-            ss << "World::spawnEntity: "
+            ss << "Level::spawnEntity: "
                 << "Cannot insert already registered entity " << e->getID();
             Entity * e2 = getEntity(e->getID());
             if(e2 != NULL)
@@ -61,13 +61,13 @@ namespace grid
         return e->getID();
     }
 
-    int World::addEntity(Entity * e)
+    int Level::addEntity(Entity * e)
     {
-        // Make sure the ID is unique in the world
+        // Make sure the ID is unique in the level
         if(isEntityExistOrWillSpawn(e->getID()))
         {
             std::stringstream ss;
-            ss << "World::addEntity: "
+            ss << "Level::addEntity: "
                 << "Cannot insert already registered entity " << e->getID();
             throw(EntityException(ss.str(), e, EntityException::EX_ERROR));
         }
@@ -76,9 +76,9 @@ namespace grid
         return addEntityNoCheck(e);
     }
 
-    int World::addEntityNoCheck(Entity * e)
+    int Level::addEntityNoCheck(Entity * e)
     {
-        e->setWorld(this);
+        e->setLevel(this);
 
         // Inserting
         m_entities.insert(std::pair<int, Entity*>(e->getID(), e));
@@ -94,7 +94,7 @@ namespace grid
         // Updating map unicity
         if(e->getType() == ENT_MAP)
         {
-            std::cout << "WARNING: World::addEntityNoCheck:"
+            std::cout << "WARNING: Level::addEntityNoCheck:"
                 << " a map entity is already registered" << std::endl;
             if(r_map != NULL)
                 eraseEntity(r_map->getID());
@@ -103,12 +103,12 @@ namespace grid
         return e->getID();
     }
 
-    int World::getEntityCount()
+    int Level::getEntityCount()
     {
         return m_entities.size();
     }
 
-    void World::update(GameUpdate & up)
+    void Level::update(GameUpdate & up)
     {
         // Next entities become active
         std::map<int, Entity*>::iterator it;
@@ -143,7 +143,7 @@ namespace grid
         }
     }
 
-    void World::render(Graphics & gfx)
+    void Level::render(Graphics & gfx)
     {
         m_renderManager.clear();
 
@@ -175,7 +175,7 @@ namespace grid
         m_renderManager.render(gfx);
     }
 
-    bool World::eraseEntity(int ID)
+    bool Level::eraseEntity(int ID)
     {
         // Finding entity
         std::map<int, Entity*>::iterator it = m_entities.find(ID);
@@ -197,13 +197,13 @@ namespace grid
         }
         else
         {
-            std::cout << "WARNING: World::eraseEntity: "
+            std::cout << "WARNING: Level::eraseEntity: "
                 << "entity " << ID << " not found" << std::endl;
             return false;
         }
     }
 
-    Entity * World::getEntity(int ID)
+    Entity * Level::getEntity(int ID)
     {
         std::map<int, Entity*>::iterator it = m_entities.find(ID);
         if(it != m_entities.end())
@@ -212,7 +212,7 @@ namespace grid
             return NULL;
     }
 
-    void World::getEntitiesInRadius(
+    void Level::getEntitiesInRadius(
         std::list<Entity*> & entities,
         const Vector2f & pos, float radius, Entity * e)
     {
@@ -231,7 +231,7 @@ namespace grid
     }
 
 
-    bool World::isCollisions(Entity * e)
+    bool Level::isCollisions(Entity * e)
     {
         if(e->getBoundingBox() == NULL)
             return false;
@@ -246,7 +246,7 @@ namespace grid
         return !collisions.empty();
     }
 
-    void World::getCollisions(
+    void Level::getCollisions(
         std::list<Collision> & collisions,
         const AxisAlignedBB & box,
         Entity * e)
@@ -262,7 +262,7 @@ namespace grid
         // TODO use the bounding box to get less divisions
         // Computing space division area
         static Vector2i divPos;
-        Vector2i minDiv = m_spaceDivider.toDivisionCoords(e->pos);
+        Vector2i minDiv = m_spaceDivider.toDivisionCoords(e != NULL ? e->pos : box.getCenter());
         minDiv.x--;
         minDiv.y--;
         Vector2i maxDiv = minDiv + Vector2i(2, 2);
@@ -306,9 +306,9 @@ namespace grid
         Serialization
     */
 
-    void World::serialize(std::ostream & os)
+    void Level::serialize(std::ostream & os)
     {
-        // World info
+        // Level info
         util::serialize(os, m_name);
         util::serialize(os, m_spawnPosition);
 
@@ -330,11 +330,11 @@ namespace grid
         }
     }
 
-    void World::unserialize(std::istream & is) throw(GameException)
+    void Level::unserialize(std::istream & is) throw(GameException)
     {
         clear();
 
-        // World info
+        // Level info
         util::unserialize(is, m_name);
         util::unserialize(is, m_spawnPosition);
 
@@ -358,7 +358,7 @@ namespace grid
             {
                 std::stringstream ss;
                 ss << e.what() << std::endl;
-                ss << "In World::unserialize";
+                ss << "In Level::unserialize";
                 throw GameException(ss.str());
             }
 

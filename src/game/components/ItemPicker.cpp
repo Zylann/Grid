@@ -30,7 +30,7 @@ namespace grid
         std::list<Entity*> entities;
         std::list<Entity*>::iterator it;
 
-        up.world->getEntitiesInRadius(entities, r_owner->pos, 1);
+        up.level->getEntitiesInRadius(entities, r_owner->pos, 1);
 
         Entity * e = NULL;
         for(it = entities.begin(); it != entities.end(); it++)

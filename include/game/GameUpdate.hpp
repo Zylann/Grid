@@ -25,7 +25,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/Game.hpp"
 #include "game/states/GamePlay.hpp"
-#include "game/World.hpp"
+#include "game/Level.hpp"
 
 namespace grid
 {
@@ -33,7 +33,7 @@ namespace grid
     {
         Game * game;
         GamePlay * gamePlay;
-        World * world;
+        Level * level;
         float delta;
 
         bool mouseWheelUp;
@@ -45,7 +45,7 @@ namespace grid
         {
             game = NULL;
             gamePlay = NULL;
-            world = NULL;
+            level = NULL;
             delta = p_delta;
             mouseWheelDown = false;
             mouseWheelUp = false;

@@ -35,7 +35,7 @@ namespace grid
 
         HealthBonus(int ID = -1);
 
-        virtual void onPick(Entity * owner, World * world = NULL);
+        virtual void onPick(Entity * owner, Level * level = NULL);
         virtual void update(GameUpdate & up);
         virtual bool processMessage(Message & msg);
 

@@ -40,7 +40,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-    class World;
+    class Level;
     class Game;
     class Entity;
     class GameUpdate;
@@ -114,7 +114,7 @@ namespace grid
         Vector2f m_lastPos; // position at last update
         float m_lifeTime;   // time in seconds
 
-        World * r_world;    // reference world
+        Level * r_level;    // reference level
 
     public :
 
@@ -138,7 +138,7 @@ namespace grid
             name = "_entity_";
             team = 0;
             m_lifeTime = 0;
-            r_world = NULL;
+            r_level = NULL;
         }
 
         virtual ~Entity()
@@ -186,11 +186,11 @@ namespace grid
         // Get the entity's renderer. Returns NULL if there are none.
         Renderer * getRenderer();
 
-        // Sets the reference world of the entity
-        inline void setWorld(World * w) { r_world = w; }
+        // Sets the reference level of the entity
+        inline void setLevel(Level * w) { r_level = w; }
 
-        // Returns the reference world of the entity
-        inline World * getWorld() const { return r_world; }
+        // Returns the reference level of the entity
+        inline Level * getLevel() const { return r_level; }
 
         void setBoundingBox(util::AxisAlignedBB * box);
 
@@ -221,15 +221,15 @@ namespace grid
         void lookAt(const Vector2f & target);
 
         // Applies an acceleration to the entity's speed.
-        virtual void accelerate(const Vector2f & acc, float delta, World * world = NULL);
+        virtual void accelerate(const Vector2f & acc, float delta, Level * level = NULL);
 
         // Moves the entity using its current speed.
-        virtual void move(float delta, World & world);
+        virtual void move(float delta, Level & level);
 
         // Moves the entity from a motion in units.
         // If the entity has a Physics component, the resulting motion can be different.
         // Return : resulting motion.
-        virtual Vector2f move(const Vector2f & motion, World & world);
+        virtual Vector2f move(const Vector2f & motion, Level & level);
 
         // Updates the entity for one frame
         virtual void update(GameUpdate & up);

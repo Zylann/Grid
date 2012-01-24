@@ -26,7 +26,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-    class World;
+    class Level;
 
     struct FrictionModel
     {
@@ -65,10 +65,10 @@ namespace grid
 
         // Moves the entity applying collisions.
         // Return value : new motion vector (speed * delta)
-        virtual Vector2f moveEntity(const Vector2f & motion, World & world);
+        virtual Vector2f moveEntity(const Vector2f & motion, Level & level);
 
         // Adds an acceleration to the entity including ground slipperiness
-        virtual void accelerate(Vector2f acc, float delta, World & world);
+        virtual void accelerate(Vector2f acc, float delta, Level & level);
 
         // None attribute to serialize at the moment.
         virtual bool isSerializable() const { return false; }

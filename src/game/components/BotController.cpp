@@ -39,7 +39,7 @@ namespace grid
 
         r_owner->rotation += M_PI * up.delta;
 
-        Entity * p = up.world->getLocalPlayer();
+        Entity * p = up.level->getLocalPlayer();
         if(p != NULL)
         {
             float d = distance2D(p->pos, r_owner->pos);
@@ -47,7 +47,7 @@ namespace grid
             {
                 float angle = getAngle(r_owner->pos, p->pos);
 
-                m_rayCaster.setMap(&(up.world->getMap()));
+                m_rayCaster.setMap(&(up.level->getMap()));
                 m_rayCaster.setOptions(RayCasterOptions(
                     r_owner->pos, angle, d));
 
@@ -59,7 +59,7 @@ namespace grid
                     if(d > 5)
                     {
                         Vector2f v(cos(r_owner->rotation), sin(r_owner->rotation));
-                        r_owner->accelerate(50.f * v, up.delta, up.world);
+                        r_owner->accelerate(50.f * v, up.delta, up.level);
                     }
 
                     if(sf::Randomizer::Random(0.f, 1.f) < 0.02f)

@@ -34,7 +34,7 @@ namespace grid
         m_health = 50;
     }
 
-    void HealthBonus::onPick(Entity * owner, World * world)
+    void HealthBonus::onPick(Entity * owner, Level * level)
     {
         if(owner != NULL)
         {

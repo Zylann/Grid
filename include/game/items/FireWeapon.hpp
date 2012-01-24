@@ -28,7 +28,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-    class World;
+    class Level;
 
     class FireWeapon : public Item
     {
@@ -62,7 +62,7 @@ namespace grid
 
         virtual Entity * createShot(int ownerID);
 
-        virtual void doShoot(World & world, float delta);
+        virtual void doShoot(Level & level, float delta);
     };
 
 //    typedef FireWeapon<EntityShot> BallGun;

@@ -20,7 +20,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "game/components/RandomSpawner.hpp"
 #include "game/base/Entity.hpp"
-#include "game/World.hpp"
+#include "game/Level.hpp"
 
 #include "utility/Shape.hpp"
 
@@ -30,7 +30,7 @@ using namespace util;
 
 namespace grid
 {
-    void RandomSpawner::doEvent(World & world)
+    void RandomSpawner::doEvent(Level & level)
     {
         m_bounds->setPosition(r_owner->pos);
 
@@ -55,10 +55,10 @@ namespace grid
                 e->pos = m_bounds->getRandomPoint();
 
                 // Test if there is collisions at this position
-                if(!world.isCollisions(e))
+                if(!level.isCollisions(e))
                 {
                     // If success, spawn e
-                    world.spawnEntity(e);
+                    level.spawnEntity(e);
                     e = NULL;
                     break; // And continue to next spawn
                 }

@@ -1,6 +1,6 @@
 /*
 Grid
-WorldEditor.hpp
+LevelEditTerrain.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,65 +18,49 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WORLDEDITOR_HPP_INCLUDED
-#define WORLDEDITOR_HPP_INCLUDED
+#ifndef LEVELEDITTERRAIN_HPP_INCLUDED
+#define LEVELEDITTERRAIN_HPP_INCLUDED
 
 #include "game/base/GameState.hpp"
-#include "game/World.hpp"
-
-#include "utility/Area2D.hpp"
-
-#include "gui/Console.hpp"
+#include "game/Terrain.hpp"
 
 namespace grid
 {
-    class WorldEditor : public GameState
-    {
-    private :
+    class LevelEditor;
 
-        World * m_world;
-        Vector2f m_scenePos;
+    class LevelEditTerrain : public GameState
+    {
+    protected :
+
+        LevelEditor * r_editor;
         Vector2i m_mapPos;
-        Vector2f m_viewCenter;
         terrain::Instance m_terrain;
-        gui::Console * r_console;
 
     public :
 
-        WorldEditor(int stateID, Game * game) : GameState(stateID, game)
-        {
-            m_world = NULL;
-            m_terrain.blockType = terrain::BT_WALL;
-            m_terrain.groundType = terrain::GT_NORMAL;
-        }
+        LevelEditTerrain(int stateID, Game * game, LevelEditor * parent = NULL);
+        virtual ~LevelEditTerrain();
 
-        ~WorldEditor()
-        {
-            if(m_world != NULL)
-                delete m_world;
-        }
-
-        virtual void createGui();
+        virtual void onEnter();
+        virtual void onLeave();
 
         virtual void update(GameUpdate & up);
         virtual void render(Graphics & gfx);
 
-        virtual void onEnter();
-        virtual void onLeave();
+        virtual void createGui();
+
+        /* Events */
 
         virtual bool mouseLeftPressEvent(Vector2i pos);
         virtual bool mouseRightPressEvent(Vector2i pos);
         virtual bool mouseMoveEvent(Vector2i previous, Vector2i current);
         virtual bool mouseWheelUpEvent();
         virtual bool mouseWheelDownEvent();
-        virtual bool keyReleaseEvent(sf::Key::Code key, char character = 0);
 
-        void quit();
-        void saveWorld();
         void generateMap();
     };
 
 } // namespace grid
 
 
-#endif // WORLDEDITOR_HPP_INCLUDED
+#endif // LEVELEDITTERRAIN_HPP_INCLUDED

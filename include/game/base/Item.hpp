@@ -34,7 +34,7 @@ namespace grid
 {
     class GameUpdate;
     class Inventory;
-    class World;
+    class Level;
 
     enum ItemType
     {
@@ -79,8 +79,8 @@ namespace grid
         inline int getInventoryPosition() const { return m_inventoryPosition; }
 
         // Called when the item is picked.
-        // world can be used for instant items to spawn some graphics entities.
-        virtual void onPick(Entity * owner, World * world = NULL) {}
+        // level can be used for instant items to spawn some graphics entities.
+        virtual void onPick(Entity * owner, Level * level = NULL) {}
 
         // Called when the item gains inventory's focus
         virtual void onSelect() {}

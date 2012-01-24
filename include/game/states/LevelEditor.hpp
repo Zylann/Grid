@@ -1,6 +1,6 @@
 /*
 Grid
-GamePlay.hpp
+LevelEditor.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,28 +18,42 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GAMEPLAY_HPP_INCLUDED
-#define GAMEPLAY_HPP_INCLUDED
+#ifndef WORLDEDITOR_HPP_INCLUDED
+#define WORLDEDITOR_HPP_INCLUDED
 
 #include "game/base/GameState.hpp"
 #include "game/Level.hpp"
-#include "game/PlayerInfo.hpp"
+
+#include "utility/Area2D.hpp"
+
+#include "gui/Console.hpp"
+#include "gui/Menu.hpp"
 
 namespace grid
 {
-    class GamePlay : public GameState
+    class LevelEditor : public GameState
     {
     private :
 
         Level * m_level;
-        bool m_pause;
-        sf::Sprite m_target;
-        PlayerInfo m_playerInfo;
+        Vector2f m_scenePos;
+        Vector2f m_viewCenter;
+//        gui::Console * r_console;
+        gui::Menu * r_modeMenu;
 
     public :
 
-        GamePlay(int stateID, Game * game);
-        ~GamePlay();
+        LevelEditor(int stateID, Game * game);
+
+        ~LevelEditor()
+        {
+            if(m_level != NULL)
+                delete m_level;
+        }
+
+        Level * getLevel() { return m_level; }
+
+        virtual void createGui();
 
         virtual void update(GameUpdate & up);
         virtual void render(Graphics & gfx);
@@ -47,16 +61,19 @@ namespace grid
         virtual void onEnter();
         virtual void onLeave();
 
-        virtual void createGui();
+        /* Events */
 
-        virtual bool keyReleaseEvent(sf::Key::Code key, char character);
+        virtual bool keyReleaseEvent(sf::Key::Code key, char character = 0);
+        virtual bool mouseRightPressEvent(Vector2i pos);
 
-        void respawn();
-        void resumeGame();
-        void quitGame();
+        void quit();
+        void saveLevel();
+//        void onCommand();
+        void enterEntityMode();
+        void enterTerrainMode();
     };
 
 } // namespace grid
 
 
-#endif // GAMEPLAY_HPP_INCLUDED
+#endif // WORLDEDITOR_HPP_INCLUDED

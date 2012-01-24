@@ -71,8 +71,8 @@ namespace entity
         virtual Entity & setSpeed(const Vector2f & p_pos) { return *this; }
         virtual Entity & setRotation(float p_rotation) { return *this; }
         virtual void accelerate(const Vector2f & acc, float delta) {}
-        virtual void move(float delta, World & world) {}
-        virtual Vector2f move(const Vector2f & motion, World & world) { return Vector2f(); }
+        virtual void move(float delta, Level & level) {}
+        virtual Vector2f move(const Vector2f & motion, Level & level) { return Vector2f(); }
 
     protected :
 

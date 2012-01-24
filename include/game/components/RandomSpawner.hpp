@@ -58,7 +58,7 @@ namespace grid
             m_maxSpawn = maxSpawn >= m_minSpawn ? maxSpawn : m_minSpawn;
         }
 
-        virtual void doEvent(World & world);
+        virtual void doEvent(Level & level);
 
         virtual void serialize(std::ostream & os);
         virtual void unserialize(std::istream & is);

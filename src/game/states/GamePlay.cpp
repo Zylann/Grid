@@ -42,18 +42,18 @@ namespace grid
 {
     GamePlay::GamePlay(int stateID, Game * game) : GameState(stateID, game)
     {
-        m_world = NULL;
+        m_level = NULL;
         m_pause = false;
     }
 
     GamePlay::~GamePlay()
     {
         std::cout << "GamePlay deletion" << std::endl;
-        if(m_world != NULL)
+        if(m_level != NULL)
         {
-            std::cout << "World deletion" << std::endl;
-            delete m_world;
-            m_world = NULL;
+            std::cout << "Level deletion" << std::endl;
+            delete m_level;
+            m_level = NULL;
         }
     }
 
@@ -83,7 +83,7 @@ namespace grid
         GameState::update(up);
 
         up.gamePlay = this;
-        up.world = m_world;
+        up.level = m_level;
 
         if(!m_pause)
         {
@@ -92,12 +92,12 @@ namespace grid
             if(input.IsKeyDown(sf::Key::Space))
                 up.delta /= 10.f;
 
-            entity::Player * player = m_world->getLocalPlayer();
+            entity::Player * player = m_level->getLocalPlayer();
             if(player != NULL)
             {
                 player->lookAt(r_game->getSceneMouseCoords());
             }
-            m_world->update(up);
+            m_level->update(up);
         }
     }
 
@@ -108,7 +108,7 @@ namespace grid
         gfx.setView(VIEW_GAME);
         gfx.drawGrid();
 
-        m_world->render(gfx);
+        m_level->render(gfx);
 
         if(!m_pause)
         {
@@ -142,21 +142,21 @@ namespace grid
             m_target.SetScale(1.f / GAME_TILES_SIZE, 1.f / GAME_TILES_SIZE);
         }
 
-        if(m_world != NULL)
-            delete m_world;
-        m_world = new World;
+        if(m_level != NULL)
+            delete m_level;
+        m_level = new Level;
 
-        std::string worldPath = "worlds/world";
-        adaptFilePath(worldPath);
-        std::ifstream ifs(worldPath.c_str(), std::ios::in | std::ios::binary);
+        std::string levelPath = "worlds/world";
+        adaptFilePath(levelPath);
+        std::ifstream ifs(levelPath.c_str(), std::ios::in | std::ios::binary);
         if(ifs.good())
         {
-            m_world->unserialize(ifs);
+            m_level->unserialize(ifs);
             ifs.close();
         }
         else
         {
-            throw GameException("Cannot load world '" + worldPath + "'");
+            throw GameException("Cannot load level '" + levelPath + "'");
         }
 
         // This code add several spawners to the level
@@ -168,7 +168,7 @@ namespace grid
 //                    new Circle(Vector2f(), 6), 10.f, 20.f, 1, 3));
 //
 //            Vector2f pos(sf::Randomizer::Random(1.f, 120.f), sf::Randomizer::Random(1.f, 60.f));
-//            m_world->spawnEntity(spawner, pos);
+//            m_level->spawnEntity(spawner, pos);
 //        }
 
         respawn();
@@ -198,18 +198,18 @@ namespace grid
         else if(key == sf::Key::M)
         {
             std::cout << "SpaceDivider :" << std::endl;
-            m_world->getSpaceDivider().print(std::cout, Vector2i(0,0), Vector2i(20,20));
+            m_level->getSpaceDivider().print(std::cout, Vector2i(0,0), Vector2i(20,20));
         }
         return false;
     }
 
     void GamePlay::respawn()
     {
-        if(m_world->getLocalPlayer() == NULL)
+        if(m_level->getLocalPlayer() == NULL)
         {
             entity::Player * p = new entity::Player();
             p->setPlayerInfo(&m_playerInfo);
-            m_world->spawnEntity(p, Vector2f(5,5));
+            m_level->spawnEntity(p, Vector2f(5,5));
             Sound::instance().playSound("spawn", 1, 50);
         }
     }
@@ -224,10 +224,10 @@ namespace grid
 
     void GamePlay::quitGame()
     {
-        if(m_world != NULL)
+        if(m_level != NULL)
         {
-            delete m_world;
-            m_world = NULL;
+            delete m_level;
+            m_level = NULL;
         }
         r_game->enterState(ST_MAIN_MENU);
     }

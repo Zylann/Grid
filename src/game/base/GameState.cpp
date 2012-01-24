@@ -55,22 +55,23 @@ namespace grid
 
     bool GameState::onEvent(const sf::Event & e, const Vector2i & mouse)
     {
-        GameState * currentState = getCurrentState();
-        if(currentState != NULL)
-        {
-            // A sub state can intercept the event
-            if(currentState->onEvent(e, mouse))
-                return true;
-        }
-        // however, the state itself will perform the event
         if(m_gui != NULL)
         {
             // return true if the gui processed the event
             if(m_gui->onEvent(e, mouse))
                 return true;
         }
+        GameState * currentState = getCurrentState();
         // Or other events...
-        return gui::EventListener::onEvent(e, mouse);
+        if(gui::EventListener::onEvent(e, mouse))
+            return true;
+        if(currentState != NULL)
+        {
+            // A sub state can intercept the event
+            if(currentState->onEvent(e, mouse))
+                return true;
+        }
+        return false;
     }
 
     void GameState::update(GameUpdate & up)

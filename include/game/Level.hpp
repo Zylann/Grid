@@ -1,6 +1,6 @@
 /*
 Grid
-World.hpp
+Level.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WORLD_HPP_INCLUDED
-#define WORLD_HPP_INCLUDED
+#ifndef LEVEL_HPP_INCLUDED
+#define LEVEL_HPP_INCLUDED
 
 #include "utility/AxisAlignedBB.hpp"
 
@@ -33,7 +33,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-    class World
+    class Level
     {
     protected :
 
@@ -45,19 +45,19 @@ namespace grid
         entity::Player * r_localPlayer;  // Local/main player
 
         Vector2f m_spawnPosition;       // Where players start first
-        std::string m_name;             // Name of the world
+        std::string m_name;             // Name of the level
 
         RenderManager m_renderManager;
         mutable SpaceDivider m_spaceDivider;
 
     public :
 
-        World()
+        Level()
         {
             create();
         }
 
-        ~World()
+        ~Level()
         {
             clear();
         }
@@ -67,7 +67,7 @@ namespace grid
             clear();
         }
 
-        // Clears all the world's contents to leave it empty
+        // Clears all the level's contents to leave it empty
         void clear()
         {
             EntityMapping::iterator it;
@@ -100,11 +100,11 @@ namespace grid
             return spawnEntity(e);
         }
 
-        // Adds an entity to the world. It is effective immediately.
-        // Important : don't call it from an update during World::update !
+        // Adds an entity to the level. It is effective immediately.
+        // Important : don't call it from an update during Level::update !
         int addEntity(Entity * e);
 
-        // Removes an entity from the world. It is immediately deleted.
+        // Removes an entity from the level. It is immediately deleted.
         bool eraseEntity(int ID);
 
         // Returns trus if the specified entity ID is already active or will be active soon.
@@ -126,10 +126,10 @@ namespace grid
             const Vector2f & pos, float radius,
             Entity * e = NULL);
 
-        // Gets the name of the world.
+        // Gets the name of the level.
         const std::string & getName() const;
 
-        // Sets the name of the world.
+        // Sets the name of the level.
         void setName(const std::string & name) { m_name = name; }
 
         // Tells if there is collisions to e at its position
@@ -150,13 +150,13 @@ namespace grid
         // Returns the map
         entity::Map & getMap() { return *r_map; }
 
-        // Returns the world's space divider
+        // Returns the level's space divider
         SpaceDivider & getSpaceDivider() { return m_spaceDivider; }
 
-        // Updates the world for one frame
+        // Updates the level for one frame
         void update(GameUpdate & up);
 
-        // Draws the world on the screen
+        // Draws the level on the screen
         void render(Graphics & gfx);
 
         /* Serialization */
@@ -166,12 +166,12 @@ namespace grid
 
     private :
 
-        // Adds an entity to the world without any checking.
+        // Adds an entity to the level without any checking.
         int addEntityNoCheck(Entity * e);
     };
 
 } // namespace grid
 
 
-#endif // WORLD_HPP_INCLUDED
+#endif // LEVEL_HPP_INCLUDED
 

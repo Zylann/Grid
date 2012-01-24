@@ -82,7 +82,7 @@ namespace grid
 		This is useful for performance improvements :
 		for example, if we have a lot of entities dispersed around the map,
 		we can avoid computations for entities that are too far away from each other.
-		>> see World::getCollisions for an example
+		>> see Level::getCollisions for an example
 	*/
 
     class SpaceDivider

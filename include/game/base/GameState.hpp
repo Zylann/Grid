@@ -40,7 +40,9 @@ namespace grid
         ST_LOADING,
         ST_MAIN_MENU,
         ST_GAME_PLAY,
-        ST_WORLD_EDITOR
+        ST_LEVEL_EDITOR,
+        ST_LEVEL_EDIT_ENTITIES,
+        ST_LEVEL_EDIT_TERRAIN
     };
 
     class GameUpdate;

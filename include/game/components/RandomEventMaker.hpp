@@ -25,7 +25,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
-    class World;
+    class Level;
 
     class RandomEventMaker : public Component
     {
@@ -47,7 +47,7 @@ namespace grid
 
         void randomizeRemainingTime();
 
-        virtual void doEvent(World & world) = 0;
+        virtual void doEvent(Level & level) = 0;
 
         virtual void update(GameUpdate & up);
         virtual bool processMessage(Message & msg);

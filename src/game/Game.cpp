@@ -27,7 +27,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/states/GamePlay.hpp"
 #include "game/states/MainMenu.hpp"
 #include "game/states/Loading.hpp"
-#include "game/states/WorldEditor.hpp"
+#include "game/states/LevelEditor.hpp"
 
 #include "gui/Theme.hpp"
 
@@ -60,7 +60,7 @@ namespace grid
         addState( new Loading(ST_LOADING, this) );
         addState( new MainMenu(ST_MAIN_MENU, this) );
         addState( new GamePlay(ST_GAME_PLAY, this) );
-        addState( new WorldEditor(ST_WORLD_EDITOR, this) );
+        addState( new LevelEditor(ST_LEVEL_EDITOR, this) );
 
         // Creating terrain types
         terrain::Ground::init();

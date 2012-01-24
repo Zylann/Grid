@@ -20,9 +20,9 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // TODO add ingame console module (chat, commands...)
 // TODO improve GUI with listviews, sliders, checkboxes, auto-alignment...
-// TODO add world selector (game state WorldSelector)
+// TODO add level selector (game state LevelSelector)
 // TODO add a Player class with informations like lives, score, last death position, score etc...
-// TODO add a beginning and an end to worlds
+// TODO add a beginning and an end to levels
 // TODO add an undroppable default weapon to players,
 //      to give them a chance to win even if they are disarmed... :D
 // TODO add fullscreen

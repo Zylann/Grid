@@ -87,6 +87,10 @@ namespace util
             State_T * nextState = getState(stateID);
             if(nextState != NULL)
             {
+                // Don't do anything if the state is already running
+                if(r_currentState == nextState)
+                    return r_currentState;
+
                 // Leave last state
                 if(r_currentState != NULL)
                     r_currentState->onLeave();
@@ -104,6 +108,14 @@ namespace util
                     << "the state '" << stateID << "' is not registered" << std::endl;
                 return NULL;
             }
+        }
+
+        // Go to exit state
+        virtual void finish()
+        {
+            if(r_currentState != NULL)
+                r_currentState->onLeave();
+            r_currentState = NULL;
         }
 
         // Adds a state to the machine. Returns false if it fails.

@@ -61,7 +61,7 @@ namespace grid
 
         if(m_trigger && m_nextShootTime <= 0)
         {
-            doShoot(*(up.world), up.delta);
+            doShoot(*(up.level), up.delta);
             m_nextShootTime = getShootTime();
         }
     }
@@ -81,7 +81,7 @@ namespace grid
         return new entity::Shot(ownerID);
     }
 
-    void FireWeapon::doShoot(World & world, float delta)
+    void FireWeapon::doShoot(Level & level, float delta)
     {
         Entity * owner = getOwner();
         if(owner == NULL)
@@ -101,7 +101,7 @@ namespace grid
         shot->speed = speedLength * v;
         shot->pos = owner->pos;
         shot->team = owner->team;
-        world.spawnEntity(shot);
+        level.spawnEntity(shot);
 
         playShootSound();
     }

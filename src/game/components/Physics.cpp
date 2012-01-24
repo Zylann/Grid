@@ -51,7 +51,7 @@ namespace grid
     {
         Vector2i mpos(r_owner->pos.x, r_owner->pos.y);
 
-        const entity::Map & map = up.world->getMap();
+        const entity::Map & map = up.level->getMap();
         terrain::Instance t = map.getTerrain(mpos);
 
         const terrain::Ground & gp = terrain::Ground::get(t.groundType);
@@ -75,14 +75,14 @@ namespace grid
         return false;
     }
 
-    void Physics::accelerate(Vector2f acc, float delta, World & world)
+    void Physics::accelerate(Vector2f acc, float delta, Level & level)
     {
         static Vector2i ipos;
 
         ipos.x = r_owner->pos.x;
         ipos.y = r_owner->pos.y;
 
-        terrain::Instance t = world.getMap().getTerrain(ipos);
+        terrain::Instance t = level.getMap().getTerrain(ipos);
         const terrain::Ground & gp = terrain::Ground::get(t.groundType);
 
         acc *= 1 - gp.getSlipperiness();
@@ -91,7 +91,7 @@ namespace grid
     }
 
     // Note : don't call it in Physics::update
-    Vector2f Physics::moveEntity(const Vector2f & motion, World & world)
+    Vector2f Physics::moveEntity(const Vector2f & motion, Level & level)
     {
         AxisAlignedBB * boxPtr = r_owner->getBoundingBox();
 
@@ -113,7 +113,7 @@ namespace grid
         AxisAlignedBB expandedBox = box;
 		expandedBox.expandFromVector(motion);
 
-        world.getCollisions(collisions, expandedBox, r_owner);
+        level.getCollisions(collisions, expandedBox, r_owner);
 
         /* Resolve collisions */
 

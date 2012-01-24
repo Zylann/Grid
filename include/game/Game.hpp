@@ -24,7 +24,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 
 #include "common.hpp"
-#include "game/World.hpp"
+#include "game/Level.hpp"
 #include "game/base/GameState.hpp"
 #include "game/Graphics.hpp"
 #include "game/DebugDisplay.hpp"

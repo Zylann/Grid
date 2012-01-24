@@ -92,7 +92,7 @@ namespace entity
 
     void Sentinel::onDestruction(GameUpdate & up)
     {
-        up.world->spawnEntity(new entity::ShockWave(0.3, 3.5, 12, sf::Color(255,128,0)), pos);
+        up.level->spawnEntity(new entity::ShockWave(0.3, 3.5, 12, sf::Color(255,128,0)), pos);
         Sound::instance().playSound("explosion", sf::Randomizer::Random(0.8f, 1.2f), 100, pos);
 
         if(sf::Randomizer::Random(0.f, 1.f) > 0.5f)
@@ -100,7 +100,7 @@ namespace entity
             Item * item = new HealthBonus();
             entity::DroppedItem * drop = new entity::DroppedItem(item);
             drop->pos = pos;
-            up.world->spawnEntity(drop);
+            up.level->spawnEntity(drop);
         }
     }
 

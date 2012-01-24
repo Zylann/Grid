@@ -59,7 +59,7 @@ namespace entity
         // Find collisions
         std::list<Collision> collisions;
         std::list<Collision>::iterator it;
-        up.world->getCollisions(collisions, box, this);
+        up.level->getCollisions(collisions, box, this);
 
         bool collided = false;
 
@@ -77,7 +77,7 @@ namespace entity
                     if(c.entity->team == team)
                         continue;
                 }
-                doHit(*(up.world), c, up.delta);
+                doHit(*(up.level), c, up.delta);
                 collided = true;
             }
         }
@@ -86,7 +86,7 @@ namespace entity
             invalidate();
     }
 
-    void Shot::doHit(World & world, Collision & c, float delta)
+    void Shot::doHit(Level & level, Collision & c, float delta)
     {
         sf::Color clr(255,255,255);
 
@@ -107,7 +107,7 @@ namespace entity
         }
 
         // Hit particles
-        world.spawnEntity(new entity::ShockWave(0.1, 0.8, 4, clr), pos);
+        level.spawnEntity(new entity::ShockWave(0.1, 0.8, 4, clr), pos);
     }
 
     void Shot::onDestruction(GameUpdate & up)

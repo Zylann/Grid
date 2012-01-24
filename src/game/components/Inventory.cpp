@@ -169,12 +169,12 @@ namespace grid
 
     void Inventory::dropItem(int x)
     {
-        if(m_items[x] == NULL || r_owner->getWorld() == NULL)
+        if(m_items[x] == NULL || r_owner->getLevel() == NULL)
             return;
 
         entity::DroppedItem * e = new entity::DroppedItem(m_items[x]);
         e->pos = r_owner->pos;
-        r_owner->getWorld()->spawnEntity(e);
+        r_owner->getLevel()->spawnEntity(e);
 
         m_items[x] = NULL;
     }

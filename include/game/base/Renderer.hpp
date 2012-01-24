@@ -71,7 +71,12 @@ namespace grid
         virtual void setBlendMode(sf::Blend::Mode mode) {}
 
         // Displays the bounding box (debug purposes)
-        void renderBoundingBox(Graphics & gfx);
+        void renderBoundingBox(Graphics & gfx, sf::Color color = sf::Color(255,0,0));
+
+        /* Static methods */
+
+        static void setDisplayBoundingBoxes(bool d);
+        static bool isDisplayBoundingBoxes();
     };
 
 } // namespace grid

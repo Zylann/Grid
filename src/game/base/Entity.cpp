@@ -22,7 +22,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <list>
 
 #include "game/base/Entity.hpp"
-#include "game/World.hpp"
+#include "game/Level.hpp"
 #include "game/Game.hpp"
 #include "game/GameUpdate.hpp"
 
@@ -51,7 +51,7 @@ namespace grid
         }
 
         m_lastPos = pos;
-        move(up.delta, *(up.world));
+        move(up.delta, *(up.level));
 
         updateComponents(up);
         updateMe(up);
@@ -198,17 +198,17 @@ namespace grid
         rotation = util::getAngle(pos, target);
     }
 
-    void Entity::accelerate(const Vector2f & acc, float delta, World * world)
+    void Entity::accelerate(const Vector2f & acc, float delta, Level * level)
     {
-        if(r_physics != NULL && world != NULL)
-            r_physics->accelerate(acc, delta, *world);
+        if(r_physics != NULL && level != NULL)
+            r_physics->accelerate(acc, delta, *level);
         else
             speed += acc * delta;
     }
 
-    void Entity::move(float delta, World & world)
+    void Entity::move(float delta, Level & level)
     {
-        Vector2f motion = move(speed * delta, world);
+        Vector2f motion = move(speed * delta, level);
 
         // Using a mover can modify the resulting motion, so we update the speed.
         // (motion = speed * delta)
@@ -216,14 +216,14 @@ namespace grid
             speed == motion / delta;
     }
 
-    Vector2f Entity::move(const Vector2f & motion, World & world)
+    Vector2f Entity::move(const Vector2f & motion, Level & level)
     {
         // Don't make move computations if the motion is ignorable
         if(util::isZero(motion.x) && util::isZero(motion.y))
             return Vector2f();
 
         if(r_physics != NULL)
-            return r_physics->moveEntity(motion, world);
+            return r_physics->moveEntity(motion, level);
         else
         {
             pos += motion;

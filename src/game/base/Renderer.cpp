@@ -24,6 +24,25 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
+    /*
+        Static methods
+    */
+
+    bool g_displayBoundingBoxes = false;
+    void Renderer::setDisplayBoundingBoxes(bool d)
+    {
+        g_displayBoundingBoxes = d;
+    }
+
+    bool Renderer::isDisplayBoundingBoxes()
+    {
+        return g_displayBoundingBoxes;
+    }
+
+    /*
+        Member methods
+    */
+
     Renderer::Renderer(int pass)
     {
         m_pass = pass;
@@ -39,7 +58,7 @@ namespace grid
         renderMgr.addRender(this);
     }
 
-    void Renderer::renderBoundingBox(Graphics & gfx)
+    void Renderer::renderBoundingBox(Graphics & gfx, sf::Color color)
     {
         if(r_entity == NULL)
             return;
@@ -48,8 +67,7 @@ namespace grid
         if(boxPtr != NULL)
         {
             gfx.draw(sf::Shape::Rectangle(boxPtr->minEdge, boxPtr->maxEdge,
-                                          sf::Color(0,0,0,0), 0.025f,
-                                          sf::Color(255,0,0)));
+                                          sf::Color(0,0,0,0), 0.025f, color));
         }
     }
 

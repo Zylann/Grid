@@ -1,6 +1,6 @@
 /*
 Grid
-GamePlay.hpp
+LevelEditEntities.hpp
 
 Copyright (c) 2011 by Marc Gilleron, <marc.gilleron@free.fr>
 
@@ -18,45 +18,45 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GAMEPLAY_HPP_INCLUDED
-#define GAMEPLAY_HPP_INCLUDED
+#ifndef LEVELEDITENTITIES_HPP_INCLUDED
+#define LEVELEDITENTITIES_HPP_INCLUDED
 
 #include "game/base/GameState.hpp"
-#include "game/Level.hpp"
-#include "game/PlayerInfo.hpp"
 
 namespace grid
 {
-    class GamePlay : public GameState
-    {
-    private :
+    class LevelEditor;
+    class Entity;
+    class Level;
 
-        Level * m_level;
-        bool m_pause;
-        sf::Sprite m_target;
-        PlayerInfo m_playerInfo;
+    class LevelEditEntities : public GameState
+    {
+    protected :
+
+        LevelEditor * r_editor;
+        Entity * r_hoveredEntity;
+        Entity * r_selectedEntity;
 
     public :
 
-        GamePlay(int stateID, Game * game);
-        ~GamePlay();
+        LevelEditEntities(int stateID, Game * game, LevelEditor * parent = NULL);
+        virtual ~LevelEditEntities();
 
-        virtual void update(GameUpdate & up);
-        virtual void render(Graphics & gfx);
+        virtual void createGui();
 
         virtual void onEnter();
         virtual void onLeave();
 
-        virtual void createGui();
+        virtual void update(GameUpdate & up);
+        virtual void render(Graphics & gfx);
 
-        virtual bool keyReleaseEvent(sf::Key::Code key, char character);
+        Entity * findPointedEntity(Level * level);
 
-        void respawn();
-        void resumeGame();
-        void quitGame();
+        virtual bool mouseLeftPressEvent(Vector2i pos);
+        virtual bool keyPressEvent(sf::Key::Code key, char character = 0);
     };
 
 } // namespace grid
 
 
-#endif // GAMEPLAY_HPP_INCLUDED
+#endif // LEVELEDITENTITIES_HPP_INCLUDED
