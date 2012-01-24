@@ -49,6 +49,11 @@ namespace util
         return getHeight() * getWidth();
     }
 
+    Vector2f AxisAlignedBB::getCenter() const
+    {
+        return (minEdge + maxEdge) / 2.f;
+    }
+
     void AxisAlignedBB::correct()
     {
         if(minEdge.x > maxEdge.x)

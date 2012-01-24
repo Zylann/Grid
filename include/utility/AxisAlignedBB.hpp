@@ -50,6 +50,12 @@ namespace util
             set(minX, minY, maxX, maxY);
         }
 
+        AxisAlignedBB(const Vector2f & center, float radius) : Shape()
+        {
+            set(center.x - radius, center.y - radius,
+                center.x + radius, center.y + radius);
+        }
+
         AxisAlignedBB(const AxisAlignedBB & other) : Shape()
         {
             minEdge = other.minEdge;
@@ -84,6 +90,8 @@ namespace util
         bool contains(float x, float y);
         virtual float getMaxRadius() const;
         virtual Vector2f getRandomPoint() const;
+
+        virtual Vector2f getCenter() const;
 
         // Sets the center of the box
         virtual void setPosition(const Vector2f & pos);
