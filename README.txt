@@ -5,7 +5,7 @@ README last update : 21/01/2012 22:43
 
 Description :
 
-	Grid is a cross-platform 2D hack-n-slash-shooter game project.
+	Grid is a cross-platform 2D shooter game project.
 	You spawn in a world, and you have to explore it and defending yourself.
 	In the current version, there is no real purpose in the game
 	(it will come later). It includes a level editor, which is the same for
@@ -29,6 +29,20 @@ Download releases :
 	These releases are rapidly tested, and may work on the specified platorms.
 	However, they are not official releases and may contain bugs.
 
+Download development resources :
+	
+	All items that are not included in the repo can be downloaded here :
+
+	- Resource files 
+		<TODO host files...>
+		
+	- Libraries
+		SFML 1.6 :
+			http://www.sfml-dev.org/download.php
+		Lua 5.1.4 + Lunar :
+			http://sourceforge.net/projects/luabinaries/files/5.1.4/Windows%20Libraries/
+			http://lua-users.org/wiki/CppBindingWithLunar
+	
 How to compile :
 
 	Grid is written in C++ and can compile with MinGW (tested).
@@ -44,6 +58,10 @@ How to compile :
 			-lsfml-system
 			
 		* Lua 5.1.4, with the Lunar extension
+		
+		WARNING : I am not currently sure about keeping this language.
+			Another candidate I'm testing is AngelScript, because Lua
+			doesn't support enough paradigms for OOP.
 	
 	Binary dependencies :
 	
@@ -59,9 +77,9 @@ How to compile :
 	
 	Game resources :
 	
-		The game include several audio/image/postfx files
-		that are not included in the repo. You may find them in
-		the last released binary.
+		The game include several audio/image/postfx/library files
+		that are not included in the repo. You should find them in
+		the 'development resources' section.
 		
 		Note : under Code::Blocks, to run and debug the project,
 		the default directory for loading files is the same as the *.cbp.
