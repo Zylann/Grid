@@ -288,18 +288,6 @@ namespace grid
                 it->second->getCollisions(collisions, box);
             }
         }
-
-//        // old version
-//		  // iterating on all entities
-//        std::map<int, Entity*>::const_iterator it;
-//        for(it = m_entities.begin(); it != m_entities.end(); it++)
-//        {
-//            // An entity cannot collide itself
-//            if(e == it->second) // adress comparison
-//                continue;
-//
-//            it->second->getCollisions(collisions, box);
-//        }
     }
 
     /*
@@ -309,8 +297,7 @@ namespace grid
     void Level::serialize(std::ostream & os)
     {
         // Level info
-        util::serialize(os, m_name);
-        util::serialize(os, m_spawnPosition);
+        m_levelInfo.serialize(os);
 
         // Serializable entity amount
         uint32 nbEntities = 0;
@@ -335,8 +322,7 @@ namespace grid
         clear();
 
         // Level info
-        util::unserialize(is, m_name);
-        util::unserialize(is, m_spawnPosition);
+        m_levelInfo.unserialize(is);
 
         // Entity amount
         uint32 nbEntities = 0;

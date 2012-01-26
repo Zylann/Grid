@@ -30,6 +30,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/Collision.hpp"
 #include "game/GameException.hpp"
 #include "game/SpaceDivider.hpp"
+#include "game/LevelInfo.hpp"
 
 namespace grid
 {
@@ -44,17 +45,16 @@ namespace grid
         entity::Map * r_map;            // Map (2D matrix commonly used for terrains)
         entity::Player * r_localPlayer;  // Local/main player
 
-        Vector2f m_spawnPosition;       // Where players start first
-        std::string m_name;             // Name of the level
+        LevelInfo m_levelInfo;
 
         RenderManager m_renderManager;
         mutable SpaceDivider m_spaceDivider;
 
     public :
 
-        Level()
+        Level(const LevelInfo info = LevelInfo())
         {
-            create();
+            create(info);
         }
 
         ~Level()
@@ -62,9 +62,10 @@ namespace grid
             clear();
         }
 
-        void create()
+        void create(const LevelInfo info = LevelInfo())
         {
             clear();
+            m_levelInfo = info;
         }
 
         // Clears all the level's contents to leave it empty
@@ -88,6 +89,25 @@ namespace grid
             r_map = NULL;
             r_localPlayer = NULL;
         }
+
+        /* Level information */
+
+        // Get level information
+        const LevelInfo & getInfo() const { return m_levelInfo; };
+
+        // Sets the spawn's position
+        void setSpawnPosition(Vector2f & pos) { m_levelInfo.spawnPosition = pos; }
+
+        // Returns the spawn's position
+        const Vector2f & getSpawnPosition() const { return m_levelInfo.spawnPosition; }
+
+        // Gets the name of the level.
+        const std::string & getName() const { return m_levelInfo.name; };
+
+        // Sets the name of the level.
+        void setName(const std::string & name) { m_levelInfo.name = name; }
+
+        /* Entities */
 
         // Adds an entity to the spawn list (nextEntities).
         // These are not effective immediately, until the next update() call.
@@ -126,12 +146,6 @@ namespace grid
             const Vector2f & pos, float radius,
             Entity * e = NULL);
 
-        // Gets the name of the level.
-        const std::string & getName() const;
-
-        // Sets the name of the level.
-        void setName(const std::string & name) { m_name = name; }
-
         // Tells if there is collisions to e at its position
         bool isCollisions(Entity * e);
 
@@ -141,17 +155,13 @@ namespace grid
             const util::AxisAlignedBB & box,
             Entity * e);
 
-        // Sets the spawn's position
-        void setSpawnPosition(Vector2f & pos) { m_spawnPosition = pos; }
-
-        // Returns the spawn's position
-        const Vector2f & getSpawnPosition() const { return m_spawnPosition; }
-
         // Returns the map
         entity::Map & getMap() { return *r_map; }
 
         // Returns the level's space divider
         SpaceDivider & getSpaceDivider() { return m_spaceDivider; }
+
+        /* Update and rendering */
 
         // Updates the level for one frame
         void update(GameUpdate & up);
