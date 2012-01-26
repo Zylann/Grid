@@ -21,6 +21,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PLAYERINFO_HPP_INCLUDED
 #define PLAYERINFO_HPP_INCLUDED
 
+/* Header-only */
+
 #include "common.hpp"
 #include "utility/serialization.hpp"
 

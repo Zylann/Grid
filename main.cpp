@@ -29,6 +29,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 // TODO add scripting API for extensibility (with Lua)
 // TODO add a graphical error state when bad exceptions occurs,
 //      because if the game runs on fullscreen, there is no way to close it
+// TODO Level edit passwords
 
 #include <iostream>
 #include <cstdio>
