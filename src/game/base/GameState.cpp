@@ -88,28 +88,28 @@ namespace grid
 
     /* GUI */
 
-    bool GameState::isGuiOpened()
-    {
-        if(m_gui == NULL)
-            return false;
-        return m_gui->isVisible();
-    }
+    // bool GameState::isGuiOpened()
+    // {
+        // if(m_gui == NULL)
+            // return false;
+        // return m_gui->isVisible();
+    // }
 
-    void GameState::openGui()
-    {
-        if(m_gui == NULL)
-            return;
-        m_gui->setVisible(true);
-        m_gui->enable(true);
-    }
+    // void GameState::openGui()
+    // {
+        // if(m_gui == NULL)
+            // return;
+        // m_gui->setVisible(true);
+        // m_gui->enable(true);
+    // }
 
-    void GameState::closeGui()
-    {
-        if(m_gui == NULL)
-            return;
-        m_gui->setVisible(false);
-        m_gui->enable(false);
-    }
+    // void GameState::closeGui()
+    // {
+        // if(m_gui == NULL)
+            // return;
+        // m_gui->setVisible(false);
+        // m_gui->enable(false);
+    // }
 
 } // namespace grid
 

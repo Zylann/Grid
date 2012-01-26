@@ -53,7 +53,7 @@ namespace grid
         It can have sub-states that are updated and rendered at the same time of their parent.
         Ex : in the GamePlay state, when we win, the state GameWin is running too.
     */
-
+	
     class GameState :
         public gui::EventListener,
         public util::State,
@@ -91,8 +91,8 @@ namespace grid
         // Returns true if the gui is builded and active
         bool isGuiOpened();
 
-        void openGui();
-        void closeGui();
+        // void openGui();
+        // void closeGui();
     };
 
 } // namespace grid
