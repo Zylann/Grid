@@ -28,6 +28,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/entities/Sentinel.hpp"
 #include "game/components/RandomSpawner.hpp"
 #include "game/Sound.hpp"
+#include "game/LevelManager.hpp"
 
 #include "gui/Button.hpp"
 
@@ -42,19 +43,13 @@ namespace grid
 {
     GamePlay::GamePlay(int stateID, Game * game) : GameState(stateID, game)
     {
-        m_level = NULL;
+        r_level = NULL;
         m_pause = false;
     }
 
     GamePlay::~GamePlay()
     {
         std::cout << "GamePlay deletion" << std::endl;
-        if(m_level != NULL)
-        {
-            std::cout << "Level deletion" << std::endl;
-            delete m_level;
-            m_level = NULL;
-        }
     }
 
     void GamePlay::createGui()
@@ -75,7 +70,6 @@ namespace grid
 
         m_gui->addChild(frame);
         m_gui->setVisible(false);
-        m_gui->enable(false);
     }
 
     void GamePlay::update(GameUpdate & up)
@@ -83,7 +77,7 @@ namespace grid
         GameState::update(up);
 
         up.gamePlay = this;
-        up.level = m_level;
+        up.level = r_level;
 
         if(!m_pause)
         {
@@ -92,12 +86,12 @@ namespace grid
             if(input.IsKeyDown(sf::Key::Space))
                 up.delta /= 10.f;
 
-            entity::Player * player = m_level->getLocalPlayer();
+            entity::Player * player = r_level->getLocalPlayer();
             if(player != NULL)
             {
                 player->lookAt(r_game->getSceneMouseCoords());
             }
-            m_level->update(up);
+            r_level->update(up);
         }
     }
 
@@ -108,7 +102,7 @@ namespace grid
         gfx.setView(VIEW_GAME);
         gfx.drawGrid();
 
-        m_level->render(gfx);
+        r_level->render(gfx);
 
         if(!m_pause)
         {
@@ -142,22 +136,7 @@ namespace grid
             m_target.SetScale(1.f / GAME_TILES_SIZE, 1.f / GAME_TILES_SIZE);
         }
 
-        if(m_level != NULL)
-            delete m_level;
-        m_level = new Level;
-
-        std::string levelPath = "worlds/world";
-        adaptFilePath(levelPath);
-        std::ifstream ifs(levelPath.c_str(), std::ios::in | std::ios::binary);
-        if(ifs.good())
-        {
-            m_level->unserialize(ifs);
-            ifs.close();
-        }
-        else
-        {
-            throw GameException("Cannot load level '" + levelPath + "'");
-        }
+        r_level = LevelManager::instance().openLevel("level");
 
         // This code add several spawners to the level
 //        for(unsigned int i = 0; i < 6; i ++)
@@ -168,7 +147,7 @@ namespace grid
 //                    new Circle(Vector2f(), 6), 10.f, 20.f, 1, 3));
 //
 //            Vector2f pos(sf::Randomizer::Random(1.f, 120.f), sf::Randomizer::Random(1.f, 60.f));
-//            m_level->spawnEntity(spawner, pos);
+//            r_level->spawnEntity(spawner, pos);
 //        }
 
         respawn();
@@ -190,7 +169,6 @@ namespace grid
         {
             m_pause = !m_pause;
             m_gui->setVisible(m_pause);
-            m_gui->enable(m_pause);
             r_game->setCursorVisible(m_pause);
         }
 
@@ -198,18 +176,18 @@ namespace grid
         else if(key == sf::Key::M)
         {
             std::cout << "SpaceDivider :" << std::endl;
-            m_level->getSpaceDivider().print(std::cout, Vector2i(0,0), Vector2i(20,20));
+            r_level->getSpaceDivider().print(std::cout, Vector2i(0,0), Vector2i(20,20));
         }
         return false;
     }
 
     void GamePlay::respawn()
     {
-        if(m_level->getLocalPlayer() == NULL)
+        if(r_level->getLocalPlayer() == NULL)
         {
             entity::Player * p = new entity::Player();
             p->setPlayerInfo(&m_playerInfo);
-            m_level->spawnEntity(p, Vector2f(5,5));
+            r_level->spawnEntity(p, Vector2f(5,5));
             Sound::instance().playSound("spawn", 1, 50);
         }
     }
@@ -218,17 +196,13 @@ namespace grid
     {
         m_pause = false;
         m_gui->setVisible(false);
-        m_gui->enable(false);
         r_game->setCursorVisible(false);
     }
 
     void GamePlay::quitGame()
     {
-        if(m_level != NULL)
-        {
-            delete m_level;
-            m_level = NULL;
-        }
+        LevelManager::instance().closeLevel();
+        r_level = NULL;
         r_game->enterState(ST_MAIN_MENU);
     }
 

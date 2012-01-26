@@ -27,6 +27,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/GameUpdate.hpp"
 #include "game/Sound.hpp"
 #include "game/entities/Sentinel.hpp"
+#include "game/LevelManager.hpp"
 
 #include "utility/ResourceManager.hpp"
 #include "utility/filesystem.hpp"
@@ -43,7 +44,7 @@ namespace grid
 {
     LevelEditor::LevelEditor(int stateID, Game * game) : GameState(stateID, game)
     {
-        m_level = NULL;
+        r_level = NULL;
 
         addState(new LevelEditTerrain(ST_LEVEL_EDIT_TERRAIN, game, this));
         addState(new LevelEditEntities(ST_LEVEL_EDIT_ENTITIES, game, this));
@@ -85,13 +86,13 @@ namespace grid
 
     void LevelEditor::onEnter()
     {
-        if(m_level == NULL)
+        if(r_level == NULL)
         {
-            m_level = new Level();
+            r_level = LevelManager::instance().createLevel(LevelInfo("Level", Vector2f(5,5)));
 
             Vector2i size(128, 64);
             entity::Map * map = new entity::Map(-1, size);
-            m_level->addEntity(map);
+            r_level->addEntity(map);
         }
         Renderer::setDisplayBoundingBoxes(true);
         enterState(ST_LEVEL_EDIT_TERRAIN);
@@ -99,10 +100,10 @@ namespace grid
 
     void LevelEditor::onLeave()
     {
-        if(m_level != NULL)
+        if(r_level != NULL)
         {
-            delete m_level;
-            m_level = NULL;
+            LevelManager::instance().closeLevel();
+            r_level = NULL;
         }
 //        r_console->clear();
         Renderer::setDisplayBoundingBoxes(false);
@@ -116,20 +117,11 @@ namespace grid
 
     void LevelEditor::saveLevel()
     {
-        if(m_level != NULL)
+        if(r_level != NULL)
         {
             try
             {
-                std::string levelPath = "worlds/world";
-                adaptFilePath(levelPath);
-                std::ofstream ofs(levelPath.c_str(), std::ios::out | std::ios::trunc | std::ios::binary);
-
-                if(!ofs.good())
-                    throw Exception("cannot open file " + levelPath);
-
-                m_level->serialize(ofs);
-                ofs.close();
-                std::cout << "Level saved." << std::endl;
+                LevelManager::instance().saveLevel();
                 Sound::instance().playSound("guiInfo", 10);
             }
             catch(std::exception & e)
@@ -182,12 +174,12 @@ namespace grid
         gfx.setGameViewCenter(m_viewCenter);
         gfx.drawGrid();
 
-        if(m_level != NULL)
-            m_level->render(gfx);
+        if(r_level != NULL)
+            r_level->render(gfx);
 
         gfx.setView(VIEW_GAME);
 
-        const Vector2i & mapSize = m_level->getMap().getSize();
+        const Vector2i & mapSize = r_level->getMap().getSize();
 
         // Map range
         gfx.draw(sf::Shape::Rectangle(

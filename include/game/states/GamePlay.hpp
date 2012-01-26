@@ -31,7 +31,7 @@ namespace grid
     {
     private :
 
-        Level * m_level;
+        Level * r_level;
         bool m_pause;
         sf::Sprite m_target;
         PlayerInfo m_playerInfo;

@@ -28,6 +28,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "game/states/MainMenu.hpp"
 #include "game/states/Loading.hpp"
 #include "game/states/LevelEditor.hpp"
+#include "game/LevelManager.hpp"
 
 #include "gui/Theme.hpp"
 
@@ -84,6 +85,9 @@ namespace grid
         // Deleting terrain types
         terrain::Ground::freeAll();
         terrain::Block::freeAll();
+
+        // Deleting LevelManager
+        LevelManager::kill();
 
         // Deleting sound engine
         Sound::kill();

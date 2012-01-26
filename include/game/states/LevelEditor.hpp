@@ -35,7 +35,7 @@ namespace grid
     {
     private :
 
-        Level * m_level;
+        Level * r_level;
         Vector2f m_scenePos;
         Vector2f m_viewCenter;
 //        gui::Console * r_console;
@@ -46,12 +46,9 @@ namespace grid
         LevelEditor(int stateID, Game * game);
 
         ~LevelEditor()
-        {
-            if(m_level != NULL)
-                delete m_level;
-        }
+        {}
 
-        Level * getLevel() { return m_level; }
+        Level * getLevel() { return r_level; }
 
         virtual void createGui();
 
