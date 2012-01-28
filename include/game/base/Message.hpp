@@ -54,8 +54,8 @@ namespace grid
     {
     public :
 
-        int type;
-        int health;
+        short int type;
+        short int health;
         Entity * sender;
         bool flag;
 
