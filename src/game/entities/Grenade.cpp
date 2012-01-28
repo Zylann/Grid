@@ -38,7 +38,7 @@ namespace entity
         m_shooterID = shooterID;
         m_remainingTime = 2;
 
-        Physics * phys = new Physics(FrictionModel(0.25, 4));
+        Physics * phys = new Physics(new FrictionModel(0.25, 4));
         addComponent(phys);
 
         sf::Image & grenadeImg = resources::getImage("grenade");

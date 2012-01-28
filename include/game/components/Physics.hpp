@@ -30,8 +30,8 @@ namespace grid
 
     struct FrictionModel
     {
-        float c1;
-        float c2;
+        float c1; // quadratic intensity (depends on the speed)
+        float c2; // linear intensity (no dependency)
 
         FrictionModel(float p_c1 = 1, float p_c2 = 16)
         {
@@ -46,22 +46,34 @@ namespace grid
     {
     protected :
 
-        FrictionModel m_frictionModel;
+        FrictionModel * m_frictionModel; // Friction model used for auto-slowing-down the entity
+        bool m_noClip; // Can the entity be blocked by others?
+        bool m_notifyCollisions; // Must collisions be notified? (works also with noClip enabled)
 
     public :
 
-        Physics(FrictionModel fmodel = FrictionModel(), int ID = -1) : Component(ID)
+        Physics(FrictionModel * fmodel = NULL, int ID = -1) : Component(ID)
         {
             m_frictionModel = fmodel;
+            m_noClip = false;
+            m_notifyCollisions = true;
+        }
+
+        virtual ~Physics()
+        {
+            if(m_frictionModel != NULL)
+                delete m_frictionModel;
         }
 
         virtual void update(GameUpdate & up);
         virtual bool processMessage(Message & msg);
 
-        virtual bool isPhysics()
-        {
-            return true;
-        }
+        // Used to identify the component
+        virtual bool isPhysics() { return true; }
+
+        // Setters
+        void setNoClip(bool isNoClip) { m_noClip = isNoClip; }
+        void setNotifyCollisions(bool notify) { m_notifyCollisions = notify; }
 
         // Moves the entity applying collisions.
         // Return value : new motion vector (speed * delta)

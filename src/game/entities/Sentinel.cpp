@@ -55,7 +55,7 @@ namespace entity
         instanceCount++;
 
         addComponent(new BotController());
-        addComponent(new Physics());
+        addComponent(new Physics(new FrictionModel(1, 16)));
 
         Health * health = new Health(75, 75, true); // true : invalidate on death
         RenderHealth * renderHealth = new RenderHealth(health, RP_SCENE_INTERFACE, true);

@@ -242,6 +242,9 @@ namespace grid
         // Called just before the entity to be destroyed
         virtual void onDestruction(GameUpdate & up) {}
 
+        // Called when the entity collides with another (depends of the Physics component)
+        virtual void onCollision(const Collision & c) {}
+
         // Called when a message is send to the entity
         virtual bool processMessage(Message & msg);
 

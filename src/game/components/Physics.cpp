@@ -49,6 +49,11 @@ namespace grid
 
     void Physics::update(GameUpdate & up)
     {
+        if(m_frictionModel == NULL)
+            return;
+
+        /* Applying terrain friction */
+
         Vector2i mpos(r_owner->pos.x, r_owner->pos.y);
 
         const entity::Map & map = up.level->getMap();
@@ -58,8 +63,8 @@ namespace grid
 
         Vector2f & speedVec = r_owner->speed;
 
-        speedVec.x = m_frictionModel.applyFriction(speedVec.x, up.delta, gp);
-        speedVec.y = m_frictionModel.applyFriction(speedVec.y, up.delta, gp);
+        speedVec.x = m_frictionModel->applyFriction(speedVec.x, up.delta, gp);
+        speedVec.y = m_frictionModel->applyFriction(speedVec.y, up.delta, gp);
 
         const float maxSpeed = 16;
         float n = norm2D(speedVec);
@@ -99,42 +104,66 @@ namespace grid
         // to apply collisions.
         if(boxPtr == NULL)
         {
-            r_owner->pos += motion;
-            return motion;
+            // If collisions are disabled and not notified
+            if(m_noClip && !m_notifyCollisions)
+            {
+                // The motion is unmodified
+                r_owner->pos += motion;
+                return motion;
+            }
         }
 
         Vector2f newMotion = motion;
-        AxisAlignedBB & box = *boxPtr;
-        std::list<Collision> collisions;
-        std::list<Collision>::iterator it;
 
-        /* Find collisions */
-
-        AxisAlignedBB expandedBox = box;
-		expandedBox.expandFromVector(motion);
-
-        level.getCollisions(collisions, expandedBox, r_owner);
-
-        /* Resolve collisions */
-
-        for(it = collisions.begin(); it != collisions.end(); it++)
+        if(!m_noClip || m_notifyCollisions)
         {
-            newMotion.y = it->box.calculateYOffset(box, newMotion.y);
-        }
-        box.offset(0.0f, newMotion.y);
+            AxisAlignedBB & box = *boxPtr;
+            std::list<Collision> collisions;
+            std::list<Collision>::iterator it;
 
-        for(it = collisions.begin(); it != collisions.end(); it++)
-        {
-            newMotion.x = it->box.calculateXOffset(box, newMotion.x);
+            /* Find collisions */
+
+            // The bounding box is expanded to include it's estimated version at next update
+            AxisAlignedBB expandedBox = box;
+            expandedBox.expandFromVector(motion);
+
+            // Retrieving collisions from the expanded box
+            level.getCollisions(collisions, expandedBox, r_owner);
+
+            if(m_notifyCollisions)
+            {
+                /* Notify collisions */
+
+                for(it = collisions.begin(); it != collisions.end(); it++)
+                    r_owner->onCollision(*it);
+            }
+
+            if(!m_noClip)
+            {
+                /* Resolve collisions */
+
+                // Each time the box is crossing another, it is repositionned.
+                // This method is applied the same on X and Y axis.
+
+                for(it = collisions.begin(); it != collisions.end(); it++)
+                {
+                    newMotion.y = it->box.calculateYOffset(box, newMotion.y);
+                }
+                box.offset(0.0f, newMotion.y);
+
+                for(it = collisions.begin(); it != collisions.end(); it++)
+                {
+                    newMotion.x = it->box.calculateXOffset(box, newMotion.x);
+                }
+                box.offset(newMotion.x, 0.0f);
+            }
         }
-        box.offset(newMotion.x, 0.0f);
 
         // Update position
         r_owner->pos += newMotion;
 
         if(newMotion.x != motion.x)
             r_owner->speed.x = 0;
-
         if(newMotion.y != motion.y)
             r_owner->speed.y = 0;
 

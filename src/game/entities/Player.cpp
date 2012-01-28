@@ -64,7 +64,7 @@ namespace entity
         ctrl->setMover(mover);
         addComponent(mover);
 
-        addComponent(new Physics());
+        addComponent(new Physics(new FrictionModel(1, 16)));
 
         Health * health = new Health(500, 500, true); // true : invalidate on death
         RenderHealth * rh = new RenderHealth(health, RP_SCENE_INTERFACE);
