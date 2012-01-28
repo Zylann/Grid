@@ -52,8 +52,7 @@ namespace util
 
         AxisAlignedBB(const Vector2f & center, float radius) : Shape()
         {
-            set(center.x - radius, center.y - radius,
-                center.x + radius, center.y + radius);
+            set(center, radius);
         }
 
         AxisAlignedBB(const AxisAlignedBB & other) : Shape()
@@ -68,7 +67,15 @@ namespace util
             minEdge.y = minY;
             maxEdge.x = maxX;
             maxEdge.y = maxY;
+            return *this;
+        }
 
+        AxisAlignedBB & set(const Vector2f & center, float radius)
+        {
+            minEdge.x = center.x - radius;
+            minEdge.y = center.y - radius;
+            maxEdge.x = center.x + radius;
+            maxEdge.y = center.y + radius;
             return *this;
         }
 
