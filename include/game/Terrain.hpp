@@ -33,6 +33,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace grid
 {
+    namespace entity { class Map; }
+
 namespace terrain
 {
     /*
@@ -207,7 +209,7 @@ namespace terrain
         void getCollisions(
             std::list<Collision> & collisions,
             const util::AxisAlignedBB & box,
-            const Vector2i & pos) const;
+            const Vector2i & pos, entity::Map * map) const;
 
     protected :
 

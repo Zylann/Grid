@@ -99,7 +99,7 @@ namespace entity
             {
                 b = getTerrain(pos).blockType;
                 const terrain::Block & bp = terrain::Block::get(b); // get properties
-                bp.getCollisions(collisions, box, pos);
+                bp.getCollisions(collisions, box, pos, this);
             }
         }
     }

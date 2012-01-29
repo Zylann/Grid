@@ -21,6 +21,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 
 #include "game/Terrain.hpp"
+#include "game/entities/Map.hpp"
 
 using namespace util;
 
@@ -194,7 +195,7 @@ namespace terrain
     void Block::getCollisions(
         std::list<Collision> & collisions,
         const util::AxisAlignedBB & box,
-        const Vector2i & pos) const
+        const Vector2i & pos, entity::Map * map) const
     {
         if(m_crossable)
             return;
@@ -209,7 +210,7 @@ namespace terrain
 
         if(absBoundingBox.collides(box))
         {
-            collisions.push_back(Collision(NULL, absBoundingBox));
+            collisions.push_back(Collision(map, absBoundingBox));
         }
     }
 
