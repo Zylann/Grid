@@ -51,7 +51,7 @@ namespace grid
         }
 
         m_lastPos = pos;
-        move(up.delta, *(up.level));
+        move(up.delta);
 
         updateComponents(up);
         updateMe(up);
@@ -198,17 +198,17 @@ namespace grid
         rotation = util::getAngle(pos, target);
     }
 
-    void Entity::accelerate(const Vector2f & acc, float delta, Level * level)
+    void Entity::accelerate(const Vector2f & acc, float delta)
     {
-        if(r_physics != NULL && level != NULL)
-            r_physics->accelerate(acc, delta, *level);
+        if(r_physics != NULL && r_level != NULL)
+            r_physics->accelerate(acc, delta, *r_level);
         else
             speed += acc * delta;
     }
 
-    void Entity::move(float delta, Level & level)
+    void Entity::move(float delta)
     {
-        Vector2f motion = move(speed * delta, level);
+        Vector2f motion = move(speed * delta);
 
         // Using a mover can modify the resulting motion, so we update the speed.
         // (motion = speed * delta)
@@ -216,14 +216,14 @@ namespace grid
             speed == motion / delta;
     }
 
-    Vector2f Entity::move(const Vector2f & motion, Level & level)
+    Vector2f Entity::move(const Vector2f & motion)
     {
         // Don't make move computations if the motion is ignorable
         if(util::isZero(motion.x) && util::isZero(motion.y))
             return Vector2f();
 
         if(r_physics != NULL)
-            return r_physics->moveEntity(motion, level);
+            return r_physics->moveEntity(motion, *r_level);
         else
         {
             pos += motion;

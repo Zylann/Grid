@@ -54,6 +54,8 @@ namespace entity
         name = "sentinel";
         instanceCount++;
 
+        team = TEAM_ENEMIES;
+
         addComponent(new BotController());
         addComponent(new Physics(new FrictionModel(1, 16)));
 

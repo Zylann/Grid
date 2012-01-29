@@ -54,7 +54,7 @@ namespace entity
     Player::Player(int ID) : Entity(ID)
     {
         name = "player";
-        team = 1;
+        team = TEAM_PLAYERS;
         r_playerInfo = NULL;
 
         PlayerController * ctrl = new PlayerController(this);

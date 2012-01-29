@@ -61,6 +61,13 @@ namespace grid
         ENT_TYPE_COUNT // keep last
     };
 
+    enum TeamID
+    {
+        TEAM_GAIA = 0,
+        TEAM_PLAYERS,
+        TEAM_ENEMIES
+    };
+
     /*
         Entity exceptions
     */
@@ -122,7 +129,7 @@ namespace grid
         Vector2f speed;     // movement in units/s
         float rotation;     // rotation in radians
         float scale;
-        unsigned char team; // team of the entity. -1 means none.
+        char team; // team of the entity. 0 means none.
         std::string name;   // name of the entity.
 
         /* Constructors and destructor */
@@ -136,7 +143,7 @@ namespace grid
             r_physics = NULL;
             m_boundingBox = NULL;
             name = "_entity_";
-            team = 0;
+            team = TEAM_GAIA;
             m_lifeTime = 0;
             r_level = NULL;
         }
@@ -221,15 +228,15 @@ namespace grid
         void lookAt(const Vector2f & target);
 
         // Applies an acceleration to the entity's speed.
-        virtual void accelerate(const Vector2f & acc, float delta, Level * level = NULL);
+        virtual void accelerate(const Vector2f & acc, float delta);
 
         // Moves the entity using its current speed.
-        virtual void move(float delta, Level & level);
+        virtual void move(float delta);
 
         // Moves the entity from a motion in units.
         // If the entity has a Physics component, the resulting motion can be different.
         // Return : resulting motion.
-        virtual Vector2f move(const Vector2f & motion, Level & level);
+        virtual Vector2f move(const Vector2f & motion);
 
         // Updates the entity for one frame
         virtual void update(GameUpdate & up);

@@ -59,7 +59,7 @@ namespace grid
                     if(d > 5)
                     {
                         Vector2f v(cos(r_owner->rotation), sin(r_owner->rotation));
-                        r_owner->accelerate(50.f * v, up.delta, up.level);
+                        r_owner->accelerate(50.f * v, up.delta);
                     }
 
                     if(sf::Randomizer::Random(0.f, 1.f) < 0.02f)
