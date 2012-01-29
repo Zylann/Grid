@@ -37,7 +37,9 @@ namespace entity
 
         Shot(int shooterID = -1, int ID = -1);
 
-        virtual void doHit(Level & level, Collision & c, float delta);
+        virtual util::AxisAlignedBB * getBoundingBox();
+
+        virtual void onCollision(const Collision & c);
 
         virtual void updateMe(GameUpdate & up);
         virtual void onDestruction(GameUpdate & up);

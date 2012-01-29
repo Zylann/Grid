@@ -38,76 +38,66 @@ namespace entity
         name = "shot";
         m_shooterID = shooterID;
 
+        Physics * phys = new Physics();
+        phys->setNoClip(true);
+        phys->setNotifyCollisions(true);
+        addComponent(phys);
+
         const sf::Image & shotImg = resources::getImage("shot");
 
         RenderImage * r = new RenderImage(RP_EFFECTS, shotImg);
         r->setBlendMode(sf::Blend::Add);
         r->setColor(sf::Color(255, 255, 32));
 
+        setBoundingBox(new AxisAlignedBB(-0.01, -0.01, 0.01, 0.01));
+
         setRenderer(r);
 
         scale = 0.5;
     }
 
-    void Shot::updateMe(GameUpdate & up)
+    util::AxisAlignedBB * Shot::getBoundingBox()
     {
-        Vector2i mpos(pos.x, pos.y);
-
-        static AxisAlignedBB box;
-        box.set(pos.x - 0.1, pos.y - 0.1, pos.x + 0.1, pos.y + 0.1);
-
-        // Find collisions
-        std::list<Collision> collisions;
-        std::list<Collision>::iterator it;
-        up.level->getCollisions(collisions, box, this);
-
-        bool collided = false;
-
-        // If collision(s) occured
-        if(!collisions.empty())
-        {
-            // Search for colliding entities
-            for(it = collisions.begin(); it != collisions.end(); it++)
-            {
-                Collision & c = *it;
-                // Hurt all found entities
-                if(c.entity != NULL)
-                {
-                    // Except shooters with the same team
-                    if(c.entity->team == team)
-                        continue;
-                }
-                doHit(*(up.level), c, up.delta);
-                collided = true;
-            }
-        }
-
-        if(collided)
-            invalidate();
+        return &( m_boundingBox->set(-0.01, -0.01, 0.01, 0.01).offset(pos.x, pos.y) );
     }
 
-    void Shot::doHit(Level & level, Collision & c, float delta)
+    void Shot::updateMe(GameUpdate & up)
+    {
+    }
+
+    void Shot::onCollision(const Collision & c)
     {
         sf::Color clr(255,255,255);
 
         if(c.entity != NULL)
         {
-            // Hurting
-            Message hurt(M_HEA_HURT, this);
-            hurt.health = 15;
-            c.entity->processMessage(hurt);
+            // Except entities with the same team or the same type
+            if(c.entity->team == team || c.entity->getType() == getType())
+                return;
 
-            // Repulsion
-            Vector2f rep = getNormalized(speed);
-            c.entity->accelerate(rep * 80.f, delta);
+            if(c.entity->getType() != ENT_MAP)
+            {
+                // Repulsion
+                Vector2f repulsion = getNormalized(speed);
+                // TODO find a way to access delta here, or not have to.
+                // onCollision basically doesn't access to delta, then we have to choose a value...
+                c.entity->accelerate(repulsion * 80.f, 0.03f);
 
-            // Bloody color
-            clr.g = 0;
-            clr.b = 0;
+                // Hurting
+                Message hurt(M_HEA_HURT, this);
+                hurt.health = 15;
+                c.entity->processMessage(hurt);
+
+                // Bloody color
+                clr.g = 0;
+                clr.b = 0;
+            }
         }
 
         // Hit particles
-        level.spawnEntity(new entity::ShockWave(0.1, 0.8, 4, clr), pos);
+        r_level->spawnEntity(new entity::ShockWave(0.1, 0.8, 4, clr), pos);
+
+        invalidate();
     }
 
     void Shot::onDestruction(GameUpdate & up)
