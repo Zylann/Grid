@@ -37,9 +37,8 @@ namespace grid
     // Get the unique instance of LevelManager. If it is created if not found.
     LevelManager & LevelManager::instance()
     {
-        if(g_instance != NULL)
-            kill();
-        g_instance = new LevelManager();
+        if(g_instance == NULL)
+            g_instance = new LevelManager();
         return *g_instance;
     }
 
