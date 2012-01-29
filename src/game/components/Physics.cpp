@@ -24,6 +24,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utility/geometry.hpp"
 
+#define MAX_SPEED 16.f
+
 using namespace util;
 
 namespace grid
@@ -66,12 +68,11 @@ namespace grid
         speedVec.x = m_frictionModel->applyFriction(speedVec.x, up.delta, gp);
         speedVec.y = m_frictionModel->applyFriction(speedVec.y, up.delta, gp);
 
-        const float maxSpeed = 16;
         float n = norm2D(speedVec);
-        if(n > maxSpeed)
+        if(n > MAX_SPEED)
         {
             speedVec /= n;
-            speedVec *= maxSpeed;
+            speedVec *= MAX_SPEED;
         }
     }
 
@@ -95,22 +96,17 @@ namespace grid
         r_owner->speed += acc * delta;
     }
 
-    // Note : don't call it in Physics::update
+    // Note : don't call it from Physics::update
     Vector2f Physics::moveEntity(const Vector2f & motion, Level & level)
     {
         AxisAlignedBB * boxPtr = r_owner->getBoundingBox();
 
-        // If the owner hasn't any bounding box, there is no way
-        // to apply collisions.
-        if(boxPtr == NULL)
+        // If collisions are disabled and not notified, or if there is no bounding box
+        if((m_noClip && !m_notifyCollisions) || boxPtr == NULL)
         {
-            // If collisions are disabled and not notified
-            if(m_noClip && !m_notifyCollisions)
-            {
-                // The motion is unmodified
-                r_owner->pos += motion;
-                return motion;
-            }
+            // In these cases, the motion is unmodified
+            r_owner->pos += motion;
+            return motion;
         }
 
         Vector2f newMotion = motion;
