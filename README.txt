@@ -11,12 +11,10 @@ Description :
 	(it will come later). It includes a level editor, which is the same for
 	designers and players.
 	
-	Multiplayer is planned, but is not currently under development.
-	If you have knownledge in this domain, your help is welcome !
-	
-	If you have any funny (an reasonable) idea to
-	add in the game, please contact or just join the project !
-	
+	IMPORTANT:
+	The project isn't in development anymore, but some parts of it may be useful
+	for further projects.
+
 Planned features :
 
 	see main.cpp.
